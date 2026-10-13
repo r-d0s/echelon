@@ -1,0 +1,135 @@
+;-----------------------------------------------------------------
+; STDOUT TO PIPE, THEN FORK TO BUFFER
+;
+; this script runs 'ls -ltr' on these directories:
+;
+;   /boot/
+;   /tmp/
+;   /
+;
+;   the parent re-directs output to a pipe & forks a child proc.
+;   the child proc runs the 'ls -ltr' command
+;   the parent reads the pipe & stores the results in a buffer
+;   the buffer is displayed at the end
+;
+; READ: examples/demos/stdout_fork_to_buffer_README.md
+;
+; ./echelon -f examples/demos/stdout_fork_to_buffer.ech                                                                                                                  ;
+;-----------------------------------------------------------------
+
+func: dump_stdout_to_ptr
+
+        24 int mem_alloc dir_paths def_i
+
+        dir_paths peek dup "/boot/" [poke_64]
+        dup 8 int + "/tmp/" [poke_64]
+        16 int + "//" [poke_64]             ; "//" is read as / in terminal, otherwise it's '/' will run div operator!
+        ;-------------------------------
+        30000 int mem_alloc data_array def_i
+        8 int mem_alloc pipe_array def_i    ; 8 bytes: lower 4 bytes = read handle
+                                            ;          upper 4 bytes = write handle
+
+        0 int saved_stdout def_i            ; original STDOUT
+        ;-------------------------------    ; saved_stdout = dup(STDOUT_FILENO);
+        1 int                               ; rdi = STDOUT_FILENO
+        32 int                              ; rax = sys_dup
+        2 int                               ; pop 2 params
+        sys_call
+        saved_stdout poke
+        ;-------------------------------
+        pipe_array peek
+        22 int                              ; rax = sys_pipe
+        2 int
+        sys_call
+        ;-------------------------------    ; dup2(out_pipe[1], STDOUT_FILENO);
+        1 int                               ; rsi = STDOUT_FILENO (dest)
+        pipe_array peek 4 int + [peek_32]   ; rdi = out_pipe[1] (write handle)
+        33 int                              ; rax = sys_dup2
+        3 int
+        sys_call
+        ;-------------------------------    ; close(out_pipe[1]);
+        pipe_array peek 4 int + [peek_32]   ; rdi = out_pipe[1]
+        3 int                               ; rax = sys_close
+        2 int
+        sys_call
+        ;---------------------------------
+        ; argvList[0] = "/usr/bin/ls"       saved at offset [0]
+        ; argvList[1] = "-ltr"              saved at offset [8]
+        ; argvList[2] = directory path      saved at offset [16]
+        ; argvList[3] = NULL                saved at offset [24]
+        ;--------------------------------- ; fork & child loop init
+        32 int mem_alloc argvList   def_i
+        0  int iteration            def_i
+        0  int proc_id              def_i
+
+        {
+            57 int                      ; rax = sys_fork
+            1 int
+            sys_call
+            proc_id poke                ; PID
+            {
+                0  int 0 int 0 int      ; rdi, rsi & rdx params
+                61 int                  ; rax = sys_wait4
+                4  int
+                sys_call pop
+            } proc_id peek if           ; PARENT != 0 wait for child proc to end
+
+            {
+                argvList peek dup
+                "/usr/bin/ls" [poke_64]     ; argvList[0] = bin name str ptr
+                16 int +                    ; argvList[2]
+                                            ; calc: base + (index * 8 bytes)
+                dir_paths peek 8 int iteration peek * + [peek_64]
+                [poke_64]                   ; argvList[2] = dir path str ptr
+
+                argvList peek dup
+                8 int + "-ltr" [poke_64]    ; argvList[1] = bin param
+                24 int + 0 int [poke_64]    ; argvList[3] = NULL
+                ;-------------------------
+                0 int               ; rdx = NULL
+                argvList peek       ; rsi = arg struct
+                "/usr/bin/ls"       ; rdi = bin name str ptr
+                59 int              ; rax = sys_execve
+                4 int
+                sys_call
+                ;-------------------------
+            } proc_id peek ! if     ; CHILD == 0
+
+            1 int iteration +=      ; counter++
+        } iteration peek 3 int < loop
+
+        30000 int                       ; rdx = 30,000 char buffer
+        data_array peek                 ; rsi = dest
+        pipe_array peek [peek_32]       ; rdi = out_pipe[0] (*read handle first 4 bytes*)
+        0 int                           ; rax = sys_read
+        4 int
+        sys_call
+
+        num_bytes_read def_i        ; save byte length read from kernel
+        ;-------------------------------
+        data_array peek
+        num_bytes_read peek +
+        0 int [poke_8]              ; add EOS null-byte '\0' term
+        ;-------------------------------
+        1 int                   ; rsi = STDOUT_FILENO
+        saved_stdout peek       ; rdi = cloned backup handle
+        33 int                  ; rax = sys_dup2
+        3 int
+        sys_call
+        ;-------------------------------
+        "*** We ran the 'ls -ltr' command on 3 dirs ***\nNow we can check the buffer in ASCII and HEX!\n" puts_p
+        data_array peek print_str
+        hex_str pop_free                ; print & then deallocate
+
+        pipe_array peek pop_free        ; deallocate buffers
+        argvList   peek pop_free
+        dir_paths  peek pop_free
+
+        dump_dict
+        dump_ptr
+
+        return
+
+_start: ; main entry
+
+        dump_stdout_to_ptr call_func

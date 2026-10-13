@@ -1,0 +1,31 @@
+** USING FIXED 64 BUCKET HASHSET WITH 1M NODES**
+
+ubuntu_adm@EliteDesk[~/final_tests]
+Tue Aug 11 [19:56:39]$ sudo perf stat -e cycles,instructions,L1-dcache-loads,L1-dcache-load-misses,L2-loads,L2-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses,branches,branch-misses ./echelon -f hashset_fixed_bucket_stress_test.ech
+strings created...
+add hash done...
+get hash done...
+del hash done...
+deleted hashset
+clean up hashset done...
+
+ Performance counter stats for './echelon -f hashset_fixed_bucket_stress_test.ech':
+
+ 2,168,001,200,068      cycles                                                                  (66.67%)
+   231,902,160,070      instructions                     #    0.11  insn per cycle              (75.00%)
+    86,871,088,146      L1-dcache-loads                                                         (74.99%)
+    38,474,461,978      L1-dcache-load-misses            #   44.29% of all L1-dcache accesses   (75.00%)
+    22,465,694,375      L2-loads                                                                (75.00%)
+    19,331,504,516      L2-load-misses                   #   86.05% of all LL-cache accesses    (75.00%)
+    22,459,725,970      LLC-loads                                                               (74.99%)
+    19,332,834,504      LLC-load-misses                  #   86.05% of all LL-cache accesses    (75.00%)
+    86,913,446,047      dTLB-loads                                                              (75.00%)
+    11,534,188,091      dTLB-load-misses                 #   13.27% of all dTLB cache accesses  (75.00%)
+    90,784,213,900      branches                                                                (66.67%)
+     2,980,337,500      branch-misses                    #    3.28% of all branches             (66.67%)
+
+     577.978059720 seconds time elapsed
+
+     577.249516000 seconds user
+       0.515810000 seconds sys
+

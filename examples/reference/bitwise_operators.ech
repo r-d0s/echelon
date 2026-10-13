@@ -1,0 +1,78 @@
+;-=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+; Bitwise Operators
+;
+; RUN: ./echelon -f examples/reference/bitwise_operators.ech
+;-=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--
+
+_start:
+
+    "---- ~ (BITWISE NOT) ----" puts_p
+
+    0 int 8 int ~  print_i      ; 255
+    0 int 16 int ~ print_i      ; 65535
+    0 int 32 int ~ print_i      ; 4294967295
+    0 int 64 int ~ print_i      ; -1
+    clear
+
+    "---- | (BITWISE OR) ----" puts_p
+
+    523 int 288 int 8 int | print_i                 ; 43
+    288 int 523 int 8 int | print_i                 ; 43
+    288 int 523 int 16 int | print_i                ; 811
+    17 int 184467440737095516 int 8 int | print_i   ; 93
+    17 int 184467440737095516 int 16 int | print_i  ; 36701
+    17 int 184467440737095516 int 32 int | print_i  ; 4123168605
+    17 int 184467440737095516 int 64 int | print_i  ; 184467440737095517
+    clear
+
+    "---- & (BITWISE AND) ----" puts_p
+
+    19 int 7 int 8 int & print_i                    ; 3
+    50594 int 49143 int 16 int & print_i            ; 34210
+    3220687378 int 1245689008 int 32 int & print_i  ; 171409424
+    151926895996337918 int 137440900871474942 int 64 int & print_i   ; 2322737271951102
+    clear
+
+    "---- ^ (BITWISE XOR) ----" puts_p
+
+    15 int 21 int 8 int ^ print_i                   ; 26
+    32566 int 23451 int 16 int ^ print_i            ; 9389
+    4039228986 int 2882400001 int 32 int ^ print_i  ; 1527533883
+    1089145873035148858 int 1149807443432566529 int 64 int ^ print_i     ; 65728399354777915
+    clear
+
+    "---- << ----" puts_p
+
+    2 int 1 int << print_i      ; 4
+    1 int 30 int << print_i     ; 1073741824
+    1 int 48 int << print_i     ; 281474976710656
+    1 int 61 int << print_i     ; 2305843009213693952
+    clear
+
+                                    ; shift by 0 & negative values default to: shift by 1
+    123 int 0 int << print_i        ; 246 (0 -> default 1)
+    123 int -1 int << print_i       ; 246 (-1 -> default 1)
+    123 int -21 int << print_i      ; 246 (-21 -> default 1)
+    123 int 1 int << print_i        ; 246 expected
+    clear
+
+    "---- >> ----" puts_p
+
+    4 int 1 int >> print_i                      ; 2
+    1073741824 int 30 int >> print_i            ; 1
+    281474976710656 int 48 int >> print_i       ; 1
+    2305843009213693952 int 61 int >> print_i   ; 1
+    clear
+
+                                    ; shift by 0 & negative values default to: shift by 1
+    4096 int 0 int >> print_ptr     ; 2048 (0 -> default 1)
+    4096 int -1 int >> print_ptr    ; 2048 (-1 -> default 1)
+    4096 int -11 int >> print_ptr   ; 2048 (-11 -> default 1)
+    4096 int 1 int >> print_ptr     ; 2048 expected
+    clear
+
+    "---- COMBINED OPERATORS ----" puts_p
+
+                                ; bitwise ops chained..
+    15 int 7 int 8 int &        ; 15 & 7 = 7
+    8 int  8 int | print_ptr    ; 7 | 8 = 15 (0xf)

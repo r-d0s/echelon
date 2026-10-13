@@ -1,0 +1,59 @@
+;-------------------------------------------------------------------------------------------
+; memory_allocate_stress_test.ech
+;
+; stress test for memory allocation & deallocation
+; ------------------------------------------------
+;
+; this test allocates memory from 1 byte --> 1,000,000 bytes, 1 byte at a time
+;
+; for each size:
+;   1) allocate n bytes (usin mem_alloc).
+;   2) fill the block with a rand byte (0-255) using fill_mem.
+;   3) if size is a multiple of 100,000, then print the 1st byte to check it was written
+;   4) free the block (pop_free).
+;   5) move to the next size: 'the_size++'
+;
+; total allocations: 1,000,000 (from 1 byte-->1,000,000 bytes).
+;
+; time & check mem usage:
+;   /usr/bin/time -v ./echelon -f benchmarks/memory_allocate/memory_allocate_stress_test.ech
+;--------------------------------------------------------------------------------------------
+
+;------------------------------------------------------------
+; allocates 'the_size' bytes, fills with a rand byte.
+; if 'the_size' is a multiple of 100,000, then print a sample
+; then frees the memory
+;------------------------------------------------------------
+func: allocate_mem
+
+    the_size def_i
+
+    the_size peek mem_alloc ptr def_i
+
+    ptr peek
+    256 int rand
+    the_size peek fill_mem
+
+    {                       ; output sample every 100,000
+        ptr peek
+        dup [peek_8]
+        the_size peek
+        "test: [%d]  ----> [%d]  mem addr: [%p]\n" 3 int printf_p
+    } the_size peek 100000 int % 0 int == if
+
+    ptr peek pop_free clear
+
+    return
+
+_start: ; <- main entry point
+
+    1       int loop_var def_i
+    1000000 int LIMIT    def_i
+
+    {
+
+        loop_var peek allocate_mem call_func
+        1 int loop_var +=
+    } loop_var peek LIMIT peek <= loop
+
+    fflush

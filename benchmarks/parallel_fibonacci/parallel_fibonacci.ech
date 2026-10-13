@@ -1,0 +1,107 @@
+;-----------------------------------------------------------------------------------------------------------------------------------------
+; parallel_fibonacci.ech ;
+;------------------------;
+;
+; this script creates a processes of recursive forking. every child
+; proc runs fibonacci, parents wait for child procs. you can easily change the
+; fibonacci series range in '_start:' section of this script.
+;
+; details & how it works:
+; -----------------------
+; with n=8 forks, the total number of processes is 2^8 = 256. half of
+; these (128) are child procs that actually calc the fibonacci series.
+;
+; 1) every proc (inc children) runs the same forking loop n times
+; 2) the variable proc_id stores the return value of the last fork call
+; 3) after the loop, only the procs that didn't fork have proc_id == 0
+; 4) only these procs will calc the fibonacci series & call exit
+; 5) all parent nodes wait for their children using sys_wait4, then finish
+;
+; check memory leaks:
+;   valgrind --leak-check=full --trace-children=yes ./echelon -f benchmarks/parallel_fibonacci/parallel_fibonacci.ech 2>/tmp/valgrind.log
+;
+; time & check mem usage: (send output to /dev/null to clearly see time stats):
+;   /usr/bin/time -v ./echelon -f benchmarks/parallel_fibonacci/parallel_fibonacci.ech >/dev/null
+;-------------------------------------------------------------------------------------------------------------------------------------------
+
+func: fib
+
+    dup
+    2 int < break_if          ; base case: fib(0/1) returns 1
+
+    dup -- fib call_func
+    swap -- -- fib call_func  +
+    return
+
+func: processDebug            ; expects fork_stage (curr iteration) on top of stack
+    fork_stage 	def_i
+
+    prog_pid peek
+    parent_pid peek
+    proc_id peek
+    fork_stage peek
+    "** FORK # [%d] --> what is the fork() CHILD pid?: [%d] parent_pid is: [%d] process pid: [%d]\n" 4 int printf_p
+    "--------------------------" puts_p
+    return
+
+func: forkProcess             ; updates global PIDs after fork()
+    57 int 1 int sys_call     ; sys_fork
+    proc_id poke
+
+    110 int 1 int sys_call    ; sys_getppid
+    parent_pid poke
+
+    39 int 1 int sys_call     ; sys_getpid
+    prog_pid poke
+    return
+
+_start:
+
+    ;----------- global vars/PIDs
+    0 int proc_id      def_i                ; return value from fork() (0 --> child, >0 --> parent PID)
+    110 int 1 int sys_call parent_pid def_i ; parent PID
+    39  int 1 int sys_call prog_pid  def_i  ; own PID
+    1 int iteration    def_i                ; counter for forking
+
+    parent_pid peek
+    prog_pid peek
+    "** START OF MAIN ** process pid: %d parent_pid is: %d\n" 2 int printf_p
+
+    "Enter the number of times to fork() " puts_p
+    ; read_i num_of_forks def_i   ; un-comment to read user input, but remember to comment line below if you do.
+    14 int num_of_forks def_i     ; fixed for now (14 forks), change to more/less if you need
+
+    ;----------- forking loop: every proc runs this...
+    {
+        forkProcess call_func
+        iteration peek processDebug call_func
+        1 int iteration +=
+    } iteration peek num_of_forks peek <= loop
+
+    ;----------- fibonacci block (ONLY for CHILD procs)
+    1 int counter def_i
+    {
+        {
+            counter peek dup
+            fib call_func swap
+            prog_pid peek
+            "CHILD process pid: [%d] ** FINISHED fibonacci series [%d] ---> [%d]\n" 3 int printf_p
+            1 int counter +=
+        } counter peek 25 int <= loop   ; fibonacci from 1-->25, change this to whatever you want
+
+        "ending now.." puts_p
+        0 int exit                      ; end prog using 'exit'
+    } proc_id peek 0 int == if          ; only if we never forked (proc_id == 0) (CHILD PROC)
+
+    ;----------- parent waiting loop (NO CHILD PROCS)
+    0 int sys_wait_ret_val def_i
+    {
+        0 int                           ; r8  = stops valgrind from moaning!?!
+        0 int                           ; r10 = *usage (NULL)
+        0 int                           ; rdx = options (0 = blocking)
+        0 int                           ; rsi = *stat_addr (NULL)
+       -1 int                           ; rdi = -1 (wait for any child)
+        61 int                          ; sys_wait4
+        6 int sys_call
+        sys_wait_ret_val =              ; update this var from syscall & then test it
+    } sys_wait_ret_val peek -10 int != loop   ; -10 = no more children/error

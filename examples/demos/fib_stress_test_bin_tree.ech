@@ -1,0 +1,118 @@
+;------------------------------------------------------------------------------
+; This script builds a skewed Binary Search Tree (BST) with 100 random nodes
+; (values 21..35). then traverses it & calculates fibonacci for each node..
+; this creates deep recursion & stresses the stack, memory allocations etc
+;
+; Node struct:
+;   [0] random_num
+;   [8] result of fib(random_num)
+;   [16] node* (less/left)
+;   [24] node* (more/right)
+;
+; Read: examples/demos/fib_stress_test_bin_tree_README.md for more details.
+;
+; ./echelon -f examples/demos/fib_stress_test_bin_tree.ech
+;------------------------------------------------------------------------------
+
+func: fib
+
+    dup
+    2 int < break_if          ; if n < 2, return 1 <-- base case
+    dup -- fib call_func      ; fib (n-1)
+    swap -- -- fib call_func  ; fib (n-2)
+    +                         ; add them
+    return
+
+
+func: get_new_node
+
+    32 int mem_alloc temp def_i           ; allocate 32 bytes
+    temp peek 10 int rand 21 int +        ; generate random value 21..35
+    swap
+    "## adding node: [%p] --> val: [%d]\n" printf
+    swap
+    [poke_64]                               ; store value at +0
+    temp peek dup 8 int + 0 int [poke_64]   ; NULL out +8 (fibonacci result)
+         swap dup 16 int + 0 int [poke_64]  ; NULL out +16 (left child*)
+         swap 24 int + 0 int [poke_64]      ; NULL out +24 (right child*)
+    temp peek
+    return
+
+
+func: insert_node   ; inserts new node into BST using LESS THAN/MORE THAN compare logic
+
+    head def_i
+    node def_i
+    node peek [peek_64] val def_i
+
+    LESS peek MORE peek
+    val peek head peek [peek_64] < true_false direction def_i
+
+    {
+        head peek direction peek + [peek_64] head =
+        LESS peek MORE peek
+        val peek head peek [peek_64] < true_false direction =   ; which path to take, left or right? offset (16/24)
+    } head peek direction peek + [peek_64] 0 int != loop        ; empty slot
+
+    head peek direction peek + node peek [poke_64]              ; insert new node
+    return
+
+
+func: disp_tree     ; pre-order traversal (current --> left --> right)  prints entire tree using dump_node
+
+    head def_i
+    head peek ! break_if                               ; base case, if NULL --> stop recursion
+    head peek dump_node call_func
+    head peek 16 int + [peek_64] disp_tree call_func   ; traverse left
+    head peek 24 int + [peek_64] disp_tree call_func   ; traverse right
+    return
+
+
+func: free_tree     ; post-order traversal (left --> right --> current), free child nodes before parent
+
+    head def_i
+    head peek ! break_if                               ; base case..
+    head peek 16 int + [peek_64] free_tree call_func   ; free left subtree
+    head peek 24 int + [peek_64] free_tree call_func   ; free right subtree
+    head peek pop_free                                 ; free current node
+    return
+
+
+func: dump_node     ; calculates fibonacci for a single node & prints its details.                                     ;
+
+    temp def_i
+    temp peek 8 int +
+    temp peek [peek_64] fib call_func [poke_64] ; compute fib & store at +8
+    temp peek dup 24 int + [peek_64]            ; more ptr
+         swap dup 16 int + [peek_64]            ; less ptr
+         swap dup 8 int + [peek_64]             ; fib result
+         swap dup [peek_64]                     ; value
+         swap
+    "node: [%p]\tfib series: [%d]\tfib total: [%d]\tless: [%p]\tmore: [%p]\n" 5 int printf_p
+    return
+
+
+func: stress_test                           ; builds 100 nodes, prints the tree & then frees it
+
+    100 int iterations def_i                ; <-- using Valgrind? then reduce this to 20-30
+                                            ; want to stress it more using time -v? chnage it to 200-950
+
+    get_new_node call_func head_node def_i
+    {
+        get_new_node call_func
+        head_node peek
+        insert_node call_func
+        1 int iterations -=
+    } iterations peek loop
+
+    head_node peek disp_tree call_func      ; display entire tree
+    head_node peek free_tree call_func      ; free every node
+    return
+
+_start:                     ; entry point..
+
+                            ; globals
+    16 int  LESS def_i      ; LESS (left)
+    24 int  MORE def_i      ; MORE (right)
+
+    stress_test     call_func

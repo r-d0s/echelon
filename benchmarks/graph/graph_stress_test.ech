@@ -1,0 +1,133 @@
+;------------------------------------------------------------------------------------------------------------
+; graph_stress_test.ech
+;
+;
+; test details:
+;   - creates 1M nodes (each with rand 10 char key).
+;   - adds 65 rand edges to EVERY node (dups are ignored)
+;   - shows the total number of edges & nodes.
+;   - deletes every node one by one (back_links updated automatically)
+;   - deletes the whole graph & frees all memory
+;
+;
+; node memory:
+;   - each node's key is a heap-allocated string
+;   - graph_add_node uses free_flag = 2 --> the graph does NOT free the key.
+;     we do that ourselves with clean_strings
+;   - clean_strings frees all keys & the ptr array.
+;
+; run: ./echelon -f benchmarks/graph/graph_stress_test.ech
+;
+; Valgrind, on this test it can be very slow, so reduce the number of nodes:
+;   valgrind -s --track-origins=yes --leak-check=full ./echelon -f benchmarks/graph/graph_stress_test.ech
+;------------------------------------------------------------------------------------------------------------
+
+func: create_strings
+    0 int loop_var def_i
+    {
+        str_array peek loop_var peek 8 int * +
+        10 int rand_str [poke_64]      ; store string ptr at array + loop_var
+        1 int loop_var +=
+    } loop_var peek num_nodes peek < loop
+    clear
+    return
+
+
+func: clean_strings
+    0 int loop_var def_i
+    {
+        str_array peek loop_var peek 8 int * +
+        [peek_64] pop_free             ; free each string
+        1 int loop_var +=
+    } loop_var peek num_nodes peek < loop
+
+    str_array peek pop_free            ; free ptr array
+    clear
+    return
+
+
+func: disp_strings
+    0 int loop_var def_i
+    {
+        str_array peek loop_var peek 8 int * +
+        [peek_64] puts_p
+        1 int loop_var +=
+    } loop_var peek num_nodes peek < loop
+    clear
+    return
+
+_start:
+
+    ;--- init data & string array ---
+    1000000 int dup num_nodes def_i             ; total number nodes/keys = 1M
+    3 int << mem_alloc str_array def_i          ; allocate ptr array: 1M * 8 bytes = 8MB
+
+    create_strings call_func
+    "strings created..." puts_p
+
+    ; un-comment to check strings
+    ; disp_strings call_func
+    ; "---------------" puts_p
+
+    ;--- create graph & add nodes ---
+    64 int create_graph graph_data def_i        ; graph with 64 buckets
+    0 int counter def_i
+
+    {
+        graph_data peek
+        str_array peek counter peek 8 int * + [peek_64]   ; get string key
+        2 int graph_add_node                              ; free_flag = 2 (key is NOT freed by graph)
+        1 int counter +=
+    } counter peek num_nodes peek < loop
+
+    "add graph nodes done..." puts_p
+
+    ; un-comment to dump entire graph
+    ; graph_data peek dump_graph
+
+    ;--- add 65 random outgoing edges for each node ---
+    0 int counter =
+    0 int inner def_i
+
+    {
+        {
+            graph_data peek
+            str_array peek num_nodes peek rand 8 int * + [peek_64]   ; random dest key
+            str_array peek counter peek 8 int * + [peek_64]          ; source key (fixed in outer iteration)
+            graph_add_edge
+            1 int inner +=
+        } inner peek 65 int < loop
+
+        0 int inner =               ; reset inner counter for next source node
+        1 int counter +=
+    } counter peek num_nodes peek < loop
+
+    "add edges done..." puts_p
+    ; graph_data peek dump_graph
+
+    ;--- display stats ---
+    graph_data peek graph_edge_count print_i pop     ; print total edges
+
+    graph_data peek graph_get_nodes                  ; returns a struct --> [count, pointer_to_node_array]
+    dup 8 int + [peek_64] print_i pop                ; print node count
+    dup [peek_64] pop_free                           ; free the node array
+    pop_free                                         ; free the 16 byte block
+
+    ;--- delete every node one by one --
+    0 int counter =
+
+    {
+        graph_data peek
+        str_array peek counter peek 8 int * + [peek_64]   ; get key
+        graph_del_node pop                                ; remove node (updates back_links)
+        1 int counter +=
+    } counter peek num_nodes peek < loop
+
+    "del graph nodes done..." puts_p
+    ; graph_data peek dump_graph
+
+    ;--- clean-up entire graph & strings ---
+    graph_data peek delete_graph                    ; free graph struct & all its data
+
+    clean_strings call_func                         ; free all keys & ptr array
+    "clean up graph done..." puts_p

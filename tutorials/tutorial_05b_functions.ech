@@ -1,0 +1,267 @@
+;------------------------------------------------------------------------------
+; tutorial_5b_functions.ech
+;
+; covers function pointers, callbacks, recursion, multiple returns, early exit
+; with break & global/local scope.
+;
+; BASIC RULES (covered in tutorial 5a):
+;   1) functions MUST be declared BEFORE _start:
+;   2) variables can be declared ANYWHERE in a function;
+;
+; ./echelon -f tutorials/tutorial_5b_functions.ech
+;------------------------------------------------------------------------------
+
+;---- SOME BASIC FUNCS ----
+
+func: print_hello
+    "Hello from a function!" puts_p
+    return
+
+func: greet
+    "Hello, %s!\n" printf pop
+    return
+
+func: add
+    +
+    return
+
+func: square_it
+    dup *
+    return
+
+func: cube_it
+    dup dup * *
+    return
+
+; modulo: a % b using only stack ops
+; when a=30 & b=11 stack: [30, 11]
+;
+;   2 int dup_args  --> [30, 11, 30, 11]
+;   /               --> [30, 11, 2]     (30 / 11)
+;   *               --> [30, 22]        (2 * 11)
+;   -               --> [8]             (30 - 22)
+func: modulo_int
+    2 int dup_args
+    / * -
+    return
+
+
+;----- MULT RETURN VALUES -----
+; stack :[ a, b ] -> [ a*b, a-b, a+b ]
+; this function expects ONLY 2 ints to be on the stack when it starts.
+; more than 2 ints will ruin the calc, because shift_up effects the whole stack
+func: calc
+    2 int dup_args       ; stack: [ a, b, a, b ]
+    -                    ; stack: [ a, b, a-b ]
+    shift_up             ; stack: [ a-b, a, b ]
+
+    2 int dup_args       ; stack: [ a-b, a, b, a, b ]
+    +                    ; stack: [ a-b, a, b, a+b ]
+    shift_up             ; stack: [ a+b, a-b, a, b ]
+    *                    ; stack: [ a+b, a-b, a*b ]
+    return
+
+
+func: double_positive   ; return number *2 if positive, else 0.
+    {
+        2 int *
+        break           ; early return
+    } dup 0 int > if
+    pop
+    0 int
+    return
+
+;----- RECURSIVE FIBONACCI -----
+
+func: fib           ; a slower, but more clearer version
+    num def_i       ; uses a local variable
+
+    {
+        num peek
+        break
+    } num peek 2 int < if       ; base case n < 2
+
+    num peek --
+    fib call_func       ; fib(n-1)
+
+    num peek 2 int -
+    fib call_func       ; fib(n-2)
+    +
+    return
+
+
+func: fib_fast      ; faster pure stack version approx 40% performance gain
+    dup
+    { break } 2 int < if        ; base case
+
+    dup --
+    fib_fast call_func          ; fib_fast(n-1)
+    swap -- --
+    fib_fast call_func          ; fib_fast(n-2)
+    +
+    return
+
+
+
+func: update_score
+    10 int score +=         ; updating GLOBAL variable: score+=10
+    return
+
+func: local_example
+    100 int local_var def_i
+    local_var peek "Local variable (local_var): %d\n" printf pop
+    return
+
+func: early_exit
+    "this will print!" puts_p
+    break
+    "this will NEVER print!" puts_p
+    return
+
+;----- FUNCTION POINTERS -----
+; function names are just strings, just push them & call dynamically.
+; 2 strings (func names) were pushed, true_false pops one depending
+; on 'is_odd'
+;
+; stack starts:     [ square_it, cube_it ]
+; rand int is odd:  [ square_it ]       ; cube_it removed
+; rand int is even: [ cube_it ]         ; square_it removed
+
+func: call_back_func
+    10 int rand rand_num def_i
+
+    rand_num peek
+    "Random number is: %d\n" printf
+
+    is_odd true_false               ; stack: [ square_it ] OR [ cube_it ]
+
+    rand_num peek
+    swap
+    call_func
+    return
+
+;----- GENERATE RANDOM NUMBERS -----
+; pushes 'count' random numbers (0->999) onto stack.
+;
+; Remember: 'stack_size' counts EVERYTHING on the stack. this works here because we
+; clean-up carefully, but in deeper call stacks you'll need to be careful & track
+; the existing data & new data being pushed on.
+func: generate_random_numbers
+
+    user_choice def_i
+
+    { 10 int user_choice = }                            ; default if out of range
+    user_choice peek dup 1 int < swap 900 int > || if   ; if(user_choice < 1 || user_choice > 900)
+
+    { 1000 int rand }
+    stack_size user_choice peek < loop
+    return
+
+
+;----- RECURSIVE FACTORIAL -----
+func: fact
+
+    dup -- ! break_if       ; push value & unwind the stack when n=1 (base-case)
+
+    dup -- fact call_func   ; push 'n' on stack, send 'n-1' as param to this func again
+    dump_rts                ; resume.. display whole stack (nice demo to see factorial working)
+    *                       ; * top 2 values
+    return
+
+
+_start:
+
+    10 int score def_i          ; global variables
+    Anna name def_str
+
+    print_hello call_func
+
+    Jenny greet call_func
+    Hugo greet call_func
+
+    10 int 20 int
+    add call_func print_i
+
+    5 int 7 int
+    add call_func print_i
+    clear
+
+
+    10 int 4 int
+    calc call_func              ; returns multiple values
+
+    "10 * 4 = %d\n" printf pop
+    "10 - 4 = %d\n" printf pop
+    "10 + 4 = %d\n" printf pop
+
+
+    5 int double_positive call_func
+    "5 --> %d\n" printf
+
+    -3 int double_positive call_func
+    "-3 --> %d\n" printf
+
+    0 int double_positive call_func
+    "0 --> %d\n" printf
+    clear
+
+
+    0 int fib call_func print_i
+    1 int fib call_func print_i
+    2 int fib call_func print_i
+    3 int fib call_func print_i
+    4 int fib call_func print_i
+    5 int fib call_func print_i
+    6 int fib call_func print_i
+    7 int fib call_func print_i
+    8 int fib call_func print_i
+    9 int fib call_func print_i
+    10 int fib call_func print_i
+    dump_rts
+    clear               ; fib results left on the stack, clear them
+                        ; stack: [ ]
+
+
+    11 int i def_i
+    {
+        i peek dup fib_fast call_func swap
+        "fib(%d) = %d\n" 2 int printf_p
+        1 int i +=
+    } i peek 22 int < loop
+
+    ;--- CHAINING OPERATORS
+    5 int 3 int add call_func
+    10 int add call_func
+    print_i pop dump_rts
+
+    ;--- CALLBACK FUNC TEST
+    square_it
+    cube_it
+    call_back_func call_func
+    print_i pop
+
+    early_exit call_func
+
+    score peek "Score before: %d\n" printf
+    update_score call_func
+    score peek "Score after: %d\n" printf
+
+    local_example call_func
+
+
+    19 int 5 int modulo_int call_func print_i
+    31 int 8 int modulo_int call_func print_i
+    clear
+
+    30 int generate_random_numbers call_func
+    dump_i
+    clear
+
+    "showing step by step breakdown of recursive factorial: 7" puts_p
+
+    20 int fact call_func
+    dump_rts            ; display final stack
+
+
+    ; out of scope (un-comment)
+    ;local_var peek    ; ERROR -> local_var doesn't exist here!

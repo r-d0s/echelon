@@ -1,0 +1,19 @@
+ubuntu_adm@EliteDesk[~/final_tests]
+Tue Aug 11 [21:00:33]$ valgrind -s --track-origins=yes --leak-check=full ./echelon -f recursive_fibonacci_38.ech 
+==7807== Memcheck, a memory error detector
+==7807== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==7807== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==7807== Command: ./echelon -f recursive_fibonacci_38.ech
+==7807== 
+39088169
+==7807== 
+==7807== HEAP SUMMARY:
+==7807==     in use at exit: 0 bytes in 0 blocks
+==7807==   total heap usage: 312 allocs, 312 frees, 12,649 bytes allocated
+==7807== 
+==7807== All heap blocks were freed -- no leaks are possible
+==7807== 
+==7807== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+ubuntu_adm@EliteDesk[~/final_tests]
+Tue Aug 11 [21:05:15]$ 
+

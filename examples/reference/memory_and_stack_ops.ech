@@ -1,0 +1,67 @@
+;--------------------------------------------------------------
+; Memory R/W & Stack Operators
+;
+; RUN: ./echelon -f examples/reference/memory_and_stack_ops.ech
+;--------------------------------------------------------------
+
+_start:
+
+    "---- MEM_ALLOC ----" puts_p
+
+    250 int mem_alloc
+    print_ptr               ; show heap address
+    my_buffer def_i
+    clear
+
+    "---- GET_STACK_ADDR ----" puts_p
+
+    10 int 20 int 30 int
+    get_stack_addr
+    print_ptr pop       ; show address of TOS (Top Of Stack in .bss segment!)
+
+    clear
+
+    "---- COPY_BYTES ----" puts_p
+
+    "Peter Brown, London, SW6" user_details def_str     ; src string
+
+    user_details peek my_buffer peek 11 int copy_bytes  ; copy 11 bytes from src to dest
+
+                                      ; check by reading from dest ptr
+    my_buffer peek 11 int hex_mem_n   ; print bytes in hex for "Peter Brown"
+    my_buffer peek pop_free
+    clear
+
+    "---- STACK_TO_MEM ----" puts_p    ; copy data from the stack to a buffer.
+
+    24 int mem_alloc a_ptr def_i       ; allocate 24 bytes on heap
+
+    apple banana cherries dates figs guava dump_str dump_ptr    ; push strings onto stack
+    ;-----------------------------------------------
+    a_ptr peek 24 int   ; cpy 24 bytes (addresses of banana, cherries & dates)
+    32 int              ; start 32 bytes below TOS (pointing at "banana")
+    stack_to_mem        ; cpy from stack to heap
+
+    a_ptr peek 24 int hex_mem_n     ; display copied data in hex
+
+    a_ptr peek pop_free
+    clear
+
+    "---- WRITE_BIN_PTR ----" puts_p
+    /tmp/echelon_binary_ptr.dat open_file       ; open file for writing stack data
+
+    100 int 200 int 300 int 400 int 500 int     ; push data onto stack
+
+    dump_ptr
+
+    32 int              ; start 32 bytes below TOS
+    40 int              ; write 40 bytes
+    write_bin_ptr       ; write from stack to file.
+
+    close_file
+
+    /tmp/echelon_binary_ptr.dat read_file   ; read back from file
+    40 int hex_mem_n                        ; 100 200 300 400 500 in hex (little-endian)
+    pop_free
+    clear
+

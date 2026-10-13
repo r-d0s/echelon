@@ -1,0 +1,72 @@
+;-----------------------------------------------------------------------
+; tutorial_2
+;
+; variables are stored in a dictionary by name/id. once declared, you
+; can peek (read), poke (update) or dump them all.
+;
+; variable types:
+;
+;   int
+;   float
+;   strings
+;   structs
+;
+; variables can include whitespaces, just remember to wrap double quotes
+; around them e.g "my math score"
+;
+; ./echelon -f tutorials/tutorial_2_variables_dict.ech
+;-----------------------------------------------------------------------
+_start:
+
+    ;---- variables & TYPES
+    100 int score def_i         ; int (creates variable score (int), value: 100)
+    3.14 float pi def_f         ; float
+    hello greeting def_str      ; string
+    "Hello, World!" greeting2 def_str   ;   double quotes needed because of whitespace
+
+    dump_dict       ; displays all variables
+    clear
+
+    ;---- peek (READ) variables
+    score     peek print_i          ; 100
+    pi        peek print_fl         ; 3.140000
+    greeting  peek print_str        ; hello
+    greeting2 peek print_str        ; Hello, World!
+
+    ;---- int COMPOUND assign
+    50 int score =
+    10 int score +=             
+    5  int score -=
+    2  int score *=
+    11 int score /=         ; score should be 10
+    score peek print_i
+
+    -3 int score poke       ; 'poke' identical to '='
+
+    ;---- float COMPOUND assign
+    10.5 float fscore def_f
+
+    2.5 float fscore +=f
+    3.0 float fscore -=f
+    2.0 float fscore *=f
+    4.0 float fscore /=f        ; fscore should be 5.0
+    fscore peek print_fl
+
+    ;---- SPACES in var
+    99 int my_var def_i
+    88 int "my var" def_i
+    "my var" peek print_i pop
+
+    ;---- RE-ASSIGN float to int
+    100 int data_i def_i
+
+    200.1 float data_f1 def_f
+    700.5 float data_f2 def_f
+
+    data_f1 peek data_f2 peek +f
+    print_fl                ; 900.6 (calc as float)
+
+    50 int data_f2 =        ; change value type from float to int (50)
+    
+    data_i peek data_f2 peek
+    + print_i       ; 150

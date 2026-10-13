@@ -1,0 +1,124 @@
+;-----------------------------------------------------------------------------
+; qsort_stress_test.ech ;
+;-----------------------;
+;
+; test details:
+;   1) allocates array of ARR_SZ elements (each BYTE_SZ bytes)
+;   2) populates with random data.
+;   3) displays unsorted data
+;   4) sorts array using qsort
+;   5) displays sorted data.
+;   6) frees memory
+;
+; qsort param:
+;   - BYTE_SZ: element size (4 = dword for this test)
+;   - ARR_SZ: number of elements
+;   - qsort expects: [BYTE_SZ, ARR_SZ, ptr, asc/desc, data_type, offset]
+;
+;      data_type: 0 = byte, 1 = word, 2 = dword, 3 = qword (0-4 UNSIGNED)
+;				  4 = string
+;				  5 = byte, 6 = word, 7 = dword, 8 = qword (5-8 SIGNED)
+;				  9 = float
+;      offset: bytes to skip before comparing (when using structs etc..)
+;
+;
+; time & memory usage:
+;   /usr/bin/time -v ./echelon -f benchmarks/qsort/qsort_stress_test.ech
+;-----------------------------------------------------------------------------
+
+;--------------------------------------------------------------------------------
+; fills the array with rand values & uses stack-pointers (bp_0->bp_4) for speed
+;--------------------------------------------------------------------------------
+func: populateRandData
+						; expects stack to already have: [BYTE_SZ, ptr_1, ARR_SZ]
+
+	0 int				; index (loop counter)
+	100000000 int		; MAX_RAND_SIZE (rand() % 100M)
+
+	push_bp				; stack layout:
+						; bp_4 = BYTE_SZ, bp_3 = ptr_1, bp_2 = ARR_SZ,
+						; bp_1 = index, bp_0 = MAX_RAND_SIZE
+
+	"---------populate_data-----------" puts_p
+
+	{
+		bp_3 bp_1 bp_4 * +				; calc ptr addr --> ptr_1 + (index * BYTE_SZ)
+		bp_0 rand [poke_32]				; store random dword 32 bit value
+		bp_1 ++ [bp_1]					; index++
+	} bp_1 bp_2 < loop					; while (index < ARR_SZ)
+
+	pop_bp
+	return
+
+;-------------------------
+; displays the whole array
+;-------------------------
+func: dispData
+				; expects stack to already have: [BYTE_SZ, ptr_1, ARR_SZ]
+	0 int 		; index
+
+	push_bp		; stack layout:
+				; bp_3 = BYTE_SZ, bp_2 = ptr_1, bp_1 = ARR_SZ, bp_0 = index
+
+	"---------displaying_data-----------" puts_p
+
+	{
+										; calc ptr addr --> ptr_1 + (index * BYTE_SZ)
+		bp_2 bp_0 bp_3 * + [peek_32]	; read 32 bit value
+		"%d, " 1 int printf_p
+		bp_0 ++ [bp_0]					; index++
+	} bp_0 bp_1 < loop
+
+	nl
+	pop_bp
+	return
+
+
+_start:		; _start: entry point
+
+	4 int       BYTE_SZ def_i			; byte/word/dword/qword? (4 = dword)
+	10000000 int ARR_SZ  def_i			; number of elements
+
+
+	ARR_SZ peek BYTE_SZ peek * mem_alloc ptr_1 def_i	;--- ptr array heap allocated
+
+										;--- populate with random data
+	BYTE_SZ peek
+	ptr_1 peek
+	ARR_SZ peek
+	populateRandData call_func
+
+	clear
+
+								;--- display unsorted data
+	BYTE_SZ peek
+ 	ptr_1 peek
+ 	ARR_SZ peek
+ 	;dispData call_func			; un-comment this line to display unsorted data
+
+ 	clear
+
+	"-----initial display------" puts_p
+
+	; --- qsort call ---
+	; stack order for qsort: [BYTE_SZ, ARR_SZ, ptr_1, asc/desc, data_type, offset]
+	BYTE_SZ peek             ; 4 bytes (dword)
+	ARR_SZ peek              ; 10M
+	ptr_1 peek               ; base ptr
+	0 int				     ; 0 = ascending
+	2 int					 ; 2 = dword
+	0 int					 ; offset
+	qsort
+
+	"-----after qsort-----" puts_p
+
+	clear
+							;--- display sorted data ---
+	BYTE_SZ peek
+	ptr_1 peek
+	ARR_SZ peek
+	;dispData call_func		; un-comment this line to display sorted data order
+
+	fflush
+
+	ptr_1 peek pop_free		; --- free allocated memory ---

@@ -1,0 +1,140 @@
+;-----------------------------------------------------
+; Q-SORT TESTS: STRINGS & UN-SIGNED DWORDS
+;
+; RUN: ./echelon -f examples/reference/qsort_tests.ech
+;-----------------------------------------------------
+
+func: free_strings              ; iterates through array & frees each string
+    0 int index def_i
+
+    {
+        ptr_1 peek index peek BYTE_SZ peek * +   
+        [peek_64] pop_free      ; dereference ptr & free it
+        
+        1 int index +=          ; index++
+    } index peek ARR_SZ peek < loop
+
+    return
+
+func: create_strings            ; fills heap with rand 10 char strings
+    0 int index def_i
+
+    {
+        ptr_1 peek index peek BYTE_SZ peek * +   
+        10 int rand_str [poke_64]       ; generate 10 char string & write heap allocation
+        
+        1 int index +=                  ; index++
+    } index peek ARR_SZ peek < loop
+    
+    return
+
+
+func: disp_strings              ; Iterate through & display entire strings array
+    0 int index def_i
+
+    {
+        ptr_1 peek index peek BYTE_SZ peek * +
+        [peek_64] "%s, " 1 int printf_p     ; read addr, push string value, format, print & pop
+        
+        1 int index +=                      ; index++
+    } index peek ARR_SZ peek < loop
+
+    nl          ; newline..
+    return
+
+
+func: generate_ints             ; fills heap with rand dword 0x00-->0xFFFFFFFF
+    0 int index def_i
+
+    {
+        ptr_1 peek index peek BYTE_SZ peek * +
+        4294967295 int rand [poke_32]       ; generate random dword & write heap allocation
+        
+        1 int index +=                      ; index++
+    } index peek ARR_SZ peek < loop
+
+    return
+
+func: disp_ints                 ; iterate through & display entire un-signed ints array
+    0 int index def_i
+
+    {
+        ptr_1 peek index peek BYTE_SZ peek * +
+        [peek_32] "%u, " 1 int printf_p     ; read addr, push dword value, format, print uint32 & pop
+        
+        1 int index +=                      ; index++
+    } index peek ARR_SZ peek < loop
+
+    nl          ; newline ..
+    return
+
+
+_start:
+
+    ;-----------------------------------;
+    ; SORTING QWORD STRING PTRS (*char) ;
+    ;-----------------------------------;
+    8  int BYTE_SZ def_i        ; data width --> 8 bytes for *char
+    50 int ARR_SZ  def_i        ; 50 elements
+
+    ARR_SZ peek BYTE_SZ peek *
+    mem_alloc ptr_1 def_i       ; use this as ptr array (50 * 8 = 400 bytes)
+
+    create_strings call_func
+
+    "-----strings BEFORE sorting------" puts_p
+    disp_strings call_func
+
+    "-----start qsort------" puts_p
+    BYTE_SZ peek        ; element size (8 bytes *char)
+    ARR_SZ peek         ; 50 entries
+    ptr_1 peek          ; base ptr
+    0 int               ; order --> ASC: 0
+    4 int               ; sort type --> string cmp: 4
+    0 int               ; cmp offset: 0 bytes (direct ptr cmp, no struct..)
+    qsort                                               
+    "-----end qsort-----" puts_p
+
+    "\n-----strings AFTER sorting------" puts_p
+    disp_strings call_func
+
+    "-----free strings------" puts_p
+    free_strings call_func      ; free ALL strings from base ptr
+    
+    fflush
+    ptr_1 peek pop_free         ; free base ptr
+    
+    dump_rts        ; check stack
+
+    ;--------------------------;
+    ; SORTING UN-SIGNED DWORDS ;
+    ;--------------------------;
+    4  int BYTE_SZ =        ; re-use var, now using 4 bytes (dword)
+    45 int ARR_SZ =         ; re-use var, need 45 array elements
+
+    ARR_SZ peek BYTE_SZ peek *
+    mem_alloc ptr_1 =       ; overwrite base ptr & allocate heap (45 * 4 = 180 bytes)
+
+    generate_ints call_func
+
+    "-----ints BEFORE sorting------" puts_p
+    disp_ints call_func
+
+    "-----start qsort------" puts_p
+    BYTE_SZ peek        ; element size (4 bytes uint32)
+    ARR_SZ peek         ; 45 entries
+    ptr_1 peek          ; base prt
+    1 int               ; order --> DESC: 1
+    7 int               ; sort type ---> un-signed DWORD cmp: 7
+    0 int               ; cmp offset: 0 bytes (direct ptr cmp, no struct..)
+    qsort
+    "-----end qsort-----" puts_p
+
+    "\n-----ints AFTER sorting------" puts_p
+    disp_ints call_func
+
+    "-----free int block------" puts_p
+    ptr_1 peek pop_free     ; free base ptr
+
+    fflush
+    dump_rts        ; final stack check..

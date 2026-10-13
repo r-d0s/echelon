@@ -1,0 +1,209 @@
+SERVER INPUT/OUTPUT:
+-------------------
+
+Fri Oct 09 [19:55:13]$ valgrind -s --track-origins=yes --leak-check=full ./echelon -f examples/demos/simple_TCP_server.ech
+==13004== Memcheck, a memory error detector
+==13004== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==13004== Using Valgrind-3.24.0 and LibVEX; rerun with -h for copyright info
+==13004== Command: ./echelon -f examples/demos/simple_TCP_server.ech
+==13004==
+sTARTiNG tHE sERVER...
+** rEMEMBER tHE cLiENT cAN 0NLY sT0P tHE sERVER bY eNTERiNG: 'QUIT' **
+socket successfully binded..
+server listening..
+server accepted the client..
+
+cURRENT tiME: [19:55:31]
+rECEiVED tHiS fR0M cliENT:
+			`------> [Man last night was the best. The best.]
+String as HEX bytes:
+	[00][01][02][03][04][05][06][07][08][09][0a][0b][0c][0d][0e][0f]
+
+[00]	[4d][61][6e][20][6c][61][73][74][20][6e][69][67][68][74][20][77]
+[10]	[61][73][20][74][68][65][20][62][65][73][74][2e][20][54][68][65]
+[20]	[20][62][65][73][74][2e]
+
+
+eNTER mSG t0 sEND t0 cliENT:
+Yeah, it was pretty fun.
+
+cURRENT tiME: [19:55:55]
+rECEiVED tHiS fR0M cliENT:
+			`------> [ mean, Margaret and Eileen over for "Game Night", and nothing went wrong. No space portals, no video demons, nobody got hurt.]
+String as HEX bytes:
+	[00][01][02][03][04][05][06][07][08][09][0a][0b][0c][0d][0e][0f]
+
+[00]	[20][6d][65][61][6e][2c][20][4d][61][72][67][61][72][65][74][20]
+[10]	[61][6e][64][20][45][69][6c][65][65][6e][20][6f][76][65][72][20]
+[20]	[66][6f][72][20][22][47][61][6d][65][20][4e][69][67][68][74][22]
+[30]	[2c][20][61][6e][64][20][6e][6f][74][68][69][6e][67][20][77][65]
+[40]	[6e][74][20][77][72][6f][6e][67][2e][20][4e][6f][20][73][70][61]
+[50]	[63][65][20][70][6f][72][74][61][6c][73][2c][20][6e][6f][20][76]
+[60]	[69][64][65][6f][20][64][65][6d][6f][6e][73][2c][20][6e][6f][62]
+[70]	[6f][64][79][20][67][6f][74][20][68][75][72][74][2e]
+
+
+eNTER mSG t0 sEND t0 cliENT:
+Except for Eileen and I whipping your butts.
+
+cURRENT tiME: [19:56:15]
+rECEiVED tHiS fR0M cliENT:
+			`------> [Whatever, I had fun. Dude, come on, help out. Benson's not going to let us have people over anymore if we leave this place a mess. And put down my new phone before you break it.]
+String as HEX bytes:
+	[00][01][02][03][04][05][06][07][08][09][0a][0b][0c][0d][0e][0f]
+
+[00]	[57][68][61][74][65][76][65][72][2c][20][49][20][68][61][64][20]
+[10]	[66][75][6e][2e][20][44][75][64][65][2c][20][63][6f][6d][65][20]
+[20]	[6f][6e][2c][20][68][65][6c][70][20][6f][75][74][2e][20][42][65]
+[30]	[6e][73][6f][6e][27][73][20][6e][6f][74][20][67][6f][69][6e][67]
+[40]	[20][74][6f][20][6c][65][74][20][75][73][20][68][61][76][65][20]
+[50]	[70][65][6f][70][6c][65][20][6f][76][65][72][20][61][6e][79][6d]
+[60]	[6f][72][65][20][69][66][20][77][65][20][6c][65][61][76][65][20]
+[70]	[74][68][69][73][20][70][6c][61][63][65][20][61][20][6d][65][73]
+[80]	[73][2e][20][41][6e][64][20][70][75][74][20][64][6f][77][6e][20]
+[90]	[6d][79][20][6e][65][77][20][70][68][6f][6e][65][20][62][65][66]
+[a0]	[6f][72][65][20][79][6f][75][20][62][72][65][61][6b][20][69][74]
+[b0]	[2e]
+
+
+eNTER mSG t0 sEND t0 cliENT:
+Ok, just a sec. I'm making you a new custom wallpaper.
+
+cURRENT tiME: [19:56:33]
+rECEiVED tHiS fR0M cliENT:
+			`------> [All right, I'm going to take this stuff to dump.]
+String as HEX bytes:
+	[00][01][02][03][04][05][06][07][08][09][0a][0b][0c][0d][0e][0f]
+
+[00]	[41][6c][6c][20][72][69][67][68][74][2c][20][49][27][6d][20][67]
+[10]	[6f][69][6e][67][20][74][6f][20][74][61][6b][65][20][74][68][69]
+[20]	[73][20][73][74][75][66][66][20][74][6f][20][64][75][6d][70][2e]
+
+
+
+eNTER mSG t0 sEND t0 cliENT:
+Heh. You mean you're going take that trash to your face.
+
+cURRENT tiME: [19:56:48]
+rECEiVED tHiS fR0M cliENT:
+			`------> [QUIT]
+String as HEX bytes:
+	[00][01][02][03][04][05][06][07][08][09][0a][0b][0c][0d][0e][0f]
+
+[00]	[51][55][49][54]
+
+cURRENT tiME: [19:56:48]
+** mSG 'QUIT' rECEiVED! cliENT eNDED tHE c0NNECTi0N... **
+ended the connection with client...
+==13004==
+==13004== HEAP SUMMARY:
+==13004==     in use at exit: 0 bytes in 0 blocks
+==13004==   total heap usage: 673 allocs, 673 frees, 40,720 bytes allocated
+==13004==
+==13004== All heap blocks were freed -- no leaks are possible
+==13004==
+==13004== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+
+
+
+
+
+
+CLIENT INPUT/OUTPUT:
+-------------------
+
+Fri Oct 09 [19:52:11]$ valgrind -s --track-origins=yes --leak-check=full ./echelon -f examples/demos/simple_TCP_client.ech
+==13008== Memcheck, a memory error detector
+==13008== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==13008== Using Valgrind-3.24.0 and LibVEX; rerun with -h for copyright info
+==13008== Command: ./echelon -f examples/demos/simple_TCP_client.ech
+==13008==
+sTARTiNG tHE cLiENT...
+connected to the server..
+
+cURRENT tiME: [19:55:24]
+rECEiVED tHiS fR0M sERVER:
+			`------> [** wELC0ME t0 tHE --=echelon=-- siMPLE TCP sERVER ** t0 eND tHE c0NNECTi0N, jUST eNTER: 'QUIT' **]
+String as HEX bytes:
+	[00][01][02][03][04][05][06][07][08][09][0a][0b][0c][0d][0e][0f]
+
+[00]	[2a][2a][20][77][45][4c][43][30][4d][45][20][74][30][20][74][48]
+[10]	[45][20][2d][2d][3d][65][63][68][65][6c][6f][6e][3d][2d][2d][20]
+[20]	[73][69][4d][50][4c][45][20][54][43][50][20][73][45][52][56][45]
+[30]	[52][20][2a][2a][20][74][30][20][65][4e][44][20][74][48][45][20]
+[40]	[63][30][4e][4e][45][43][54][69][30][4e][2c][20][6a][55][53][54]
+[50]	[20][65][4e][54][45][52][3a][20][27][51][55][49][54][27][20][2a]
+[60]	[2a]
+
+
+eNTER mSG t0 sEND t0 sERVER:
+Man last night was the best. The best.
+
+cURRENT tiME: [19:55:44]
+rECEiVED tHiS fR0M sERVER:
+			`------> [Yeah, it was pretty fun.]
+String as HEX bytes:
+	[00][01][02][03][04][05][06][07][08][09][0a][0b][0c][0d][0e][0f]
+
+[00]	[59][65][61][68][2c][20][69][74][20][77][61][73][20][70][72][65]
+[10]	[74][74][79][20][66][75][6e][2e]
+
+
+eNTER mSG t0 sEND t0 sERVER:
+ mean, Margaret and Eileen over for "Game Night", and nothing went wrong. No space portals, no video demons, nobody got hurt.
+
+cURRENT tiME: [19:56:05]
+rECEiVED tHiS fR0M sERVER:
+			`------> [Except for Eileen and I whipping your butts.]
+String as HEX bytes:
+	[00][01][02][03][04][05][06][07][08][09][0a][0b][0c][0d][0e][0f]
+
+[00]	[45][78][63][65][70][74][20][66][6f][72][20][45][69][6c][65][65]
+[10]	[6e][20][61][6e][64][20][49][20][77][68][69][70][70][69][6e][67]
+[20]	[20][79][6f][75][72][20][62][75][74][74][73][2e]
+
+
+eNTER mSG t0 sEND t0 sERVER:
+Whatever, I had fun. Dude, come on, help out. Benson's not going to let us have people over anymore if we leave this place a mess. And put down my new phone before you break it.
+
+cURRENT tiME: [19:56:23]
+rECEiVED tHiS fR0M sERVER:
+			`------> [Ok, just a sec. I'm making you a new custom wallpaper.]
+String as HEX bytes:
+	[00][01][02][03][04][05][06][07][08][09][0a][0b][0c][0d][0e][0f]
+
+[00]	[4f][6b][2c][20][6a][75][73][74][20][61][20][73][65][63][2e][20]
+[10]	[49][27][6d][20][6d][61][6b][69][6e][67][20][79][6f][75][20][61]
+[20]	[20][6e][65][77][20][63][75][73][74][6f][6d][20][77][61][6c][6c]
+[30]	[70][61][70][65][72][2e]
+
+
+eNTER mSG t0 sEND t0 sERVER:
+All right, I'm going to take this stuff to dump.
+
+cURRENT tiME: [19:56:44]
+rECEiVED tHiS fR0M sERVER:
+			`------> [Heh. You mean you're going take that trash to your face. ]
+String as HEX bytes:
+	[00][01][02][03][04][05][06][07][08][09][0a][0b][0c][0d][0e][0f]
+
+[00]	[48][65][68][2e][20][59][6f][75][20][6d][65][61][6e][20][79][6f]
+[10]	[75][27][72][65][20][67][6f][69][6e][67][20][74][61][6b][65][20]
+[20]	[74][68][61][74][20][74][72][61][73][68][20][74][6f][20][79][6f]
+[30]	[75][72][20][66][61][63][65][2e][20]
+
+
+eNTER mSG t0 sEND t0 sERVER:
+QUIT
+
+** cliENT eNDiNG tHE c0NNECTi0N... **
+ended the client...
+==13008==
+==13008== HEAP SUMMARY:
+==13008==     in use at exit: 0 bytes in 0 blocks
+==13008==   total heap usage: 573 allocs, 573 frees, 35,925 bytes allocated
+==13008==
+==13008== All heap blocks were freed -- no leaks are possible
+==13008==
+==13008== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)
+

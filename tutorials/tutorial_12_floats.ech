@@ -1,0 +1,79 @@
+;---------------------------------------------------------------------------------------------------
+; tutorial_12: Floats & Signed Values
+;
+; using Binary file I/O with mixed data types: floats, negative & positive ints.
+; this shows how to read them back with the correct size & sign-type etc.
+;
+; valgrind -s --track-origins=yes --leak-check=full ./echelon -f tutorials/tutorial_12_floats.ech
+;-------------------------------------------------------------------------------------------------
+
+_start:
+
+    ;--- WRITE DATA
+    ; open file for binary writing
+    "/tmp/test_data.dat" open_file pop
+
+    ; write 10 values, each 8 bytes (10 * 8 = 80 bytes total).
+    ; so begin pushing them..
+    -123.4567 float     ; 1: float
+    -4095.222 float     ; 2: float
+    -255 int            ; 3: int
+    -987 int            ; 4: int
+    99.987 float        ; 5: float
+    45 int              ; 6: int
+    678 int             ; 7: int
+    45 int              ; 8: int
+    67 int              ; 9: int
+    89 int              ; 10: int
+
+    80 int write_bin        ; write all 80 bytes
+    close_file
+
+    "Data written!" puts_p
+    clear
+
+    ;--- READ BACK 80 BYTES as HEX
+    "/tmp/test_data.dat" read_file data_ptr def_i
+    data_ptr peek 80 int hex_mem_n      ; display 80 bytes in hex table
+
+    ;--- READ EACH QWORD as HEX                 data_ptr remains on stack from above
+    dup [peek_64] print_ptr pop                 ; value 1 [0]
+    dup 8 int + [peek_64] print_ptr pop         ; value 2 [8]
+    dup 16 int + [peek_64] print_ptr pop        ; value 3 [16]
+    dup 24 int + [peek_64] print_ptr pop        ; value 4 [24]
+    dup 32 int + [peek_64] print_ptr pop        ; value 5 [32]
+    dup 40 int + [peek_64] print_ptr pop        ; value 6 [40]
+    dup 48 int + [peek_64] print_ptr pop        ; value 7 [48]
+    dup 56 int + [peek_64] print_ptr pop        ; value 8 [56]
+    dup 64 int + [peek_64] print_ptr pop        ; value 9 [64]
+    72 int + [peek_64] print_ptr pop            ; value 10 [72]
+
+    ;--- READ WITH CORRECT TYPES
+    ; values are stored as 8 bytes each, but you don't have to read
+    ; all 8 bytes if the value fits in a smaller type.
+    ;
+    ; -255 fits in 2 signed bytes --> [peek_16s]
+    ; -987 fits in 4 signed bytes --> [peek_32s] (fits in 2 bytes, but it's just a demo..)
+    ; 45 fits in 1 unsigned byte --> [peek_8]
+    ; floats are ALWAYS 8 bytes --> [peek_64]
+
+    data_ptr peek
+
+    dup [peek_64] print_fl pop           ; -123.4567 (float, 64 bit)
+    dup 8 int + [peek_64] print_fl pop   ; -4095.222 (float, 64 bit)
+
+    dup 16 int + [peek_16s] print_i pop  ; -255 (signed 16 bit)
+    dup 24 int + [peek_32s] print_i pop  ; -987 (signed 32 bit)
+
+    dup 32 int + [peek_64] print_fl pop  ; 99.987 (float, 64 bit)
+
+    dup 40 int + [peek_32] print_i pop   ; 45 (32 bit)
+    dup 48 int + [peek_16] print_i pop   ; 678 (16 bit)
+    dup 56 int + [peek_8] print_i pop    ; 45 (8 bit)
+    dup 64 int + [peek_64] print_i pop   ; 67 (64 bit)
+    72 int + [peek_8] print_i pop        ; 89 (8 bit)
+
+    clear
+
+    data_ptr peek pop_free      ; deallocate mem
+

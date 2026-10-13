@@ -1,0 +1,92 @@
+;--------------------------------------------------------------------
+; exec_binary.ech
+;
+; This script shows how to replace the current process with an external binary
+; using sys_execve.
+;
+; it also shows how to update cmd line args & env vars from another program.
+;
+; RUN: ./echelon -f examples/demos/exec_binary.ech
+;
+; read: examples/demos/exec_binary_README.md for more details.
+;-----------------------------------------------------------------------------
+;
+; [1] this script uses sys_execve to replace the echelon process with
+; a C program (cBasicProg). before swapping, we create our own args list
+; & env vars & pass them to it
+;
+; [2] cBasicProg.c
+; a simple C program that prints its args & envp vars.
+; it loops a few times to show that the new process has taken over.
+;
+; #include <stdio.h>
+;
+; int main(int argc, char **args, char **envp){
+;     printf("\nhELL0! tHiS pR0G wAS fiRED 0FF fR0M: [%s]!\n", *args);
+;
+;     for(char c = 0; c < 2; c++){
+;         char **tmpArgs = args;
+;         int  index = 0;
+;         while(*tmpArgs){
+;             printf("args[%d] --> [%s]\n", index++, *tmpArgs++);
+;         }
+;
+;         char **tmpEnv = envp;
+;         while(*tmpEnv){
+;             printf("\teXAMiNE tHESE eNV vARS: [%s]\n", *tmpEnv++);
+;         }
+;         printf("----------------------------\n");
+;     }
+;     return 0;
+; }
+;
+; compile it with: gcc cBasicProg.c -o cBasicProg
+;
+;
+; [3] the script sets up the args & env vars, then calls sys_execve
+; to run this bin ---> cBasicProg
+;
+; [4] before you run this script, try running the C binary like this, so that you
+; can see the params/args being displayed:
+;
+; ./cBasicProg `ls -l /tmp`
+;
+; [5] RUN: ./echelon -f examples/demos/regex_operators.ech
+;
+;------------------------------------------------------------------------------;
+
+
+func: call_sys_execve
+
+    24 int mem_alloc argvList     def_i     ; allocate for 3 args (3 * qwords = 24 bytes)
+
+    40 int mem_alloc envPtrList   def_i     ; allocate for 5 envp (5 * qwords = 40 bytes)
+
+                                                              ; create arg list (argv)
+    argvList peek dup "a sPECiAL mSG fR0M echelon!" [poke_64] ; argv[0]
+    dup 8 int + "<3 CFC <3" [poke_64]                         ; argv[1]
+    dup 16 int + 0 int [poke_64]                              ; NULL term
+
+                                                                            ; create env list (envp)
+    envPtrList peek dup "echelon_hEAP_aLLOC=1MB" [poke_64]                  ; envp[0]
+    dup  8 int + "echelon_sTACK_sPACE=0.25MB" [poke_64]                     ; envp[1]
+    dup 16 int + "valgrind_errors=500_errors_from_500_contexts!" [poke_64]  ; envp[2]
+    dup 24 int + "valgrind_leaks=definitely_lost_1500MB!" [poke_64]         ; envp[3]
+    dup 32 int + 0 int [poke_64]                                            ; NULL term
+
+
+                                ; prepare registers for sys_execve (syscall 59)
+    envPtrList peek             ; rdx = env list
+    argvList peek               ; rsi = arg list
+    examples/demos/cBasicProg   ; rdi = path to program/bin
+    59 int                      ; rax = sys_execve (syscall 59)
+    4 int sys_call
+
+    ; argvList & envPtrList have NOT been free'd, read the docs to see why
+    return
+
+_start:         ; main entry
+
+    call_sys_execve call_func
+
+

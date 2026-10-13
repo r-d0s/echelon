@@ -1,0 +1,23 @@
+;-------------------------------------------------------------------------------------------
+; recursive_fibonacci_38.ech
+;
+; recursive fibonacci using ONLY stack operations (no variables/stack-ptrs)
+;
+; fib(38) = 39,088,169
+; total recursive calls: 126,491,971  (calls(n) = 2 * fib(n + 1) - 1)
+;
+;
+; time & mem usage:
+;   /usr/bin/time -v ./echelon -f benchmarks/recursive_fibonacci/recursive_fibonacci_38.ech
+;-------------------------------------------------------------------------------------------
+
+func: f                       ; always expects a number on top of stack
+    dup
+    2 int < break_if          ; base case: fib(0/1) returns 0/1
+
+    dup -- f call_func        ; fib(n - 1)
+    swap -- -- f call_func +  ; fib(n - 2) + result
+    return
+
+_start:
+    38 int f call_func print_i   ; calc & print fib(38)

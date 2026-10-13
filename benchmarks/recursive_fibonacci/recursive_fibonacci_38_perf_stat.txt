@@ -1,0 +1,23 @@
+ubuntu_adm@EliteDesk[~/final_tests]
+Tue Aug 11 [21:12:51]$ sudo perf stat -e cycles,instructions,L1-dcache-loads,L1-dcache-load-misses,L2-loads,L2-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses,branches,branch-misses ./echelon -f recursive_fibonacci_38.ech
+39088169
+
+ Performance counter stats for './echelon -f recursive_fibonacci_38.ech':
+
+    20,377,451,664      cycles                                                                  (66.66%)
+    33,239,075,979      instructions                     #    1.63  insn per cycle              (75.00%)
+    14,997,676,768      L1-dcache-loads                                                         (75.00%)
+           573,821      L1-dcache-load-misses            #    0.00% of all L1-dcache accesses   (75.00%)
+            54,437      L2-loads                                                                (74.99%)
+             7,547      L2-load-misses                   #   13.86% of all LL-cache accesses    (75.00%)
+            54,462      LLC-loads                                                               (75.00%)
+             7,557      LLC-load-misses                  #   13.88% of all LL-cache accesses    (75.00%)
+    14,994,751,347      dTLB-loads                                                              (75.01%)
+             7,281      dTLB-load-misses                 #    0.00% of all dTLB cache accesses  (75.02%)
+    10,570,992,972      branches                                                                (66.68%)
+        97,321,682      branch-misses                    #    0.92% of all branches             (66.66%)
+
+       5.446708162 seconds time elapsed
+
+       5.440702000 seconds user
+       0.004999000 seconds sys

@@ -1,0 +1,23 @@
+ubuntu_adm@EliteDesk[~/final_tests]
+Tue Aug 11 [20:33:46]$ sudo perf stat -e cycles,instructions,L1-dcache-loads,L1-dcache-load-misses,L2-loads,L2-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses,branches,branch-misses ./echelon -f graph_stress_test_optimised.ech >/dev/null
+
+ Performance counter stats for './echelon -f graph_stress_test_optimised.ech':
+
+   518,453,179,175      cycles                                                                  (66.63%)
+   221,997,048,857      instructions                     #    0.43  insn per cycle              (74.98%)
+    64,262,060,460      L1-dcache-loads                                                         (74.98%)
+     5,315,299,953      L1-dcache-load-misses            #    8.27% of all L1-dcache accesses   (75.02%)
+     3,185,634,908      L2-loads                                                                (75.02%)
+     2,341,065,026      L2-load-misses                   #   73.49% of all LL-cache accesses    (75.01%)
+     3,184,830,691      LLC-loads                                                               (75.00%)
+     2,341,287,533      LLC-load-misses                  #   73.50% of all LL-cache accesses    (75.02%)
+    64,248,354,038      dTLB-loads                                                              (75.01%)
+       975,302,368      dTLB-load-misses                 #    1.52% of all dTLB cache accesses  (75.01%)
+    66,887,429,696      branches                                                                (66.65%)
+       472,676,613      branch-misses                    #    0.71% of all branches             (66.63%)
+
+     161.535023700 seconds time elapsed
+
+     135.923113000 seconds user
+       7.207467000 seconds sys
+

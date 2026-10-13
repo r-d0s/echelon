@@ -1,0 +1,254 @@
+;-----------------------------------------------------------------------------------------;
+; echelon REGEX TESTS                                                                     ;
+;                                                                                         ;
+; IMPORTANT: when results are larger than the default 256K buffer, you'll need to         ;
+; increase this by using the -b parameter (num of bytes)                                  ;
+;                                                                                         ;
+; e.g: ./echelon -f examples/reference/regex_tests.ech -b <bytes_needed>  <-- THIS PARAM! ;
+;                                                                                         ;
+; RUN: ./echelon -f examples/reference/regex_tests.ech                                    ;
+;                                                                                         ;
+;-----------------------------------------------------------------------------------------;
+
+
+func: dump_tokens
+
+    dup dup ptr1_orig def_i ptr1 def_i  ; dup results ptr, so we can loop & access
+                                        ; stats for the result-set
+
+    dup [peek_32] rc def_i              ; get the stats (4 bytes each) for the result-set
+    4 int + dup [peek_32] matches def_i ; & save them locally
+    4 int + dup [peek_32] groups def_i
+    4 int + [peek_32] total_matches def_i   ; total number of rows
+
+    0 int count def_i
+
+    "-------------HEADER_BREAKDOWN-------------" puts_p
+    total_matches peek  groups peek     matches peek    rc peek
+    "rc: %d  matches: %d\ngroups: %d   total_matches: %d\n"  4 int printf_p
+    "--------------END_OF_HEADER---------------" puts_p
+
+    16 int ptr1 +=      ; shift ptr fwd past header (+16 bytes) to index with offset pairs.
+
+    {
+        ptr1 peek count peek ++ 4 int * + [peek_32]     ; end index
+        ptr1 peek count peek 4 int * + [peek_32]        ; start index - printf reads these in rev order
+
+        "%d ---start/end--> %d\n"  printf pop pop       ; display pair for this match
+
+        2 int count +=                                  ; +=2 because we have start <--> end pairs
+    } count peek total_matches peek 2 int * < loop      ; loop until total_matches * 2
+
+    "------------ENDED_OFFSETS------------\n" puts_p
+    return
+
+
+func: dump_strings              ; expects **char on top of the stack
+    ptr1 def_i
+    0 int count def_i
+
+    "------------START_DUMPING_RESULT_STRINGS------------" puts_p
+    {
+        ptr1 peek count peek + [peek_64] puts_p     ; read string ptr (using [peek_64]) from **char array
+        8 int count +=                              ; inc by 8 bytes, each *char = 8 bytes
+    } ptr1 peek count peek + [peek_64] loop         ; loop until we get to last NULL entry
+
+    "-------------END_DUMPING_RESULT_STRINGS-------------\n" puts_p
+    return
+
+
+func: disp_stats_and_strings        ; regex_mult expects string & the regex on the stack
+
+    "regex --> [%s]\nstring --> [%s]\n" printf
+    regex_mult ptr_1 def_i                              ; run regex_mult & store results in ptr
+
+    {
+        ptr_1 peek "** OOM ** error code ---> [%d]\n\n" printf
+        clear break                                     ; display error details & break from this func
+    } ptr_1 peek -2 int == if                           ; handle OOM errors (-2) here
+
+    {
+        "regex error msg ---> [%s]\nregex pattern ---> [%s]\n" printf
+        clear break                                     ; display error details & break from this func
+    } ptr_1 peek -1 int == if                           ; handle (-1) errors & display their msg
+
+    {                                                   ; results processed without errors
+         ptr_1 peek [peek_64] dump_strings call_func        ; [0] --> string array (**char)
+         ptr_1 peek 8 int + [peek_64] dump_tokens call_func ; [8] --> stats & offsets pair block
+         ptr_1 peek del_regex                           ; clean the entire regex result block, including **char block
+    } ptr_1 peek 0 int > if                             ; only run if ptr != NULL
+
+     "\n------------ENDED_DISPLAYING_DATA_AND_STATS------------\n" puts_p
+     return
+
+
+func: regex_multi_tests     ; tests are run with 'regex_mult'. results & their stats are displayed
+    "contact us at:\n\t1)support@playstati0n.com\n\t2)admin@echelon.dev\n\t3)KiNG@chelseaFC.com\n\t4)x86-64.p0WER@nasm.hex\n\t5)bAD_EMAiL@aDDR.n0P3\nbye!"
+    "[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-_]+\.[a-zA-Z]{2,}" hex_str
+    disp_stats_and_strings call_func
+    ; ----------------------------------
+    "apple banana cherry date figs guava paprika mangoes playstati0n batMan chelseaFc aardvark"
+    "(a)(\w+)" hex_str
+    disp_stats_and_strings call_func
+    ; ----------------------------------
+    "apple banana cherry date figs guava paprika mangoes playstati0n batMan chelseaFc aardvark"
+    "a\w+" hex_str
+    disp_stats_and_strings call_func
+    ; ----------------------------------
+    "hello world!"
+    "XYZ" hex_str
+    disp_stats_and_strings call_func
+    ; ----------------------------------
+    "aaabaaa"
+    "a+?" hex_str
+    disp_stats_and_strings call_func
+    ; ----------------------------------
+    "hello world 123 test hello world 321 test "
+    "(hello) (world) (\d+)" hex_str
+    disp_stats_and_strings call_func
+    ; ----------------------------------
+    "anything here"
+    "a*" hex_str
+    disp_stats_and_strings call_func
+    ; ----------------------------------
+    "bad regex tested here..."
+    "+hello"                            ; bad regex, this is handled automatically
+    disp_stats_and_strings call_func
+    ; ----------------------------------
+    clear
+    return
+
+
+func: regex_sub_tests
+    "----- STARTING REGEX-SUB ----- \nprint_str displays order: string, search, replace...." puts_p
+    "abacabac"                  ; string
+    "a"                         ; search
+    "[_REPLACED_a_]" dump_str   ; replace
+    regex_sub
+    print_str pop_free clear    ; print & deallocate result
+    "-----------------------" puts_p
+
+    "apple_and_banana and apples with pears and more apples and apples with mango and figs!"
+    "apple" "[_LiME_]" dump_str regex_sub
+    print_str pop_free clear
+    "-----------------------" puts_p
+
+    "and the dog and the cat and the pig and the cow aaand the fox andddd??!!!"
+    "and" "[_AND_]" dump_str regex_sub
+    print_str pop_free clear
+    "-----------------------" puts_p
+
+    "i walked down the street today! what a nice day!  "
+    "\s" "{-!a_space!-}" dump_str regex_sub
+    print_str pop_free clear
+    "-----------------------" puts_p
+
+    "options oliver orange olivia oops!"
+    "[z-a]"             ; <-- regex error! below is how to safely handle all cases:
+    "0" dump_str
+    {
+        {
+            pop                 ; pop -1, useful strings are below the return value
+            "regex error msg ---> [%s]\nregex pattern ---> [%s]\n" printf
+        }else{
+            puts pop_free       ; string returned, print and free it
+        } dup -1 int == if      ; was -1 returned from regex_sub
+    } regex_sub dup if          ; -1 = error, 0 = no results, >0 = string
+
+    clear
+    "-----------------------"   puts_p
+
+    clear                       ; to handle no match
+    return
+
+
+func: regex_matching
+    "\n----- STARTING REGEX-MATCH ----- \nprint_str displays order: search, string...." puts_p
+
+    "apple banana cherry date fig guava" "a\w+" dump_str regex
+    print_str pop_free clear
+    "-----------------------" puts_p
+
+    "apple banana cherry date figs guava" "(c)(\w+)" dump_str regex
+    print_str pop_free clear
+    "-----------------------" puts_p
+
+    "hello world 123 test" "(hello) (world) (\d+)" dump_str regex
+    print_str pop_free clear
+    "-----------------------" puts_p
+
+    "aaabaaa" "a+?" dump_str regex
+    print_str pop_free clear
+    "-----------------------" puts_p
+
+    "hello world" "xyz" dump_str regex
+    print_ptr clear
+    "-----------------------" puts_p
+
+    "aaabaaa" "[z-a]" dump_str regex        ; error, handle it
+    pop "regex error msg ---> [%s]\nregex pattern ---> [%s]\n" printf
+    dump_ptr clear
+    ; ----------------------------------
+    "good\nmorning!" "\\s" dump_str regex
+    dump_ptr hex_str pop_free
+    "-----------------------" puts_p
+
+    "hello\\there!" "\\\\" dump_str regex
+    dump_ptr hex_str pop_free clear
+    "-----------------------" puts_p
+
+    "--- OTHER EXAMPLES ---" puts_p
+
+    "" "\w+" regex dump_ptr clear
+    "-----------------------" puts_p
+
+    "12345 67890" "[a-z]+" regex dump_ptr clear
+    "-----------------------" puts_p
+
+    "line1\n\n\t\nline2" "\s+" regex print_ptr   ; consecutive delims
+    hex_str pop_free
+
+    return
+
+;--------------------------------------------------------------------------------------------------------;
+; we're running stress tests on 3 input files & some of these results are huge, so remember to increase  ;
+; the buffer size to handle this!                                                                        ;
+;                                                                                                        ;
+; e.g ./echelon -f examples/reference/regex_tests.ech -b 650000  <-- (650000 bytes have been allocated)  ;
+;                                                                                                        ;
+; these files: '1500a_excl.txt', '1760_a.txt' & '5k_pairs.txt' are expected to be in this directory:     ;
+;       examples/reference/data/                                                                         ;
+;--------------------------------------------------------------------------------------------------------;
+
+func: regex_multi_file_tests
+
+    "examples/reference/data/1500a_excl.txt" read_file dup          ; read file --> heap-allocated string.
+
+                                            ; dup this because regex consumes a cpy
+    "(a+)+!" hex_str                        ; regex
+    disp_stats_and_strings call_func        ; this func calls 'regex_mult' & display results.
+    pop_free                                ; free heap-allocated string we dup'd (from read_file)
+
+    "examples/reference/data/1760_a.txt" read_file dup              ; string
+
+    "(a+)+" hex_str                         ; regex
+    disp_stats_and_strings call_func        ; process & display
+    pop_free                                ; free input file string
+
+    "examples/reference/data/5k_pairs.txt" read_file dup            ; string
+
+    "(\w)(\d)" hex_str                      ; regex
+    disp_stats_and_strings call_func        ; process & display
+    pop_free                                ; free input file string
+
+    return
+
+_start:                    ; call functions in this order...
+
+    regex_matching         call_func
+    regex_sub_tests        call_func
+    regex_multi_tests      call_func
+    ;regex_multi_file_tests call_func      ; files: '1500a_excl.txt', '1760_a.txt' & '5k_pairs.txt' are needed!
+                                           ; un-comment code if you have them
+
+    dump_ptr                               ; final check, is stack clean?

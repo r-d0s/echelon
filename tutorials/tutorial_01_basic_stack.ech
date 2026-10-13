@@ -1,0 +1,74 @@
+;-----------------------------------------------------------------------
+; tutorial_1_basic_stack.ech
+;
+; whitespaces are needed between all tokens (operands & operators)
+;
+;   CORRECT: 10 int 20 int +
+;   WRONG:   10int20int+    (interpreted as a single operand/string token)
+;
+; an operand token can have more than 1 whitespaces, just remember to
+; wrap double quotes around it.
+;
+;  1 * operand: "The quick brown fox"
+;  4 * operands: The quick brown fox
+;
+; stack architecture:
+;
+;   LIFO (Last In, First Out) array struct
+;   stack grows upwards on pushes & shrinks downwards on pops
+;
+; ./echelon -f tutorials/tutorial_1_basic_stack.ech
+;-----------------------------------------------------------------------
+
+_start:     ; PROGRAM STARTS HERE & the stack is empty []
+
+    ;----- PUSH VALUES & BASIC ARITHMETIC
+    10 int              ; stack: [ 10 ]
+    15 int              ; stack: [ 10, 15 ]
+    20 int              ; stack: [ 10, 15, 20 ] (20 is at the top)
+
+    dump_rts            ; debug print full stack (read-only)
+
+    +                   ; stack: [ 10, 35 ]     (15 + 20 = 35)
+    5 int               ; stack: [ 10, 35, 5 ]
+    4 int               ; stack: [ 10, 35, 5, 4 ]
+
+    *                   ; stack: [ 10, 35, 20 ] (5 * 4 = 20)
+    -                   ; stack: [ 10, 15 ]     (35 - 20 = 15)
+
+    dump_rts
+
+    ;----- USING SWAP
+    swap                ; stack: [ 15, 10 ]
+
+    5 int               ; stack: [ 15, 10, 5 ]
+    -                   ; stack: [ 15, 5 ] (10 - 5)
+    /                   ; stack: [ 3 ]  (15 / 5)
+
+    dump_rts
+
+    ;----- DUPLICATE & REVERSE
+    dup                 ; stack: [ 3, 3 ]
+
+    "hello, world!"     ; stack: [ 3, 3, "hello, world!" ]
+    rev                 ; stack: [ "hello, world!", 3, 3 ]
+
+    print_i pop         ; prints 3 & pop
+                        ; stack: [ "hello, world!", 3 ]
+
+    rev                 ; stack: [ 3, "hello, world!" ]
+    print_str pop       ; prints string & pop
+
+    dump_ptr            ; debug print stack in HEX (read-only)
+
+    ;----- CHAINING OPERATORS
+    dup dup dup dup     ; stack: [ 3, 3, 3, 3, 3 ]
+
+    * * * *             ; stack: [ 243 ] (3^5)
+    --                  ; stack: [ 242 ] (dec operator)
+
+    print_i             ; prints 242
+
+    clear               ; clear the stack
+
+    dump_rts            ; debug print empty stack

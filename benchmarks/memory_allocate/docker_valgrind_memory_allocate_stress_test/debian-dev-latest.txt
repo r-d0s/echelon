@@ -1,0 +1,25 @@
+=== Running on: "Debian GNU/Linux 12 (bookworm)"
+rm -f *.o *.lst echelon
+==21== Memcheck, a memory error detector
+==21== Copyright (C) 2002-2022, and GNU GPL'd, by Julian Seward et al.
+==21== Using Valgrind-3.19.0 and LibVEX; rerun with -h for copyright info
+==21== Command: ./echelon -f memory_allocate_stress_test.ech
+==21== 
+test: [10000]  ----> [46]  mem addr: [0x568dd80]
+test: [20000]  ----> [11]  mem addr: [0x51c5030]
+test: [30000]  ----> [8]  mem addr: [0x560de10]
+test: [40000]  ----> [205]  mem addr: [0x5a68840]
+test: [50000]  ----> [169]  mem addr: [0x5b49d90]
+test: [60000]  ----> [49]  mem addr: [0x552dae0]
+test: [70000]  ----> [232]  mem addr: [0x5323230]
+test: [80000]  ----> [220]  mem addr: [0x6171900]
+test: [90000]  ----> [105]  mem addr: [0x59146c0]
+test: [100000]  ----> [72]  mem addr: [0x5e90ed0]
+==21== 
+==21== HEAP SUMMARY:
+==21==     in use at exit: 0 bytes in 0 blocks
+==21==   total heap usage: 300,366 allocs, 300,366 frees, 5,003,468,556 bytes allocated
+==21== 
+==21== All heap blocks were freed -- no leaks are possible
+==21== 
+==21== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

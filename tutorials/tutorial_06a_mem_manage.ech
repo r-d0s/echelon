@@ -1,0 +1,75 @@
+;--------------------------------------------------------------------------------
+; tutorial_6a_mem_manage.ech
+;
+; Most of the time, echelon handles memory for you, but some operators
+; create NEW data on the heap. whenever that happens, you must clean it up.
+;
+; BASIC RULE FOR HEAP MEMORY: Allocate -> Read/Write -> Free
+;
+; use Valgrind:
+;   valgrind --leak-check=full ./echelon -f tutorials/tutorial_6a_mem_manage.ech
+;
+;   "definitely lost" --> you forgot pop_free somewhere.
+;   "All heap blocks were freed" --> good news, no memory leaks!
+;----------------------------------------------------------------------------------
+
+_start:
+
+    ;---- SAFE OPERATORS
+    ; these don't allocate heap memory:
+
+    10 int 20 int + print_i
+    hello print_str
+    swap dup rev
+    dump_rts clear
+
+
+    ;---- NEED CLEAN-UP (FREEING)
+    ; add_str, cpy_str, mem_alloc, read_file
+    ; all allocate memory on the heap and need deallocating
+
+    Hello " World" add_str     ; allocate heap
+    puts                       ; reads memory
+    pop_free                   ; free heap
+
+    test cpy_str               ; allocate heap
+    puts                       ; reads memory
+    pop_free                   ; free heap
+
+    100 int mem_alloc          ; allocate heap
+    print_ptr                  ; reads memory
+    pop_free                   ; free heap
+
+                               ; store memory address in var
+    abc cpy_str s1 def_i       ; allocate heap & stores pointer in 's1'
+    s1 peek puts               ; reads memory
+    s1 peek pop_free           ; free heap
+
+    ;--- EASY MISTAKES
+    ; MISTAKE 1: forgetting to free
+    ; "Hello" " World" add_str
+    ; puts
+    ; (missing pop_free)  <-- MEMORY LEAK
+    ;
+    ; CORRECT WAY:
+    Hello " World" add_str
+    puts
+    pop_free
+
+    ;----------
+    ; MISTAKE 2: freeing a string from program code
+    ; "hello" pop_free  ; "hello" lives in the program code segment. at the end of the program
+    ;                   ; its automatically freed. freeing it now will cause a double-free later
+    ;
+    ; CORRECT WAY:
+    hello print_str     ; no need for a deallocation
+
+    ;----------
+    ; MISTAKE 3: losing the heap address
+    ; "Good" " Morning!" add_str
+    ; puts_p        ; 'puts_p' pops the pointer off the stack.
+    ;               ;  the reference is lost & we have a MEMORY LEAK
+    ; CORRECT WAY:
+    Good " Morning!" add_str
+    puts            ; puts leaves the pointer address on stack
+    pop_free        ; now you can free it

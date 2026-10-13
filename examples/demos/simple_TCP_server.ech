@@ -1,0 +1,187 @@
+;-------------------------------------------------------------------;
+; TCP Server Implementation                                         ;
+;                                                                   ;
+; first RUN THIS server in a terminal:                              ;
+;                                                                   ;
+;               ./echelon -f examples/demos/simple_TCP_server.ech   ;
+;                                                                   ;
+; once you see:                                                     ;
+;               socket successfully binded..                        ;
+;               server listening..                                  ;
+;                                                                   ;
+; then open a seperate terminal & RUN the client:                   ;
+;                                                                   ;
+;               ./echelon -f examples/demos/simple_TCP_client.ech   ;
+;                                                                   ;
+; once the client is connected to the server, you'll see:           ;
+;               sTARTiNG tHE cLiENT...                              ;
+;               connected to the server..                           ;
+;                                                                   ;
+; then you can start sending messages to each other!                ;
+;                                                                   ;
+; READ: examples/demos/simple_TCP_client_server_README.md           ;
+;-------------------------------------------------------------------;
+
+func: get_curr_time     ; covered in tutorials, display current time using epoch
+    1 int epoch
+
+    dup [peek_32]
+    swap dup  4 int + [peek_32]
+    swap 8 int + [peek_32]
+    "\ncURRENT tiME: [%02d:%02d:%02d]\n" 3 int printf_p
+
+    return
+
+func: send_and_receive
+
+    "QUIT" [peek_32] QUIT_MSG def_i      ; calc 32 bit integer exit command
+    "** wELC0ME t0 tHE --=echelon=-- siMPLE TCP sERVER ** t0 eND tHE c0NNECTi0N, jUST eNTER: 'QUIT' **" greeting def_i
+    0 int send_msg def_i
+    ;---------------------------
+    greeting peek len_str ++
+    greeting peek
+    connfd peek
+    1 int                   ; sys_write, send welcome msg to client
+    4 int sys_call          ; 3 params + syscall code = 4 count
+    pop
+    ;---------------------------
+    1 int keep_running def_i
+
+    {                       ; keep reading incoming bytes over socket
+        200 int
+        the_buffer peek     ; read bytes into --> the_buffer
+        connfd peek
+        0 int               ; syscall 0 = sys_read
+        4 int sys_call      ; read incoming bytes from client
+        pop                 ; pop return val
+        ;----------------------------------
+        get_curr_time call_func
+        the_buffer peek
+        "rECEiVED tHiS fR0M cliENT:\n\t\t\t`------> [%s]\n" printf
+        hex_str pop
+        ;----------------------------------
+        {
+            get_curr_time call_func
+            "** mSG 'QUIT' rECEiVED! cliENT eNDED tHE c0NNECTi0N... **" puts_p
+            break
+        } the_buffer peek [peek_32] QUIT_MSG peek == if ; has user entered 'QUIT' ?
+        ;----------------------------------
+        "\n\neNTER mSG t0 sEND t0 cliENT: " puts_p      ; user input msg
+        read_str send_msg =
+        ;----------------------------------
+        send_msg peek len_str ++
+        send_msg peek
+        connfd peek
+        1 int                       ; sys_write. send string over socket fd
+        4 int sys_call
+        pop                         ; pop return val
+        ;----------------------------------
+        send_msg peek pop_free      ; deallocate buffer (we just WROTE msg to)
+
+    } keep_running peek loop
+
+    return
+
+func: close_socket          ; close socket fd
+    sockfd peek
+    3 int                   ; syscall 3 = sys_close
+    2 int sys_call
+
+    return
+
+
+func: initialise_sockadd    ; set up struct (16 bytes):
+                            ; bytes [0-1]: AF_INET domain family (2)
+                            ; bytes [2-3]: port number (8080 = 36895)
+                            ; bytes [4-7]: IP address (0.0.0.0)
+                            ; bytes [8-15]: NULL-padding
+
+    sockaddr_in peek
+    dup 2 int [poke_16]                 ; AF_INET flag (2) at offset [0]
+    dup 2 int + 36895 int [poke_16]     ; port 8080 (36895) at offset [2]
+    dup 4 int + 0 int [poke_32]         ; IP (0.0.0.0) at offset [4]
+    8 int + 0 int [poke_64]             ; NULL-out remainder [8]
+
+    return
+
+_start:
+
+    "sTARTiNG tHE sERVER..." puts_p
+    "** rEMEMBER tHE cLiENT cAN 0NLY sT0P tHE sERVER bY eNTERiNG: 'QUIT' **" puts_p
+    ;-----------------------------------
+    0 int           ; IPPROTO_IP
+    1 int           ; SOCK_STREAM
+    2 int           ; AF_INET
+    41 int          ; syscall 41 = sys_socket
+    4 int  sys_call
+
+    sockfd def_i
+    ;-----------------------------------
+    {
+        "failed to create socket." puts_p dump_rts
+        break
+    } sockfd peek -1 int == if
+    ;-----------------------------------   allocate 16 byte sockaddr_in block
+    16 int mem_alloc sockaddr_in def_i
+    initialise_sockadd call_func
+    ;-----------------------------------
+    16 int
+    sockaddr_in peek
+    sockfd peek
+    49 int                  ; syscall 49 = sys_bind
+    4 int sys_call
+
+    bind_res def_i
+    ;-----------------------------------
+    {
+        "socket bind failed.." puts_p
+        break
+    } bind_res peek if      ; if bind_res != 0. check connection status
+
+    "socket successfully binded.." puts_p
+    ;-----------------------------------
+    5 int
+    sockfd peek
+    50 int                  ; syscall 50 = sys_listen
+    3 int sys_call
+    listen_res def_i
+    ;-----------------------------------
+    {
+        "listen failed..." puts_p
+        break
+    } listen_res peek if    ; return value != 0
+
+    "server listening.." puts_p
+    ;-----------------------------------
+    16 int mem_alloc client def_i
+    8 int mem_alloc ptr_to_len def_i
+    ptr_to_len peek 16 int [poke_64]
+    ;-----------------------------------
+    ptr_to_len peek
+    client peek
+    sockfd peek
+    43 int                  ; sys_accept, waits (block) until connection is made
+    4 int sys_call
+    connfd def_i
+    ;-----------------------------------
+    {
+        "server accept failed..." puts_p
+        break
+    } connfd peek 0 int < if
+    "server accepted the client.." puts_p
+    ;-----------------------------------
+    200 int mem_alloc the_buffer def_i    ; allocate 200 byte buffer to use in main loop
+    2 int 0 int sleep
+    ;-----------------------------------
+    send_and_receive call_func            ; begin main loop
+    close_socket call_func                ; clean-up
+    ;-----------------------------------
+    "ended the connection with client..." puts_p
+
+    the_buffer  peek
+    ptr_to_len  peek
+    client      peek
+    sockaddr_in peek
+
+    4 int   pop_free_n
+

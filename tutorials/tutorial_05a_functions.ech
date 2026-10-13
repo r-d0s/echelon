@@ -1,0 +1,70 @@
+;----------------------------------------------------------------------------
+; tutorial_5a: Functions (basic)
+;
+; using functions is simple, just remember:
+;
+;   func:      - defines a function
+;   call_func  - calls a function
+;   return     - ends a function
+;
+; BASIC FUNC RULES:
+;   1) functions MUST be declared BEFORE _start:
+;   2) variables can be declared ANYWHERE in a function.
+;      they are in scope for the ENTIRE function.
+;   3) variables declared in _start: are GLOBAL & visible to all functions.
+;      global variables can NOT be shadowed by locals.
+;
+; CORRECT WAY:
+;     func: my_func       ; function declared FIRST
+;     _start:             ; THEN _start:
+;     10 int score def_i  ; variables can go anywhere
+;
+; WRONG WAY:
+;     _start:             ; _start: FIRST
+;     func: my_func       ; functions AFTER _start: are IGNORED
+;
+; ./echelon -f tutorials/tutorial_5a_functions.ech
+;----------------------------------------------------------------------------
+
+func: say_hello
+    "Hello!" puts_p
+    return
+
+func: greet              ; expects a string
+    "Hello, %s!\n" printf pop ; stack: [ string ] -> [ ]
+    return
+
+func: double             ; expects an int
+    dup +                ; stack: [ n ] -> [ n*2 ]
+    return
+
+func: square             ; function with local variable (var isn't required, but shows how to save params)
+    n def_i
+    n peek dup *         ; stack: [ n ] -> [ n*n ]
+    return
+
+
+_start:
+
+    10 int score def_i      ; global scope variable
+
+    say_hello call_func
+
+    Aaron greet call_func   ; pass string param to greet
+    Dani greet call_func
+
+    5 int double call_func  ; pass 5 to function
+    print_i                 ; 10
+
+    10 int double call_func
+    print_i                 ; 20
+
+    7 int square call_func
+    print_i                 ; 49
+
+    100 int end_var def_i
+    end_var peek "End var: %d\n" printf   ; 100
+    pop
+
+    9 int square call_func
+    print_i                 ; 81

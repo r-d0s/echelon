@@ -1,0 +1,27 @@
+** VALGRIND IMPACTS PERFORMANCE, SO LIMIT = 100K WITH OUTPUT EVERY 10K **
+
+ubuntu_adm@EliteDesk[~/final_tests]
+Wed Aug 12 [08:33:17]$ valgrind -s --track-origins=yes --leak-check=full ./echelon -f memory_allocate_stress_test.ech 
+==4300== Memcheck, a memory error detector
+==4300== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==4300== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==4300== Command: ./echelon -f memory_allocate_stress_test.ech
+==4300== 
+test: [10000]  ----> [207]  mem addr: [0x56ef040]
+test: [20000]  ----> [9]  mem addr: [0x4cb4e40]
+test: [30000]  ----> [118]  mem addr: [0x4c86950]
+test: [40000]  ----> [34]  mem addr: [0x5c66e10]
+test: [50000]  ----> [154]  mem addr: [0x50f3250]
+test: [60000]  ----> [60]  mem addr: [0x554b430]
+test: [70000]  ----> [146]  mem addr: [0x543b260]
+test: [80000]  ----> [57]  mem addr: [0x50dc500]
+test: [90000]  ----> [156]  mem addr: [0x535b550]
+test: [100000]  ----> [126]  mem addr: [0x4c6cd20]
+==4300== 
+==4300== HEAP SUMMARY:
+==4300==     in use at exit: 0 bytes in 0 blocks
+==4300==   total heap usage: 300,365 allocs, 300,365 frees, 5,003,466,072 bytes allocated
+==4300== 
+==4300== All heap blocks were freed -- no leaks are possible
+==4300== 
+==4300== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

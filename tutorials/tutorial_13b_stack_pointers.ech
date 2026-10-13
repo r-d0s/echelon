@@ -1,0 +1,110 @@
+;------------------------------------------------------------------------------
+; tutorial_13b: Stack-Pointers Performance test
+;
+; Both functions do the same work:
+;
+;   1) allocate memory for 100M dwords
+;   2) fill with random numbers (0->9)
+;   3) sum them all
+;   4) print the total & deallocate
+;
+;   using_vars  - uses variables (dict table look-ups)
+;   using_ptrs  - uses bp_0->bp_7 (direct stack access)
+;
+; RESULTS: on my machine stack-pointers are apprx 2.7 times quicker..
+;
+; /usr/bin/time -v ./echelon -f tutorials/tutorial_13b_stack_pointers.ech
+;-----------------------------------------------------------------------------
+
+func: using_ptrs        ; uses bp_0->bp_7, no vars
+
+    400000000 int mem_alloc     ; ptr       (bp_5) -> 100M * 4 bytes (dword)
+    10   int                    ; rand_max  (bp_4) -> random (0-9)
+    0    int                    ; total     (bp_3) -> total sum
+    0    int                    ; counter   (bp_2) -> loop counter
+    100000000 int               ; num_recs  (bp_1) -> 100M recs
+    4    int                    ; byte_size (bp_0) -> 4 bytes (dword)
+
+    push_bp
+
+    {                         ; fill memory with rand numbers
+        bp_5 bp_2 bp_0 * +    ; address = ptr + (counter * 4)
+        bp_4 rand [poke_32]   ; value = random(0-9), write = dword
+
+        bp_2 ++ [bp_2]        ; counter++
+    } bp_2 bp_1 < loop        ; while (counter < num_recs) ..
+
+    0 int [bp_2]        ; reset counter = 0
+
+    {                                   ; sum all values
+        bp_5 bp_2 bp_0 * + [peek_32]    ; read dword
+        bp_3 + [bp_3]                   ; total += value
+        bp_2 ++ [bp_2]                  ; counter++
+    } bp_2 bp_1 < loop                  ; while (counter < num_recs)...
+
+    bp_3 "\ntotal sum: %llu\n" printf   ; print total
+
+    bp_5 pop_free       ; clean-up
+    pop_bp
+    clear
+
+    return
+
+func: using_vars    ; uses vars for clarity. the logic is identical to 'using_ptrs'
+
+    400000000 int mem_alloc ptr def_i
+    10        int rand_max  def_i
+    0         int total     def_i
+    0         int counter   def_i
+    100000000 int num_recs  def_i
+    4         int byte_size def_i
+
+    {                                               ; fill memory
+        ptr peek counter peek byte_size peek * +
+        rand_max peek rand [poke_32]
+        1 int counter +=                            ; counter++
+    } counter peek num_recs peek < loop
+
+    0 int counter =     ; reset counter
+
+    {                                               ; sum all values
+        ptr peek counter peek byte_size peek * +    ; address = ptr + (counter * 4)
+        [peek_32] total +=                          ; total+=value
+        1 int counter +=                            ; counter++
+    } counter peek num_recs peek < loop             ; while (counter < num_recs)...
+
+    total peek "\ntotal sum: %llu\n" printf     ; print total
+
+    ptr peek pop_free       ; clean-up
+    clear
+
+    return
+
+
+_start:
+
+    ; using_vars call_func       ; un-comment one at a time & then compare the times
+    using_ptrs call_func
+
+    dump_rts   ; should be empty
+
+
+    ;--> COMPARE RESULTS on Intel i5-7500 3.40GHz 8GB <---+
+    ;                                                     |
+    ;    records   variables     stack-ptrs     x faster  |
+    ;    -------   ---------     ---------      --------  |
+    ;        10M        3.52          1.28         2.75   |
+    ;        20M        7.10          2.59         2.74   |
+    ;        30M       10.66          3.90         2.73   |
+    ;        50M       17.76          6.47         2.74   |
+    ;       100M       35.42         12.98         2.73   |
+    ;-----------------------------------------------------+-------+
+    ; Try stressing the system with larger records e.g 500M-->1BN |
+    ; Just change the number of records & memory allocated params |
+    ; in the code.                                                |
+    ;                                                             |
+    ; did the processing time increase as you expected? x5, x10?  |
+    ;                                                             |
+    ; REMEMBER: to use variables for clarity & stack-ptrs         |
+    ; whenever you need performance.                              |
+    ;-------------------------------------------------------------+

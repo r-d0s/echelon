@@ -1,0 +1,73 @@
+50M nodes with key char length of 40
+
+ubuntu_adm@EliteDesk[~/final_tests]
+Tue Aug 11 [19:23:03]$ /usr/bin/time -v ./echelon -f hashset_stress_test_fast.ech 
+strings created...
+
+number of nodes: 50000000
+add hash done...
+get hash done...
+del hash done...
+deleted hashset
+clean up hashset done...
+	Command being timed: "./echelon -f hashset_stress_test_fast.ech"
+	User time (seconds): 53.45
+	System time (seconds): 2.74
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:56.25
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 6385548
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 3
+	Minor (reclaiming a frame) page faults: 1727091
+	Voluntary context switches: 163
+	Involuntary context switches: 309
+	Swaps: 0
+	File system inputs: 80
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0
+ubuntu_adm@EliteDesk[~/final_tests]
+
+
+40M nodes with key char length of 60
+
+ubuntu_adm@EliteDesk[~/final_tests]
+Tue Aug 11 [19:25:43]$ /usr/bin/time -v ./echelon -f hashset_stress_test_fast.ech 
+strings created...
+
+number of nodes: 40000000
+add hash done...
+get hash done...
+del hash done...
+deleted hashset
+clean up hashset done...
+	Command being timed: "./echelon -f hashset_stress_test_fast.ech"
+	User time (seconds): 47.80
+	System time (seconds): 2.33
+	Percent of CPU this job got: 99%
+	Elapsed (wall clock) time (h:mm:ss or m:ss): 0:50.15
+	Average shared text size (kbytes): 0
+	Average unshared data size (kbytes): 0
+	Average stack size (kbytes): 0
+	Average total size (kbytes): 0
+	Maximum resident set size (kbytes): 5838684
+	Average resident set size (kbytes): 0
+	Major (requiring I/O) page faults: 0
+	Minor (reclaiming a frame) page faults: 1590344
+	Voluntary context switches: 1
+	Involuntary context switches: 255
+	Swaps: 0
+	File system inputs: 0
+	File system outputs: 0
+	Socket messages sent: 0
+	Socket messages received: 0
+	Signals delivered: 0
+	Page size (bytes): 4096
+	Exit status: 0

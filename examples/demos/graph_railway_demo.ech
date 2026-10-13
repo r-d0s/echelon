@@ -1,0 +1,148 @@
+;---------------------------------------------------------
+; SIMPLE RAILWAY GRAPH DEMO
+;
+; Run: ./echelon -f examples/demos/graph_railway_demo.ech
+;
+; Interested in the graph struct/details?
+; READ: docs/operators/graphs.md
+;---------------------------------------------------------
+
+func: railway_network_demo
+
+    32 int create_graph network_ptr def_i       ; init graph ptr
+    ;----------------------
+    ; add cities to graph
+    ;----------------------
+    network_ptr peek London 2 int graph_add_node
+    network_ptr peek Manchester 2 int graph_add_node
+    network_ptr peek Birmingham 2 int graph_add_node
+    network_ptr peek Edinburgh 2 int graph_add_node
+    network_ptr peek Glasgow 2 int graph_add_node
+    network_ptr peek Bristol 2 int graph_add_node
+
+    network_ptr peek                     ; ** USE dup! it's faster & less code
+    dup Newcastle 2 int graph_add_node
+    dup Leeds 2 int graph_add_node
+    dup Cardiff 2 int graph_add_node
+    dup Belfast 2 int graph_add_node
+
+    dup graph_node_count
+    "Total number of nodes: %d\n" printf pop
+    ;-----------------------
+    ; add edges FROM London
+    ;-----------------------
+
+    dup Manchester London 180 int graph_add_edge_weight
+    dup Birmingham London 120 int graph_add_edge_weight
+    dup Bristol London 1 int graph_add_edge_weight      ; wrong weight, gets updated later..
+
+    ;-----------------------------------
+    ; add edges TO/FROM Scottish cities
+    ;-----------------------------------
+    dup Edinburgh Manchester 210 int graph_add_edge_weight
+    dup Glasgow Edinburgh 45 int graph_add_edge_weight
+    dup London Glasgow 400 int graph_add_edge_weight
+
+    ;---------------------------------
+    ; add edges TO/FROM other cities
+    ;---------------------------------
+    dup Manchester Leeds 40 int graph_add_edge_weight
+    dup Leeds Newcastle 95 int graph_add_edge_weight
+    dup Newcastle Edinburgh 120 int graph_add_edge_weight
+    dup Bristol Cardiff 45 int graph_add_edge_weight
+    dup Cardiff Birmingham 110 int graph_add_edge_weight
+
+    dup graph_edge_count
+    "Total number of connections (edges): %d\n" printf pop
+
+    dump_graph         ; display the whole graph
+
+    {
+        395 int [poke_64]                     ; updated Glasgow --> London
+    }else{
+        pop                                   ; removes dup if !ptr
+        "Unable to update journey distance..." puts_p
+    } network_ptr peek London Glasgow graph_get_weight_ptr dup if
+
+    network_ptr peek dup London Glasgow graph_get_weight
+    "Updated Glasgow --> London journey distance: %d\n" printf pop
+
+    dup Bristol London 115 int graph_set_weight    ; update existing edge value
+    dup Bristol London graph_get_weight
+    "updated Bristol --> London journey distance: %d\n" printf pop
+
+    ;----------------
+    ; get node data
+    ;----------------
+    dup London graph_get_fwd_count
+    "\nNumber of journeys FROM London: %d\n" printf pop
+
+    dup London graph_get_back_count
+    "Number of journeys TO London: %d\n" printf pop
+
+    dup Belfast graph_get_fwd_count
+    "\nNumber of journeys FROM Belfast: %d\n" printf pop
+
+    Belfast graph_get_back_count
+    "Number of journeys TO Belfast: %d\n" printf pop
+
+    ;-------------------------
+    ; display London journeys
+    ;-------------------------
+
+    "\nCollecting all journeys (fwd_links) FROM London...." puts_p
+    network_ptr peek London graph_get_fwd_weight_links london_ptr def_i
+    {
+        london_ptr peek [peek_64] data_ptr def_i                ; ptr to all nodes
+        london_ptr peek 8 int + [peek_64] element_count def_i   ; number of nodes
+
+        data_ptr peek       ; pushed onto stack so we can use dup to iterate/move ptr index
+
+        {
+            ; data_ptr[0x00] -> deref offset [0] for node id
+            dup [peek_64] [peek_64] "\t`---> journey to: %s --> " 1 int printf_p
+
+            ; data_ptr[0x08] -> deref offset [8] for weight
+            8 int + dup [peek_64] "distance: %d miles\n" 1 int printf_p
+
+            ; inc data_ptr +8 bytes for next record (inc total of 16 bytes iteration)
+            8 int +
+
+            2 int element_count -=              ; 2 array slots (node & weight) read iteration
+        } element_count peek 0 int > loop
+        pop
+
+        london_ptr peek dup [peek_64] pop_free pop_free     ; clear all nodes block
+    } london_ptr peek if
+
+    network_ptr peek dup Leeds Newcastle graph_del_edge      ; delete Newcastle --> Leeds journey
+
+    dup graph_edge_count
+    "\nCheck total journeys (edges) after prev deletion: %d\n" printf pop
+
+    dup Leeds Newcastle graph_edge_exists
+    "does Newcastle --> Leeds journey still exist? %d\n" printf pop
+
+    ;-----------------------------------------------------------------
+    ; delete node & check if any linked journeys (edges) are affected?
+    ; deleting node London will affect back_links in ALL connected nodes
+    ;--------------------------------------------------------------------
+    dup London graph_del_node pop           ; London removed
+
+    dup graph_node_count
+    "\nCount cities after London deleted: %d\n" printf pop
+
+    dup graph_edge_count
+    "Check total journeys (edges) after London deleted: %d\n" printf pop
+
+    dup dump_graph          ; display whole graph, see how London (del) affected back_links in other nodes
+    delete_graph            ; free graph struct
+
+    return
+
+
+_start:     ; prog starts here..
+
+    railway_network_demo  call_func   ; make this function call
+    dump_ptr                          ; should be empty
+

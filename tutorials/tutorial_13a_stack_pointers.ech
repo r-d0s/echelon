@@ -1,0 +1,103 @@
+;--------------------------------------------------------------------------------------------------------
+; tutorial_13a: Stack-Pointers (bp_0->bp_7)
+;
+; stack-pointers give you direct stack access without dictionary table look-ups.
+; they're harder to read than variables, but much faster...
+;
+;   push_bp      - mark stack position (limited to 255 nested frames)
+;   bp_0->bp_7   - read value at position n
+;   [bp_n]       - write value at position n
+;   pop_bp       - restore prev frame, KEEP stack values
+;   pop_bp_clear - restore prev frame, TRUNCATE stack
+;   dump_bp      - show bp addresses & values (debug)
+;
+; valgrind -s --track-origins=yes --leak-check=full ./echelon -f tutorials/tutorial_13a_stack_pointers.ech
+;---------------------------------------------------------------------------------------------------------
+
+func: check_b
+    "---- check_b start ----" puts_p
+
+    "hello" "world!"
+
+    push_bp     ; bp_0 = "world!"
+                ; bp_1 = "hello"
+                ; bp_2->bp_7 point to values from check_a's frame, see below
+
+    bp_0 bp_1 "%s %s\n" printf pop pop
+
+    dump_bp
+    pop_bp
+
+    "---- check_b done ----" puts_p
+    return
+
+func: check_a
+    "---- check_a start ----" puts_p
+
+    10 int 20 int 30 int 40 int 50 int 60 int 70 int 80 int
+
+    push_bp
+    ;------- pointers set for func check_a -------
+    ; 10    20    30    40    50    60    70    80
+    ;  ^     ^     ^     ^     ^     ^     ^     ^
+    ; bp_7  bp_6  bp_5  bp_4  bp_3  bp_2  bp_1  bp_0
+    ;
+    ; for clarity, mark the values and then using bp_n becomes simple
+
+    bp_0 bp_1 +           ; 80 + 70 = 150
+    bp_2 bp_3 +           ; 60 + 50 = 110
+    +                     ; 260
+    [bp_4]                ; store 260 at bp_4 (was 40)
+
+    bp_5 bp_6 bp_7 + + ++ ; 30 + 20 + 10 ++ = 61
+    [bp_0]                ; store 61 at bp_0 (was 80)
+
+    dump_rts
+
+    check_b call_func
+
+    pop_bp_clear          ; after check_b returns, pop_bp_clear truncates the stack
+                          ; back to the size it had when push_bp was called in _start:
+
+
+    "---- check_a done ----" puts_p
+    return
+
+_start:
+
+    "---- in main _start: ----" puts_p
+
+    1 int 2 int 3 int 4 int 5 int 6 int 7 int 8 int
+
+    ;------- pointers set up as shown below -------
+    ;  1     2     3     4     5     6     7     8
+    ;  ^     ^     ^     ^     ^     ^     ^     ^
+    ; bp_7  bp_6  bp_5  bp_4  bp_3  bp_2  bp_1  bp_0
+    ;
+    ; i've found the easiest way to use bp_0->bp_7 is to mark each stack value
+    ; with the bp_n value DIRECTLY below it. (like the diagram above)
+    ;
+    ; when using variables, name the variable value on the stack and then
+    ; mark bp_0->bp_7 DIRECTLY below it.
+    ; that makes it much easier to know what slot on the stack you're R/W to
+
+
+    push_bp               ; bp_0 = 8, bp_1 = 7, bp_2 = 6, bp_3 = 5
+                          ; bp_4 = 4, bp_5 = 3, bp_6 = 2, bp_7 = 1
+
+    bp_0 bp_1 +           ; 8 + 7 = 15
+    bp_2 bp_3 +           ; 6 + 5 = 11
+    +                     ; 26
+    [bp_4]                ; store 26 at bp_4 (was 4)
+
+    dump_rts              ; check the stack & look at index[04]
+
+    check_a call_func
+
+    dump_ptr
+    pop_bp_clear
+    dump_bp
+
+    "---- finished _start: ----" puts_p
+    clear
+

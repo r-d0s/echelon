@@ -1,0 +1,96 @@
+;------------------------------------------------------------------------------------
+; tutorial_6b_mem_manage.ech
+;
+; Heap Memory Read/Write Operations:
+;
+;   mem_alloc : request a block of bytes on the heap.
+;   [poke_n]  : writes n bits of data to a memory address
+;   [peek_n]  : reads n bits of data to a memory address. ('n' must be: 8/16/32/64)
+;
+; BASIC RULE FOR HEAP MEMORY: Allocate -> Read/Write -> Free
+;
+; use Valgrind:
+;   valgrind --leak-check=full ./echelon -f tutorials/tutorial_6b_mem_manage.ech
+;
+;   "definitely lost" --> you forgot pop_free somewhere.
+;   "All heap blocks were freed" --> good news, no memory leaks!
+;------------------------------------------------------------------------------------
+
+_start:
+
+     ;--- ALLOCATE MEMORY
+    16 int mem_alloc my_mem def_i               ; my_mem stores 16 bytes of heap allocated memory
+    my_mem peek "Allocated at: %p\n" printf pop
+
+
+    ;--- WRITE TO MEMORY
+    ; stack: [ address, value ] [poke_n]
+    ; write value to address where n = number of bits. remember, x86-64 is little-endian
+    ;
+    my_mem peek 0x41 hex_int [poke_8]                           ; write 'A' at offset [0]
+    my_mem peek 1 int + 0x4342 hex_int [poke_16]                ; write "BC" at offset [1]
+    my_mem peek 3 int + 0x47464544 hex_int [poke_32]            ; write "DEFG" at offset [3]
+    my_mem peek 7 int + 0x4F4E4D4C4B4A4948 hex_int [poke_64]    ; write "HIJKLMNO" at offset [7]
+    my_mem peek 15 int + 0x50 hex_int [poke_8]                  ; write 'P' at offset [15]
+
+    my_mem peek 16 int hex_mem_n    ; print: [41][42][43][44][45][46][47][48][49][4a][4b][4c][4d][4e][4f][50]
+
+
+    ;--- READ & CHECK BYTES WRITTEN
+    my_mem peek [peek_8] print_ptr              ; read offset [0]  -> print: 0x41 ('A')
+    my_mem peek 1 int + [peek_16] print_ptr     ; read offset [1]  -> print: 0x4342 ("BC")
+    my_mem peek 3 int + [peek_32] print_ptr     ; read offset [3]  -> print: 0x47464544 ("DEFG")
+    my_mem peek 7 int + [peek_64] print_ptr     ; read offset [7]  -> print: 0x4F4E4D4C4B4A4948 ("HIJKLMNO")
+    my_mem peek 15 int + [peek_8] print_ptr     ; read offset [15] -> print: 0x50 ('P')
+    clear
+
+
+    ;--- EASIER WAY TO READ MEMORY
+    ; use dup to keep the address on the stack, then we +n bytes to shift the pointer
+    my_mem peek
+            dup [peek_8]  print_ptr pop      ; offset [0]
+    1 int + dup [peek_16] print_ptr pop      ; offset [1]
+    2 int + dup [peek_32] print_ptr pop      ; offset [3]
+    4 int + dup [peek_64] print_ptr pop      ; offset [7]
+    8 int +     [peek_8]  print_ptr          ; offset [15] didn't dup because we're finished now..
+    clear
+
+
+    ;--- POINTER ARITHMETIC -----
+    my_mem peek ptr def_i   ; 'ptr' & 'my_mem' both point to the same heap address
+
+    ptr peek print_ptr      ; check both pointers point to same block address
+
+    4 int ptr +=            ; shift pointer +4 bytes
+    ptr peek print_ptr
+
+    4 int ptr -=            ; shift pointer -4 bytes
+    ptr peek print_ptr
+
+
+    ;--- WRITING MIXED TYPES TO MEMORY ---
+    ; update 'my_mem' block with these values:
+    ;
+    ;  [0] some_string address (qword char*)
+    ;  [8] -4095 (dword)
+    ; [12] -3200 (word)
+    ; [14] -850 (word)
+    "reference this string from the heap!" some_string def_str
+
+    my_mem peek
+    dup some_string peek [poke_64]          ; write string 64 bit pointer at offset [0]
+    dup 8  int + -4095 int [poke_32]        ; Write signed 32 bit integer at offset [8]
+    dup 12 int + -3200 int [poke_16]        ; Write signed 16 bit integer at offset [12]
+    14 int + -850  int [poke_16]            ; Write signed 16 bit integer at offset [14]
+
+
+    ;--- SIGNED MEMORY READS ---
+    ptr peek
+            dup [peek_64]  puts_p           ; print: string
+    8 int + dup [peek_32s] print_i pop      ; print: -4095
+    4 int + dup [peek_16s] print_i pop      ; print: -3200
+    2 int + [peek_16s] print_i              ; print: -850
+    clear
+
+    ;--- FREE/DEALLOCATE MEMORY
+    my_mem peek pop_free                    ; deallocates heap address

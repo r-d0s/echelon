@@ -1,0 +1,25 @@
+=== Running on: "Fedora Linux 44 (Container Image)"
+rm -f *.o *.lst echelon
+==19== Memcheck, a memory error detector
+==19== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
+==19== Using Valgrind-3.27.1 and LibVEX; rerun with -h for copyright info
+==19== Command: ./echelon -f memory_allocate_stress_test.ech
+==19== 
+test: [10000]  ----> [189]  mem addr: [0x56fbd80]
+test: [20000]  ----> [126]  mem addr: [0x5233030]
+test: [30000]  ----> [32]  mem addr: [0x567be10]
+test: [40000]  ----> [167]  mem addr: [0x5ad6840]
+test: [50000]  ----> [213]  mem addr: [0x5bb7d90]
+test: [60000]  ----> [21]  mem addr: [0x559bae0]
+test: [70000]  ----> [158]  mem addr: [0x5391230]
+test: [80000]  ----> [228]  mem addr: [0x61df900]
+test: [90000]  ----> [252]  mem addr: [0x59826c0]
+test: [100000]  ----> [92]  mem addr: [0x5efeed0]
+==19== 
+==19== HEAP SUMMARY:
+==19==     in use at exit: 0 bytes in 0 blocks
+==19==   total heap usage: 300,366 allocs, 300,366 frees, 5,003,468,556 bytes allocated
+==19== 
+==19== All heap blocks were freed -- no leaks are possible
+==19== 
+==19== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -1,0 +1,63 @@
+;-----------------------------------------------------------------------
+; File Size & R/W Byte Ops
+;
+; RUN: ./echelon -f examples/reference/file_size_and_bytes_operators.ech
+;-----------------------------------------------------------------------
+
+_start:
+
+    "/tmp/echelon_size_test.txt" open_file      ; create & write str to file
+    "This is a test file for echelon!" str_to_file
+    close_file
+
+    "/tmp/echelon_size_test.txt" read_file      ; read file & get size
+    dup file_size print_i pop                   ; 31 len str
+    pop_free
+    clear
+
+    "/tmp/echelon_bytes_test.dat" open_file     ; open file
+
+
+    "we are going to write some of these bytes to the file" ptr_1 def_str   ; string to write
+
+    ptr_1 peek 15 int bytes_to_file             ; write 1st 15 bytes, not null term
+    close_file
+
+    "/tmp/echelon_bytes_test.dat" read_file     ; read it back
+    dup print_str pop_free                      ; "we are going to"
+    clear
+
+    "/tmp/echelon_binary_write.dat" open_file     ; open file for writing
+
+
+    "Hello0World" dup 5 int + 0 int [poke_8]    ; update char zero '0' --> null byte '\0'
+    12 int bytes_to_file                        ; write 12 bytes inc null term
+
+    close_file
+
+    "/tmp/echelon_binary_write.dat" read_file   ; read & check, did it stop at 1st '\0'?
+
+
+    dup puts pop_free                           ; stops at 1st '\0'
+                                                ; 'H','e','l','l','o',\0','W','o','r','l','d',\0'
+    clear
+
+    "/tmp/echelon_combined.dat" open_file       ; create file, write data & get size..
+    "This is a test string for combined ops!" test_data def_str
+
+    test_data peek 20 int bytes_to_file         ; write 20 bytes
+    close_file
+
+    "/tmp/echelon_combined.dat" read_file
+    dup file_size print_i pop                   ; 20
+    dup print_str pop_free                      ; "This is a test strin"
+    clear
+
+    "--- ZERO BYTE WRITE ---" puts_p
+
+    "testing bytes_to_file with 0 write bytes.." puts_p
+    "/tmp/echelon_zero.dat" open_file
+    "test" 0 int bytes_to_file                  ; bytes_to_file 0 size --> write 0 byte
+    close_file
+    clear
+

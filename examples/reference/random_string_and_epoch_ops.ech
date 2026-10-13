@@ -1,0 +1,93 @@
+;-=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=-
+; Rand, File & Sleep Operators
+;
+; RUN: ./echelon -f examples/reference/random_string_and_epoch_ops.ech
+;-=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=--=-
+
+func: gen_rand_strings
+
+    "----- GEN RAND STRINGS -----" puts_p
+    1 int  rand_str puts pop_free
+    3 int  rand_str puts pop_free
+    10 int rand_str puts pop_free
+    15 int rand_str puts pop_free
+    ;---------------------------
+    -10 int rand_str puts pop_free      ; invalid string size, defaults to 8
+    -21 int rand_str puts pop_free      ; invalid string size, defaults to 8
+    0 int  rand_str puts pop_free       ; invalid string size, defaults to 8
+    2 int  rand_str puts pop_free
+    ;---------------------------
+    return
+
+func: write_nl_to_file
+
+    "----- WRITING NEWLINE TO FILE -----" puts_p
+    /tmp/file.txt open_file
+    write_nl        ; writes newline char to open fd
+    Hello str_to_file
+    ;---------------------------
+    write_nl        ; writes newline
+    World str_to_file
+    ;---------------------------
+    write_nl        ; writes newline
+    close_file
+    ;---------------------------
+    "/tmp/file.txt" read_file
+    puts hex_str pop_free   ; should be --> 0a48 656c 6c6f 0a57 6f72 6c64 0a
+    ;---------------------------
+    nl
+    return
+
+
+func: epoch_sleep
+
+    "----- SLEEP & EPOCH TEST -----" puts_p
+    "sleeping for 3.75 seconds..." puts_p
+    3 int 750000000 int sleep      ; 3 secs + 750,000,000 nanosecs = 3.75 secs
+    pop
+    1 int epoch
+    ;---------------------------
+    dup [peek_32]
+    swap dup  4 int + [peek_32]
+    swap 8 int + [peek_32]
+    "cURRENT tiME: [%02d:%02d:%02d]\n" 3 int printf_p
+    "\nEntering loop.... sleeping 1.5 secs for 6 iterations..\n" puts_p
+    ;---------------------------
+    0 int i def_i
+    {
+        1 int epoch
+        ;---------------------------
+        dup [peek_32]
+        swap dup  4 int + [peek_32]
+        swap 8 int + [peek_32]
+        "cURRENT tiME: [%02d:%02d:%02d]\n" 3 int printf_p
+        ;---------------------------
+        1 int 500000000 int sleep    pop   ; each iteration sleep for 1.5 secs
+        1 int i +=
+
+    } i peek 6 int < loop
+    ;---------------------------
+    "final sleep for 3.5 seconds..." puts_p
+    3 int 500000000 int sleep pop
+    ;---------------------------
+    1 int epoch
+    dup [peek_32]
+    swap dup  4 int + [peek_32]
+    swap 8 int + [peek_32]
+    "\ncURRENT tiME: [%02d:%02d:%02d]\n" 3 int printf_p
+
+    return
+
+_start:
+    ;---------------------------
+    gen_rand_strings call_func
+    write_nl_to_file call_func
+    epoch_sleep      call_func
+    ;---------------------------
+    "\nSaying.." printf fflush
+    2 int 0 int sleep
+    "Goodbye..." printf fflush
+    2 int 0 int sleep
+    "Now!...\n" printf
+    1 int 0 int sleep
+

@@ -1,0 +1,227 @@
+**DEMO FOR SMALLER DATA SET** 80 nodes with Key char length: 40
+
+ubuntu_adm@EliteDesk[~/final_tests]
+Tue Aug 11 [19:38:57]$ valgrind -s --track-origins=yes --leak-check=full ./echelon -f hashset_fixed_bucket_stress_test.ech 
+==6235== Memcheck, a memory error detector
+==6235== Copyright (C) 2002-2017, and GNU GPL'd, by Julian Seward et al.
+==6235== Using Valgrind-3.18.1 and LibVEX; rerun with -h for copyright info
+==6235== Command: ./echelon -f hashset_fixed_bucket_stress_test.ech
+==6235== 
+strings created...
+qhaidtsqaapvmulhcdqkvnzldrjnckpyfvdvhnce
+bvrfcosdidhlnjzknczktiihnogpneybwmamfbgj
+ppklanobphwlxjzlldvtvtjgdtlugfqzcyvtyqjq
+aklzxoplojtyesqpzawibulgtxnizubshfxxbceb
+pcrhdsjfqzpciwtthgpvkkjohdkkkgmtbxhvbqla
+snsmzogiqwzvfcofgqqxomwarjongtomewgbvxid
+rbrgrkjgrxrgquxgioqupfjgjjoqqeftwowcuvmz
+rxkvhsmtgrxaqaycblfaqbocpwcmwylgcqdagudx
+tncpbvulaqxivaoaxdtosilnizzzzxeywbhmmxnh
+rxsbasluqkmxpzcsngceuwwobcoluojluspwgfdp
+kambjbyozoassybgeuqdvxvnbrkicxqflkvqnfpi
+wzrbsgunepgpryxnchhwmkoqomjysaenpcmpzazi
+xerwclhqngwcqlsjmktbwfojeywwyjungymxxqlj
+mxtqopntyjkxttfdvaueyngwymqqfrfcpugevrcf
+fnlkzwklzwwyzvyfeiulfrnyqbahfyleptootaer
+rmiqyjikvyjydjgwctlyiidcdcehxcidqkddytma
+nujzvbvwozhjmbhwmbnwsxokggttsxwlkovgevxc
+vapcuwdxsmfpyjlvqpdkigylsytmumvyrrasaebm
+eyremqqjgippcwpjzomrijjanqyaidomkesiauej
+wjrlhhdzaqeakrqqqcufhiabvayhkacorxlnqtqg
+nsjyowqdksfpmnqtlrjogerwjkeflugodvocfrhj
+ebkhdrcjqngsdvihhjheqnmorbdqhbzmmjkgfray
+obiwaldivatmicdkkncuewwlhvxgmbblxuyhtpkw
+pdxcaisgwfnnwnsihawltazvbnroztuxsemgtevp
+cvvkvqepwlzgrzohjjogdsbtapicchgrlbpzrvle
+okzzustfkgbvutqioedexdeghggoxwfntonyxfed
+nksyjuyrgsbvtuhrprawzjvgcmmtexafktxoxqgz
+pfygfpwzhepdkdmjfvchgqxmnoqdzqnlqlasbeuk
+ykjwoemjneqnrqxdvwrahzogymmyjnxpjnsamulg
+rkrjmvvjswvbjibhmmcswbcsobpwrqdfprxniccd
+dkmiqiszapyemjxqsqepjblqutozokrnbjucgkjq
+refjhwjpakzdiojjbibpxizqvlbhpegsdwpqsian
+qxhlayqmplubcozlwhxrwpylkcjsfhuovtqzhjda
+xrswcqgfvglnawxipyzbljujbsjeokbcaoiqawwd
+rvltjmyvwslrmcgbenmxonpvynorjkteinnhvjct
+tnzmxoapobwaslzyncmvjpzrdhemmgmooqjvgndp
+udobwtblobjbgdzwcjtpbexrsbliugbdfdznmumj
+omxnjxglibaemrdhzcaanliutamodihmaktvwuuw
+bozicqxupegpfjyngsxoyxyuohuxbsxqpasubirh
+pywfegjpznbpyryxeyrnxsxollegqknbyajmylnq
+vptfzyeggxatyernfsguiylctpjyvhzpzxbtjyhn
+prndbcwbfxgpvzizzyrjbhplbylrkxfoxvwkggox
+jqhbsentffafbauamwqtikphxyjxabatjeuiullz
+fsjnbrndhmtjgpuhdlrzxajyaysjyumonulclncz
+kibjmymrzqohhizucipdgapemepslymtkbuqxxeo
+evprpudvwatjyzdrymzdbqkrmbkejjywybmhpjdg
+mxicanaehvjagxktcqogbpsiebwuqssrixfezkre
+nhpieloxurxpqfwjvvzznoxhowrhmswtrvwonjbs
+fjazjxjohjmqusolotxfokszpvbaujqqshrqpuyl
+uzrulhisbqlzqgstnnrgqmjhukdntwrkgyqfagdi
+mdssngrfgybtcyadzeaamneuqkrnnoikboradisb
+pgxmkteazhwynazkxynrzmzosvhvaemytexaqbtb
+fcwsdyfqzvjqsjnlxkvqfznycctjxblxrerjrokl
+ejbzkutcrnxoqyphkwzagxvhthuhkdoykdjnipsj
+vsmzqojxalbmogfhollxhzintagtzuccgyrbpbha
+bnisysteayosxkvyawcmjqouuctkfboxyepigkci
+eiqhqsddebcspviazpdrqusuigdstcahhhmckxwf
+bfpieyioiffdjfeljheoefestcfwhuqtpqtgkwwb
+lprwkrfbabvwfyplvrxsohuankazquqesjpuilpc
+wkystsiiibprcacyuvhprhigoqablkkhgyrnlvvi
+amfxkglgnvbraiwaooswwddpjpjqrygzdjrlunhc
+sqpbabiyibkwnmsarrzzhctnpluenpbyheqrnwjq
+txcozixxfxvhlcqaiqsuljpnhhvemppgifhiscde
+jnrmmbtrdaqebzrflabxthsjepbtcizojxdemclm
+tmiwiqhwuzvfgrczckliwnszbunraylejjhygshe
+rjkbxxmmxcysruwftliskmrnzunpnwksxpnltabx
+dwhqpxjrwbfmlrbhqujqekhypldegkzjpvdwpaqi
+xrtuauodegbsdprqwxrkdiccfsgaymbzuomceujj
+kjgyltpkdyeqmdqaefxrcmmqepfigzctzcigkzea
+tbmvcdsrclkbgqgfaqbzkllhmtfkikyndpkkkxmm
+krhhrpdziqjpirazcbehfeliameptsjxhuwlfdbl
+sdykutpvlcjtaohueygiwoqxoleucldsjujddikw
+bocmmdhvurbsmtpjjajgjkfonfoblfyyoyccvcee
+afsheotbqvsogsploimadwabcbgnqnhzxivwxihp
+kpkarbamdhcmglcvdurxmlpwzvkuteokmqzksjsx
+juahssuehffefsbqxqmijiixxlkcruqedshiqkpc
+tasngqmtaqrjwwauvotubeqqlloetfuskglasbrd
+yaphlydpqhggldvkudvbfgnpkqzhrqcjpmrshxel
+pazpjfedjivekuwtlmjdnekyxphnkegzbsqrqbsx
+yordhpqyhqngcxxpsgqiuvvkfogrtreyhkkitokp
+add hash done...
+--------[START]_DUMP_USER_HASHSET_(capacity: [64] # of nodes: [80])-------v
+index[00]   node_address --> [0x4c2bc30]  hash_key --> [cvvkvqepwlzgrzohjjogdsbtapicchgrlbpzrvle]	hash_val --> [0x34] 	*next_ptr --> [0x4c2bf30]
+index[00]   node_address --> [0x4c2bf30]  hash_key --> [qxhlayqmplubcozlwhxrwpylkcjsfhuovtqzhjda]	hash_val --> [0x2c] 	*next_ptr --> [(nil)]
+index[03]   node_address --> [0x4c2c950]  hash_key --> [wkystsiiibprcacyuvhprhigoqablkkhgyrnlvvi]	hash_val --> [0xda] 	*next_ptr --> [0x4c2cad0]
+index[03]   node_address --> [0x4c2cad0]  hash_key --> [jnrmmbtrdaqebzrflabxthsjepbtcizojxdemclm]	hash_val --> [0xd6] 	*next_ptr --> [(nil)]
+index[04]   node_address --> [0x4c2c710]  hash_key --> [ejbzkutcrnxoqyphkwzagxvhthuhkdoykdjnipsj]	hash_val --> [0xbe] 	*next_ptr --> [(nil)]
+index[05]   node_address --> [0x4c2b990]  hash_key --> [vapcuwdxsmfpyjlvqpdkigylsytmumvyrrasaebm]	hash_val --> [0xd2] 	*next_ptr --> [(nil)]
+index[06]   node_address --> [0x4c2b450]  hash_key --> [aklzxoplojtyesqpzawibulgtxnizubshfxxbceb]	hash_val --> [0xcb] 	*next_ptr --> [(nil)]
+index[07]   node_address --> [0x4c2b510]  hash_key --> [snsmzogiqwzvfcofgqqxomwarjongtomewgbvxid]	hash_val --> [0x65] 	*next_ptr --> [0x4c2b630]
+index[07]   node_address --> [0x4c2b630]  hash_key --> [tncpbvulaqxivaoaxdtosilnizzzzxeywbhmmxnh]	hash_val --> [0x10] 	*next_ptr --> [0x4c2c2f0]
+index[07]   node_address --> [0x4c2c2f0]  hash_key --> [jqhbsentffafbauamwqtikphxyjxabatjeuiullz]	hash_val --> [0x8a] 	*next_ptr --> [(nil)]
+index[08]   node_address --> [0x4c2c770]  hash_key --> [vsmzqojxalbmogfhollxhzintagtzuccgyrbpbha]	hash_val --> [0x46] 	*next_ptr --> [(nil)]
+index[09]   node_address --> [0x4c2ccb0]  hash_key --> [kjgyltpkdyeqmdqaefxrcmmqepfigzctzcigkzea]	hash_val --> [0xf3] 	*next_ptr --> [(nil)]
+index[10]   node_address --> [0x4c2b810]  hash_key --> [mxtqopntyjkxttfdvaueyngwymqqfrfcpugevrcf]	hash_val --> [0xd2] 	*next_ptr --> [0x4c2d070]
+index[10]   node_address --> [0x4c2d070]  hash_key --> [pazpjfedjivekuwtlmjdnekyxphnkegzbsqrqbsx]	hash_val --> [0xbd] 	*next_ptr --> [(nil)]
+index[11]   node_address --> [0x4c2bbd0]  hash_key --> [pdxcaisgwfnnwnsihawltazvbnroztuxsemgtevp]	hash_val --> [0xfe] 	*next_ptr --> [0x4c2bf90]
+index[11]   node_address --> [0x4c2bf90]  hash_key --> [xrswcqgfvglnawxipyzbljujbsjeokbcaoiqawwd]	hash_val --> [0xc6] 	*next_ptr --> [(nil)]
+index[14]   node_address --> [0x4c2bb10]  hash_key --> [ebkhdrcjqngsdvihhjheqnmorbdqhbzmmjkgfray]	hash_val --> [0x6c] 	*next_ptr --> [(nil)]
+index[16]   node_address --> [0x4c2d0d0]  hash_key --> [yordhpqyhqngcxxpsgqiuvvkfogrtreyhkkitokp]	hash_val --> [0xa] 	*next_ptr --> [(nil)]
+index[18]   node_address --> [0x4c2c170]  hash_key --> [bozicqxupegpfjyngsxoyxyuohuxbsxqpasubirh]	hash_val --> [0xdc] 	*next_ptr --> [(nil)]
+index[20]   node_address --> [0x4c2cdd0]  hash_key --> [sdykutpvlcjtaohueygiwoqxoleucldsjujddikw]	hash_val --> [0xaf] 	*next_ptr --> [(nil)]
+index[21]   node_address --> [0x4c2b750]  hash_key --> [wzrbsgunepgpryxnchhwmkoqomjysaenpcmpzazi]	hash_val --> [0xaa] 	*next_ptr --> [(nil)]
+index[22]   node_address --> [0x4c2b390]  hash_key --> [bvrfcosdidhlnjzknczktiihnogpneybwmamfbgj]	hash_val --> [0xde] 	*next_ptr --> [(nil)]
+index[23]   node_address --> [0x4c2c9b0]  hash_key --> [amfxkglgnvbraiwaooswwddpjpjqrygzdjrlunhc]	hash_val --> [0xf5] 	*next_ptr --> [0x4c2cd70]
+index[23]   node_address --> [0x4c2cd70]  hash_key --> [krhhrpdziqjpirazcbehfeliameptsjxhuwlfdbl]	hash_val --> [0x5d] 	*next_ptr --> [(nil)]
+index[24]   node_address --> [0x4c2c3b0]  hash_key --> [kibjmymrzqohhizucipdgapemepslymtkbuqxxeo]	hash_val --> [0x12] 	*next_ptr --> [(nil)]
+index[25]   node_address --> [0x4c2c7d0]  hash_key --> [bnisysteayosxkvyawcmjqouuctkfboxyepigkci]	hash_val --> [0x48] 	*next_ptr --> [0x4c2c8f0]
+index[25]   node_address --> [0x4c2c8f0]  hash_key --> [lprwkrfbabvwfyplvrxsohuankazquqesjpuilpc]	hash_val --> [0xbf] 	*next_ptr --> [(nil)]
+index[26]   node_address --> [0x4c2c350]  hash_key --> [fsjnbrndhmtjgpuhdlrzxajyaysjyumonulclncz]	hash_val --> [0x51] 	*next_ptr --> [(nil)]
+index[27]   node_address --> [0x4c2bd50]  hash_key --> [pfygfpwzhepdkdmjfvchgqxmnoqdzqnlqlasbeuk]	hash_val --> [0x49] 	*next_ptr --> [0x4c2c290]
+index[27]   node_address --> [0x4c2c290]  hash_key --> [prndbcwbfxgpvzizzyrjbhplbylrkxfoxvwkggox]	hash_val --> [0x79] 	*next_ptr --> [0x4c2c410]
+index[27]   node_address --> [0x4c2c410]  hash_key --> [evprpudvwatjyzdrymzdbqkrmbkejjywybmhpjdg]	hash_val --> [0x86] 	*next_ptr --> [(nil)]
+index[28]   node_address --> [0x4c2b570]  hash_key --> [rbrgrkjgrxrgquxgioqupfjgjjoqqeftwowcuvmz]	hash_val --> [0x95] 	*next_ptr --> [0x4c2bdb0]
+index[28]   node_address --> [0x4c2bdb0]  hash_key --> [ykjwoemjneqnrqxdvwrahzogymmyjnxpjnsamulg]	hash_val --> [0x1b] 	*next_ptr --> [0x4c2be70]
+index[28]   node_address --> [0x4c2be70]  hash_key --> [dkmiqiszapyemjxqsqepjblqutozokrnbjucgkjq]	hash_val --> [0x14] 	*next_ptr --> [(nil)]
+index[30]   node_address --> [0x4c2cef0]  hash_key --> [kpkarbamdhcmglcvdurxmlpwzvkuteokmqzksjsx]	hash_val --> [0x7c] 	*next_ptr --> [(nil)]
+index[31]   node_address --> [0x4c2cbf0]  hash_key --> [dwhqpxjrwbfmlrbhqujqekhypldegkzjpvdwpaqi]	hash_val --> [0x53] 	*next_ptr --> [(nil)]
+index[32]   node_address --> [0x4c2bcf0]  hash_key --> [nksyjuyrgsbvtuhrprawzjvgcmmtexafktxoxqgz]	hash_val --> [0x18] 	*next_ptr --> [(nil)]
+index[33]   node_address --> [0x4c2b870]  hash_key --> [fnlkzwklzwwyzvyfeiulfrnyqbahfyleptootaer]	hash_val --> [0x34] 	*next_ptr --> [0x4c2cd10]
+index[33]   node_address --> [0x4c2cd10]  hash_key --> [tbmvcdsrclkbgqgfaqbzkllhmtfkikyndpkkkxmm]	hash_val --> [0x3d] 	*next_ptr --> [(nil)]
+index[34]   node_address --> [0x4c2bb70]  hash_key --> [obiwaldivatmicdkkncuewwlhvxgmbblxuyhtpkw]	hash_val --> [0xea] 	*next_ptr --> [(nil)]
+index[35]   node_address --> [0x4c2b7b0]  hash_key --> [xerwclhqngwcqlsjmktbwfojeywwyjungymxxqlj]	hash_val --> [0x43] 	*next_ptr --> [(nil)]
+index[37]   node_address --> [0x4c2c0b0]  hash_key --> [udobwtblobjbgdzwcjtpbexrsbliugbdfdznmumj]	hash_val --> [0xa1] 	*next_ptr --> [0x4c2c110]
+index[37]   node_address --> [0x4c2c110]  hash_key --> [omxnjxglibaemrdhzcaanliutamodihmaktvwuuw]	hash_val --> [0x7d] 	*next_ptr --> [0x4c2ce30]
+index[37]   node_address --> [0x4c2ce30]  hash_key --> [bocmmdhvurbsmtpjjajgjkfonfoblfyyoyccvcee]	hash_val --> [0x75] 	*next_ptr --> [(nil)]
+index[38]   node_address --> [0x4c2bff0]  hash_key --> [rvltjmyvwslrmcgbenmxonpvynorjkteinnhvjct]	hash_val --> [0x78] 	*next_ptr --> [0x4c2c5f0]
+index[38]   node_address --> [0x4c2c5f0]  hash_key --> [mdssngrfgybtcyadzeaamneuqkrnnoikboradisb]	hash_val --> [0x10] 	*next_ptr --> [(nil)]
+index[39]   node_address --> [0x4c2c830]  hash_key --> [eiqhqsddebcspviazpdrqusuigdstcahhhmckxwf]	hash_val --> [0xa8] 	*next_ptr --> [0x4c2c890]
+index[39]   node_address --> [0x4c2c890]  hash_key --> [bfpieyioiffdjfeljheoefestcfwhuqtpqtgkwwb]	hash_val --> [0x14] 	*next_ptr --> [(nil)]
+index[40]   node_address --> [0x4c2ca70]  hash_key --> [txcozixxfxvhlcqaiqsuljpnhhvemppgifhiscde]	hash_val --> [0x5c] 	*next_ptr --> [(nil)]
+index[41]   node_address --> [0x4c2b330]  hash_key --> [qhaidtsqaapvmulhcdqkvnzldrjnckpyfvdvhnce]	hash_val --> [0xf] 	*next_ptr --> [(nil)]
+index[42]   node_address --> [0x4c2cfb0]  hash_key --> [tasngqmtaqrjwwauvotubeqqlloetfuskglasbrd]	hash_val --> [0x9c] 	*next_ptr --> [0x4c2d010]
+index[42]   node_address --> [0x4c2d010]  hash_key --> [yaphlydpqhggldvkudvbfgnpkqzhrqcjpmrshxel]	hash_val --> [0x35] 	*next_ptr --> [(nil)]
+index[43]   node_address --> [0x4c2b6f0]  hash_key --> [kambjbyozoassybgeuqdvxvnbrkicxqflkvqnfpi]	hash_val --> [0xcd] 	*next_ptr --> [(nil)]
+index[44]   node_address --> [0x4c2b8d0]  hash_key --> [rmiqyjikvyjydjgwctlyiidcdcehxcidqkddytma]	hash_val --> [0xb7] 	*next_ptr --> [0x4c2c650]
+index[44]   node_address --> [0x4c2c650]  hash_key --> [pgxmkteazhwynazkxynrzmzosvhvaemytexaqbtb]	hash_val --> [0x78] 	*next_ptr --> [(nil)]
+index[45]   node_address --> [0x4c2c050]  hash_key --> [tnzmxoapobwaslzyncmvjpzrdhemmgmooqjvgndp]	hash_val --> [0xce] 	*next_ptr --> [0x4c2c1d0]
+index[45]   node_address --> [0x4c2c1d0]  hash_key --> [pywfegjpznbpyryxeyrnxsxollegqknbyajmylnq]	hash_val --> [0x8] 	*next_ptr --> [0x4c2c470]
+index[45]   node_address --> [0x4c2c470]  hash_key --> [mxicanaehvjagxktcqogbpsiebwuqssrixfezkre]	hash_val --> [0x7b] 	*next_ptr --> [0x4c2c530]
+index[45]   node_address --> [0x4c2c530]  hash_key --> [fjazjxjohjmqusolotxfokszpvbaujqqshrqpuyl]	hash_val --> [0x4b] 	*next_ptr --> [0x4c2cb90]
+index[45]   node_address --> [0x4c2cb90]  hash_key --> [rjkbxxmmxcysruwftliskmrnzunpnwksxpnltabx]	hash_val --> [0xc8] 	*next_ptr --> [(nil)]
+index[46]   node_address --> [0x4c2b690]  hash_key --> [rxsbasluqkmxpzcsngceuwwobcoluojluspwgfdp]	hash_val --> [0xa6] 	*next_ptr --> [(nil)]
+index[47]   node_address --> [0x4c2b4b0]  hash_key --> [pcrhdsjfqzpciwtthgpvkkjohdkkkgmtbxhvbqla]	hash_val --> [0xb3] 	*next_ptr --> [(nil)]
+index[51]   node_address --> [0x4c2b9f0]  hash_key --> [eyremqqjgippcwpjzomrijjanqyaidomkesiauej]	hash_val --> [0x23] 	*next_ptr --> [0x4c2c230]
+index[51]   node_address --> [0x4c2c230]  hash_key --> [vptfzyeggxatyernfsguiylctpjyvhzpzxbtjyhn]	hash_val --> [0xf0] 	*next_ptr --> [0x4c2c6b0]
+index[51]   node_address --> [0x4c2c6b0]  hash_key --> [fcwsdyfqzvjqsjnlxkvqfznycctjxblxrerjrokl]	hash_val --> [0x3b] 	*next_ptr --> [(nil)]
+index[52]   node_address --> [0x4c2cc50]  hash_key --> [xrtuauodegbsdprqwxrkdiccfsgaymbzuomceujj]	hash_val --> [0xa] 	*next_ptr --> [(nil)]
+index[54]   node_address --> [0x4c2b5d0]  hash_key --> [rxkvhsmtgrxaqaycblfaqbocpwcmwylgcqdagudx]	hash_val --> [0xc] 	*next_ptr --> [(nil)]
+index[55]   node_address --> [0x4c2b3f0]  hash_key --> [ppklanobphwlxjzlldvtvtjgdtlugfqzcyvtyqjq]	hash_val --> [0x9b] 	*next_ptr --> [0x4c2bed0]
+index[55]   node_address --> [0x4c2bed0]  hash_key --> [refjhwjpakzdiojjbibpxizqvlbhpegsdwpqsian]	hash_val --> [0x44] 	*next_ptr --> [(nil)]
+index[56]   node_address --> [0x4c2ba50]  hash_key --> [wjrlhhdzaqeakrqqqcufhiabvayhkacorxlnqtqg]	hash_val --> [0xd9] 	*next_ptr --> [(nil)]
+index[57]   node_address --> [0x4c2bc90]  hash_key --> [okzzustfkgbvutqioedexdeghggoxwfntonyxfed]	hash_val --> [0xa8] 	*next_ptr --> [(nil)]
+index[58]   node_address --> [0x4c2bab0]  hash_key --> [nsjyowqdksfpmnqtlrjogerwjkeflugodvocfrhj]	hash_val --> [0xa2] 	*next_ptr --> [0x4c2cb30]
+index[58]   node_address --> [0x4c2cb30]  hash_key --> [tmiwiqhwuzvfgrczckliwnszbunraylejjhygshe]	hash_val --> [0xdc] 	*next_ptr --> [(nil)]
+index[59]   node_address --> [0x4c2c4d0]  hash_key --> [nhpieloxurxpqfwjvvzznoxhowrhmswtrvwonjbs]	hash_val --> [0x8b] 	*next_ptr --> [0x4c2ca10]
+index[59]   node_address --> [0x4c2ca10]  hash_key --> [sqpbabiyibkwnmsarrzzhctnpluenpbyheqrnwjq]	hash_val --> [0xb6] 	*next_ptr --> [(nil)]
+index[60]   node_address --> [0x4c2be10]  hash_key --> [rkrjmvvjswvbjibhmmcswbcsobpwrqdfprxniccd]	hash_val --> [0x41] 	*next_ptr --> [(nil)]
+index[61]   node_address --> [0x4c2ce90]  hash_key --> [afsheotbqvsogsploimadwabcbgnqnhzxivwxihp]	hash_val --> [0xb2] 	*next_ptr --> [(nil)]
+index[62]   node_address --> [0x4c2cf50]  hash_key --> [juahssuehffefsbqxqmijiixxlkcruqedshiqkpc]	hash_val --> [0xba] 	*next_ptr --> [(nil)]
+index[63]   node_address --> [0x4c2b930]  hash_key --> [nujzvbvwozhjmbhwmbnwsxokggttsxwlkovgevxc]	hash_val --> [0x7f] 	*next_ptr --> [0x4c2c590]
+index[63]   node_address --> [0x4c2c590]  hash_key --> [uzrulhisbqlzqgstnnrgqmjhukdntwrkgyqfagdi]	hash_val --> [0xfe] 	*next_ptr --> [(nil)]
+^-----------------------[END]_DUMP_USER_HASHSET_--------------------------
+get hash done...
+del hash done...
+--------[START]_DUMP_USER_HASHSET_(capacity: [64] # of nodes: [40])-------v
+index[03]   node_address --> [0x4c2c950]  hash_key --> [wkystsiiibprcacyuvhprhigoqablkkhgyrnlvvi]	hash_val --> [0xda] 	*next_ptr --> [0x4c2cad0]
+index[03]   node_address --> [0x4c2cad0]  hash_key --> [jnrmmbtrdaqebzrflabxthsjepbtcizojxdemclm]	hash_val --> [0xd6] 	*next_ptr --> [(nil)]
+index[04]   node_address --> [0x4c2c710]  hash_key --> [ejbzkutcrnxoqyphkwzagxvhthuhkdoykdjnipsj]	hash_val --> [0xbe] 	*next_ptr --> [(nil)]
+index[07]   node_address --> [0x4c2c2f0]  hash_key --> [jqhbsentffafbauamwqtikphxyjxabatjeuiullz]	hash_val --> [0x8a] 	*next_ptr --> [(nil)]
+index[08]   node_address --> [0x4c2c770]  hash_key --> [vsmzqojxalbmogfhollxhzintagtzuccgyrbpbha]	hash_val --> [0x46] 	*next_ptr --> [(nil)]
+index[09]   node_address --> [0x4c2ccb0]  hash_key --> [kjgyltpkdyeqmdqaefxrcmmqepfigzctzcigkzea]	hash_val --> [0xf3] 	*next_ptr --> [(nil)]
+index[10]   node_address --> [0x4c2d070]  hash_key --> [pazpjfedjivekuwtlmjdnekyxphnkegzbsqrqbsx]	hash_val --> [0xbd] 	*next_ptr --> [(nil)]
+index[16]   node_address --> [0x4c2d0d0]  hash_key --> [yordhpqyhqngcxxpsgqiuvvkfogrtreyhkkitokp]	hash_val --> [0xa] 	*next_ptr --> [(nil)]
+index[20]   node_address --> [0x4c2cdd0]  hash_key --> [sdykutpvlcjtaohueygiwoqxoleucldsjujddikw]	hash_val --> [0xaf] 	*next_ptr --> [(nil)]
+index[23]   node_address --> [0x4c2c9b0]  hash_key --> [amfxkglgnvbraiwaooswwddpjpjqrygzdjrlunhc]	hash_val --> [0xf5] 	*next_ptr --> [0x4c2cd70]
+index[23]   node_address --> [0x4c2cd70]  hash_key --> [krhhrpdziqjpirazcbehfeliameptsjxhuwlfdbl]	hash_val --> [0x5d] 	*next_ptr --> [(nil)]
+index[24]   node_address --> [0x4c2c3b0]  hash_key --> [kibjmymrzqohhizucipdgapemepslymtkbuqxxeo]	hash_val --> [0x12] 	*next_ptr --> [(nil)]
+index[25]   node_address --> [0x4c2c7d0]  hash_key --> [bnisysteayosxkvyawcmjqouuctkfboxyepigkci]	hash_val --> [0x48] 	*next_ptr --> [0x4c2c8f0]
+index[25]   node_address --> [0x4c2c8f0]  hash_key --> [lprwkrfbabvwfyplvrxsohuankazquqesjpuilpc]	hash_val --> [0xbf] 	*next_ptr --> [(nil)]
+index[26]   node_address --> [0x4c2c350]  hash_key --> [fsjnbrndhmtjgpuhdlrzxajyaysjyumonulclncz]	hash_val --> [0x51] 	*next_ptr --> [(nil)]
+index[27]   node_address --> [0x4c2c290]  hash_key --> [prndbcwbfxgpvzizzyrjbhplbylrkxfoxvwkggox]	hash_val --> [0x79] 	*next_ptr --> [0x4c2c410]
+index[27]   node_address --> [0x4c2c410]  hash_key --> [evprpudvwatjyzdrymzdbqkrmbkejjywybmhpjdg]	hash_val --> [0x86] 	*next_ptr --> [(nil)]
+index[30]   node_address --> [0x4c2cef0]  hash_key --> [kpkarbamdhcmglcvdurxmlpwzvkuteokmqzksjsx]	hash_val --> [0x7c] 	*next_ptr --> [(nil)]
+index[31]   node_address --> [0x4c2cbf0]  hash_key --> [dwhqpxjrwbfmlrbhqujqekhypldegkzjpvdwpaqi]	hash_val --> [0x53] 	*next_ptr --> [(nil)]
+index[33]   node_address --> [0x4c2cd10]  hash_key --> [tbmvcdsrclkbgqgfaqbzkllhmtfkikyndpkkkxmm]	hash_val --> [0x3d] 	*next_ptr --> [(nil)]
+index[37]   node_address --> [0x4c2ce30]  hash_key --> [bocmmdhvurbsmtpjjajgjkfonfoblfyyoyccvcee]	hash_val --> [0x75] 	*next_ptr --> [(nil)]
+index[38]   node_address --> [0x4c2c5f0]  hash_key --> [mdssngrfgybtcyadzeaamneuqkrnnoikboradisb]	hash_val --> [0x10] 	*next_ptr --> [(nil)]
+index[39]   node_address --> [0x4c2c830]  hash_key --> [eiqhqsddebcspviazpdrqusuigdstcahhhmckxwf]	hash_val --> [0xa8] 	*next_ptr --> [0x4c2c890]
+index[39]   node_address --> [0x4c2c890]  hash_key --> [bfpieyioiffdjfeljheoefestcfwhuqtpqtgkwwb]	hash_val --> [0x14] 	*next_ptr --> [(nil)]
+index[40]   node_address --> [0x4c2ca70]  hash_key --> [txcozixxfxvhlcqaiqsuljpnhhvemppgifhiscde]	hash_val --> [0x5c] 	*next_ptr --> [(nil)]
+index[42]   node_address --> [0x4c2cfb0]  hash_key --> [tasngqmtaqrjwwauvotubeqqlloetfuskglasbrd]	hash_val --> [0x9c] 	*next_ptr --> [0x4c2d010]
+index[42]   node_address --> [0x4c2d010]  hash_key --> [yaphlydpqhggldvkudvbfgnpkqzhrqcjpmrshxel]	hash_val --> [0x35] 	*next_ptr --> [(nil)]
+index[44]   node_address --> [0x4c2c650]  hash_key --> [pgxmkteazhwynazkxynrzmzosvhvaemytexaqbtb]	hash_val --> [0x78] 	*next_ptr --> [(nil)]
+index[45]   node_address --> [0x4c2c470]  hash_key --> [mxicanaehvjagxktcqogbpsiebwuqssrixfezkre]	hash_val --> [0x7b] 	*next_ptr --> [0x4c2c530]
+index[45]   node_address --> [0x4c2c530]  hash_key --> [fjazjxjohjmqusolotxfokszpvbaujqqshrqpuyl]	hash_val --> [0x4b] 	*next_ptr --> [0x4c2cb90]
+index[45]   node_address --> [0x4c2cb90]  hash_key --> [rjkbxxmmxcysruwftliskmrnzunpnwksxpnltabx]	hash_val --> [0xc8] 	*next_ptr --> [(nil)]
+index[51]   node_address --> [0x4c2c230]  hash_key --> [vptfzyeggxatyernfsguiylctpjyvhzpzxbtjyhn]	hash_val --> [0xf0] 	*next_ptr --> [0x4c2c6b0]
+index[51]   node_address --> [0x4c2c6b0]  hash_key --> [fcwsdyfqzvjqsjnlxkvqfznycctjxblxrerjrokl]	hash_val --> [0x3b] 	*next_ptr --> [(nil)]
+index[52]   node_address --> [0x4c2cc50]  hash_key --> [xrtuauodegbsdprqwxrkdiccfsgaymbzuomceujj]	hash_val --> [0xa] 	*next_ptr --> [(nil)]
+index[58]   node_address --> [0x4c2cb30]  hash_key --> [tmiwiqhwuzvfgrczckliwnszbunraylejjhygshe]	hash_val --> [0xdc] 	*next_ptr --> [(nil)]
+index[59]   node_address --> [0x4c2c4d0]  hash_key --> [nhpieloxurxpqfwjvvzznoxhowrhmswtrvwonjbs]	hash_val --> [0x8b] 	*next_ptr --> [0x4c2ca10]
+index[59]   node_address --> [0x4c2ca10]  hash_key --> [sqpbabiyibkwnmsarrzzhctnpluenpbyheqrnwjq]	hash_val --> [0xb6] 	*next_ptr --> [(nil)]
+index[61]   node_address --> [0x4c2ce90]  hash_key --> [afsheotbqvsogsploimadwabcbgnqnhzxivwxihp]	hash_val --> [0xb2] 	*next_ptr --> [(nil)]
+index[62]   node_address --> [0x4c2cf50]  hash_key --> [juahssuehffefsbqxqmijiixxlkcruqedshiqkpc]	hash_val --> [0xba] 	*next_ptr --> [(nil)]
+index[63]   node_address --> [0x4c2c590]  hash_key --> [uzrulhisbqlzqgstnnrgqmjhukdntwrkgyqfagdi]	hash_val --> [0xfe] 	*next_ptr --> [(nil)]
+^-----------------------[END]_DUMP_USER_HASHSET_--------------------------
+deleted hashset
+clean up hashset done...
+==6235== 
+==6235== HEAP SUMMARY:
+==6235==     in use at exit: 0 bytes in 0 blocks
+==6235==   total heap usage: 662 allocs, 662 frees, 32,523 bytes allocated
+==6235== 
+==6235== All heap blocks were freed -- no leaks are possible
+==6235== 
+==6235== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

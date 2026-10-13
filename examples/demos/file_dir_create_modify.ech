@@ -1,0 +1,74 @@
+;---------------------------------------------------------------------
+; FILE & DIRECTORY OPERATIONS
+;-----------------------------
+; this shows how echelon creates, renames, deletes files & folders
+; using Linux syscalls.
+;
+; Read: examples/demos/file_dir_create_modify_README.md for more details.
+;
+; ./echelon -f examples/demos/file_dir_create_modify.ech
+;---------------------------------------------------------------------
+
+func: directoryChanges
+
+
+    "\nabout to touch this file: /tmp/a_new_file_perm_rw-r--r--" puts_p
+    420 int             ; perms 420: rw-r--r--
+    "/tmp/a_new_file_perm_rw-r--r--"
+    85 int              ; sys_creat (syscall 85) create file
+    3 int sys_call
+    print_ptr           ; print file descriptor (or error code)
+
+
+    "\nabout to touch this file: /tmp/a_new_file_perm_rwxr--r--" puts_p
+    457 int             ; perms 457: rwx--x--x
+    "/tmp/a_new_file_perm_rwxr--r--"
+    85 int              ; sys_creat (syscall 85) create file
+    3 int sys_call
+    print_ptr
+
+
+    "\nabout to mkdir this dir: /tmp/a_new_dir_perm_rw-r--r--" puts_p
+    420 int             ; perms 420: rw-r--r--
+    "/tmp/a_new_dir_perm_rw-r--r--"
+    83 int              ; sys_mkdir (syscall 83) create dir
+    3 int sys_call
+    print_ptr           ; 0 = success, negative = error code
+
+
+    "\nabout to mkdir this dir: /tmp/a_new_dir_NO_perms" puts_p
+    0 int               ; perms 0: d---------  you won't be able to cd into dir!
+    "/tmp/a_new_dir_NO_perms"
+    83 int              ; create dir wth NO perms!
+    3 int sys_call
+    print_ptr           ; 0 = success, negative = error
+
+
+    "\nabout to mkdir this dir: /tmp/an_old_dir" puts_p
+    493 int             ; perms 493: rwxr-xr-x
+    "/tmp/an_old_dir"
+    83 int              ; create dir
+    3 int sys_call
+    print_ptr           ; 0 = success
+
+
+    "\nabout to change name from /tmp/an_old_dir to /tmp/changed_dir_name" puts_p
+    "/tmp/changed_dir_name"     ; new path
+    "/tmp/an_old_dir"           ; old path
+    82 int                      ; sys_rename (syscall 82), rename dir
+    3 int sys_call
+    print_ptr                   ; 0 = success, negative = error
+
+
+    "\nabout to remove this dir /tmp/remove_this_dir" puts_p
+    "/tmp/remove_this_dir"
+    84 int                      ; sys_rmdir (syscall 84)
+    2 int sys_call              ; try removing dir that doesn't exist, should return error!
+    dump_ptr                    ; check stack, should be -2 ENOENT on top
+    clear
+    return
+
+_start:
+
+    directoryChanges call_func  ; check results by running cmd: ls -lrt /tmp
+

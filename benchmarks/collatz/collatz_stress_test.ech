@@ -1,0 +1,40 @@
+;--------------------------------------------------------------------------------------
+; collatz_stress_test.ech
+;
+; calculates total Collatz steps for 1-->1M
+; Collatz: even --> n/2, odd --> 3n+1, repeat until n=1
+;
+; check memory leaks:
+;   valgrind --leak-check=full ./echelon -f benchmarks/collatz/collatz_stress_test.ech
+;
+; time & memory usage:
+;   /usr/bin/time -v ./echelon -f benchmarks/collatz/collatz_stress_test.ech
+;----------------------------------------------------------------------------------------
+
+_start:
+
+                    ; init (bp_0..bp_3) stack-pointers, no vars/dict look-ups
+    1 int           ; bp_3 (inner limit & << shl)
+    1000001 int     ; bp_2 (limit)
+    0 int           ; bp_1 (total_steps)
+    1 int           ; bp_0 (1 to limit)
+
+    push_bp         ; set up stack-pointers
+
+    {                ; outer loop: iterate 1 --> limit-1
+        dup          ; dup is fast, start with n = bp_0 (current)
+
+        {            ; inner loop: repeat until n == 1.
+            {
+                bp_3 >>             ; n/2 (shr 1)
+            }else{
+                dup bp_3 << + ++    ; 3n + 1 (dup leaves n, shift left = 2n, add n, inc)
+            } dup is_even if        ; dup n, test if even
+
+            bp_1 ++ [bp_1]          ; total_steps++
+        } dup bp_3 > loop           ; while n > 1 (bp_3 = 1)
+
+        pop ++                      ; pop then bp_0++
+    } dup bp_2 < loop               ; while bp_0 < limit (bp_2 = 1000001)
+
+    pop print_i                     ; total_steps

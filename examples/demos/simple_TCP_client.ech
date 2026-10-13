@@ -1,0 +1,139 @@
+;-------------------------------------------------------------------;
+; TCP Client Implementation                                         ;
+;                                                                   ;
+; first RUN THIS server in a terminal:                              ;
+;                                                                   ;
+;               ./echelon -f examples/demos/simple_TCP_server.ech   ;
+;                                                                   ;
+; once you see:                                                     ;
+;               socket successfully binded..                        ;
+;               server listening..                                  ;
+;                                                                   ;
+; then open a seperate terminal & RUN the client:                   ;
+;                                                                   ;
+;               ./echelon -f examples/demos/simple_TCP_client.ech   ;
+;                                                                   ;
+; once the client is connected to the server, you'll see:           ;
+;               sTARTiNG tHE cLiENT...                              ;
+;               connected to the server..                           ;
+;                                                                   ;
+; then you can start sending messages to each other!                ;
+;                                                                   ;
+; READ: examples/demos/simple_TCP_client_server_README.md           ;
+;-------------------------------------------------------------------;
+
+func: get_curr_time     ; covered in tutorials, display current time using epoch
+
+    1 int epoch
+
+    dup [peek_32]
+    swap dup  4 int + [peek_32]
+    swap 8 int + [peek_32]
+    "\ncURRENT tiME: [%02d:%02d:%02d]\n" 3 int printf_p
+
+    return
+
+func: send_and_receive
+
+    "QUIT" [peek_32] QUIT_MSG def_i      ; calc 32 bit integer exit command
+    0 int send_msg def_i
+    1 int keep_running def_i
+    ;----------------------------------
+    {                                           ; keep reading incoming bytes over socket
+        200 int the_buffer peek sockfd peek
+        0 int                                   ; syscall 0 = sys_read
+        4 int sys_call                          ; read incoming bytes from server
+        pop                                     ; pop return val
+        ;----------------------------------
+        get_curr_time call_func
+        the_buffer peek
+        "rECEiVED tHiS fR0M sERVER:\n\t\t\t`------> [%s]\n" printf
+        hex_str pop
+        ;----------------------------------
+        "\n\neNTER mSG t0 sEND t0 sERVER: " puts_p
+        read_str send_msg =                             ; user input msg
+        {
+            "\n** cliENT eNDiNG tHE c0NNECTi0N... **" puts_p
+            0 int keep_running =
+        } send_msg peek [peek_32] QUIT_MSG peek == if   ; has user entered 'QUIT' ?
+        ;----------------------------------
+        send_msg peek len_str ++
+        send_msg peek sockfd peek
+        1 int                       ; sys_write. send string over socket fd
+        4 int sys_call
+        pop                         ; pop return val
+        ;----------------------------------
+        send_msg peek pop_free      ; deallocate buffer (we just WROTE msg to)
+
+    } keep_running peek loop
+
+    return
+
+func: close_socket          ; close socket fd
+    sockfd peek
+    3 int                   ; syscall 3 = sys_close
+    2 int sys_call
+
+    return
+
+func: initialise_sockadd    ; set up struct (16 bytes):
+                            ; bytes [0-1]: AF_INET domain family (2)
+                            ; bytes [2-3]: port number (8080 = 36895)
+                            ; bytes [4-7]: IP address (127.0.0.1 = 16777343)
+                            ; bytes [8-15]: NULL-padding
+
+    sockaddr_in peek
+    dup 2 int [poke_16]                ; AF_INET flag (2) at offset [0]
+    dup 2 int + 36895 int  [poke_16]   ; port 8080 (36895) at offset [2]
+    dup 4 int + 16777343 int [poke_32] ; IP (127.0.0.1) at offset [4]
+    8 int + 0 int [poke_64]            ; NULL out remainder [8]
+
+    return
+
+_start:
+
+    "sTARTiNG tHE cLiENT..." puts_p
+    ;-----------------------------------
+    0 int       ; IPPROTO_IP
+    1 int       ; SOCK_STREAM
+    2 int       ; AF_INET
+    41 int      ; syscall 41 = sys_socket
+    4 int sys_call
+
+    sockfd def_i
+    ;-----------------------------------
+    {
+        "failed to create socket." puts_p dump_rts
+        break
+    } sockfd peek -1 int == if
+    ;-----------------------------------    allocate 16 byte sockaddr_in memory block
+    16 int mem_alloc sockaddr_in def_i
+    initialise_sockadd call_func
+    ;-----------------------------------
+    16 int
+    sockaddr_in peek
+    sockfd peek
+    42 int              ; sys_connect make connection to server
+    4 int sys_call
+
+    connect_res def_i
+    ;-----------------------------------
+    {
+        "connection with the server failed..." puts_p
+        sockaddr_in peek pop_free
+        break
+    } connect_res peek if                   ; check connection status != 0
+
+    "connected to the server.." puts_p
+    ;-----------------------------------
+    1 int 0 int sleep
+    200 int mem_alloc the_buffer def_i      ; allocate 200 byte buffer to use in main loop
+    ;-----------------------------------
+    send_and_receive call_func              ; begin main loop
+    close_socket call_func                  ; clean-up
+    ;-----------------------------------
+    "ended the client..." puts_p
+
+    the_buffer  peek pop_free
+    sockaddr_in peek pop_free
+

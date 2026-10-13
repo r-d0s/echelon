@@ -1,0 +1,82 @@
+;--------------------------------------------------------------------------------
+; decrypts a file and displays text, 1 char at a time. on delim chars there
+; is no slow-down. on chars we sleep 2500000/20000000 nano-secs depending on
+; when a '$' char is matched. this will pause & then toggle the nano-secs.
+;
+; uses byte xor fixed key: 39, change this if you want to, or you can call
+; the get_key func in _start:
+;
+; this program will read: examples/demos/data_msg.dat
+;
+; if you want to use another file, just alter the neame & path in _start:
+;
+; remember to use encrypt_and_decrypt_file.ech to encrypt files with a key, the input
+; & output files are both stored in /tmp/ dir. then you can use the encrypted file in
+; this program, just make sure the_KEY is SAME key used to encrypt the file.
+;
+; ./echelon -f examples/demos/decrypt_msg_and_display.ech
+;--------------------------------------------------------------------------------
+
+
+func: decrypt_and_disp_str
+
+    ptr_1 def_i
+    2500000 int nano_sec def_i ; sleep var
+
+    0 int   counter def_i       ; loop counter
+
+    {
+        ptr_1 peek [peek_8] the_KEY peek 8 int ^        ; decrypt it here with the key
+
+        {
+            2 int 0 int sleep pop               ; stop & skip printing on '$' char
+
+            2500000 int    20000000 int
+            nano_sec peek  20000000 int == true_false    ; toggle speeds when we reach '$' char
+
+            nano_sec =
+        }else{
+            {
+                0 int nano_sec peek sleep pop    ; char != delims --> we slooow down
+            } dup 32 int > if
+
+            "%c" printf fflush pop
+        } dup 36 int == if                       ; handle '$' char
+
+        1 int ptr_1 +=
+        1 int counter +=
+    } counter peek f_size peek < loop   ; prefer to cmp for null-byte, but we have to use the
+                                        ; counter & f_size, encrypted data in buffer could have null-bytes
+                                        ; *anywhere* before the end of file '\0'
+
+    nl
+    return
+
+func: get_key
+    -1 int temp_key def_i
+
+    {
+        "Enter enc/dec KEY [0..255]: " printf fflush
+        read_i temp_key =
+    } temp_key peek dup 0 int < swap 255 int > || loop
+
+    temp_key peek       ; leave it as return val
+    return
+
+
+_start:
+
+    ;get_key call_func the_KEY def_i    ; get xor byte key from user, (un-comment if next line is commented)
+
+    39 int the_KEY def_i        ; comment this line if you un-comment the prev line
+
+
+    examples/demos/data_msg.dat read_file   ; load the entire file into heap buffer
+
+    dup orig_ptr def_i
+
+    file_size -- f_size def_i
+
+    decrypt_and_disp_str call_func     ; ptr to buffer still on the stack
+
+    orig_ptr peek pop_free  ; clean-up

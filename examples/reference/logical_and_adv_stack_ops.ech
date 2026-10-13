@@ -1,0 +1,173 @@
+;-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--
+; Logical & Stack Manipulation Ops
+;
+; RUN: ./echelon -f examples/reference/logical_and_adv_stack_ops.ech
+;-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--
+
+_start:
+
+    ; test: &&  ||  (AND/OR)
+    0 int 0 int && print_i      ; 0
+    0 int 1 int && print_i      ; 0
+    1 int 0 int && print_i      ; 0
+    1 int 1 int && print_i      ; 1
+
+
+    5 int 3 int && print_i      ; 1
+    0 int 5 int && print_i      ; 0
+    clear
+
+    0 int 0 int || print_i      ; 0
+    0 int 1 int || print_i      ; 1
+    1 int 0 int || print_i      ; 1
+    1 int 1 int || print_i      ; 1
+
+    0 int 5 int || print_i      ; 1
+    0 int 0 int || print_i      ; 0
+    clear
+
+    ; NOT
+    1 int ! print_i     ; 0
+    0 int ! print_i     ; 1
+    5 int ! print_i     ; 0
+    -3 int ! print_i    ; 0 (-3 = true, so NOT true = false)
+    clear
+
+    10 int hello 3.14 float world 131 int
+    dump_rts        ; show all values & their types
+    clear
+
+    apple banana cherries dates figs grapes     ; test strings
+    dump_str                ; apple banana cherries dates figs grapes
+    2 int shift_up_n
+    dump_str                ; apple banana cherries grapes dates figs
+    clear
+
+    apple banana cherries dates figs grapes     ; test with diff n value
+    3 int shift_up_n
+    dump_str                ; apple banana grapes cherries dates figs
+    clear
+
+
+    1 int 2 int 3 int 4 int 5 int 6 int         ; test ints
+    dump_i       ; 1 2 3 4 5 6
+    2 int shift_up_n
+    dump_i       ; 1 2 3 6 4 5
+    clear
+
+
+    apple banana cherries dates figs grapes     ; use strings to test
+    dump_str        ; apple banana cherries dates figs grapes
+    2 int shift_down_n
+    dump_str        ; apple banana cherries figs grapes dates
+    clear
+
+     apple banana cherries dates figs grapes    ; test with diff n value
+    3 int shift_down_n
+    dump_str        ; apple banana dates figs grapes cherries
+    clear
+
+    ; test ints
+    1 int 2 int 3 int 4 int 5 int 6 int
+    dump_i                  ; 1 2 3 4 5 6
+    2 int shift_down_n
+    dump_i                  ; 1 2 3 5 6 4
+    clear
+
+    clear                   ; test empty stack
+    stack_size print_i pop  ;   0
+
+
+    10 int 20 int 30 int    ; test with some data
+    stack_size print_i      ;   3
+    clear
+
+    ; test with more values
+    1 int 2 int 3 int 4 int 5 int 6 int 7 int 8 int 9 int 10 int
+    stack_size print_i      ;   10
+    clear
+
+    ; test n=0 (swap top two)
+    10 int 20 int 30 int 40 int 50 int 60 int 0 int swap_top_n
+    dump_i       ; 10 20 30 40 60 50
+    clear
+
+    ; test n=1 (swap pos 1 & 2 from top)
+    10 int 20 int 30 int 40 int 50 int 60 int 1 int swap_top_n
+    dump_i       ; 10 20 30 50 40 60
+    clear
+
+    ; test n=2 (swap pos 2 & 3 from top)
+    10 int 20 int 30 int 40 int 50 int 60 int 2 int swap_top_n
+    dump_i       ; 10 20 40 30 50 60
+    clear
+
+    ; test strings
+    a b c d e f 1 int swap_top_n
+    dump_str     ; a b c e d f
+    clear
+
+    ; test n=0
+    10 int 20 int 30 int 40 int 50 int 60 int 0 int swap_bottom_n
+    dump_i       ; 20 10 30 40 50 60
+    clear
+
+    ; test n=1 (swap pos 1 & 2 from bottom)
+    10 int 20 int 30 int 40 int 50 int 60 int 1 int swap_bottom_n
+    dump_i       ; 10 30 20 40 50 60
+    clear
+
+    ; test n=2 (swap pos 2 & 3 from bottom)
+    10 int 20 int 30 int 40 int 50 int 60 int 2 int swap_bottom_n
+    dump_i       ; 10 20 40 30 50 60
+    clear
+
+    ; test strings
+    a b c d e f 1 int swap_bottom_n
+    dump_str     ; a c b d e f
+    clear
+
+    ; stack_size after push
+    1 int 2 int 3 int
+    stack_size print_i pop   ;   3
+    dup
+    stack_size print_i       ;   4
+    clear
+
+    ; more stack manipulation...
+    10 int 20 int 30 int 40 int 50 int
+    dump_i              ; 10 20 30 40 50
+    1 int swap_top_n
+    dump_i              ; 10 20 40 30 50
+    1 int shift_up_n
+    dump_i              ; 10 20 40 50 30
+    clear
+
+
+    ; shift_up_n  n=0 -> does nothing..
+    apple banana cherries 0 int shift_up_n
+    dump_str            ; apple banana cherries
+    clear
+
+    ; shift_down_n n=0 -> does nothing..
+    apple banana cherries 0 int shift_down_n
+    dump_str            ; apple banana cherries
+    clear
+
+    ; out of bounds check n > stack size
+    "invalid n for swap_top_n" puts_p
+    1 int 2 int 3 int 4 int 5 int 6 int
+    dump_i
+    14 int swap_top_n       ; 14 > max val 4, so fix it to 4
+    dump_i                  ; 2, 1, 3, 4, 5, 6
+    clear
+
+    ; out of bounds check n > stack size
+    "invalid n for swap_bottom_n" puts_p
+    1 int 2 int 3 int 4 int 5 int 6 int
+    -1 int swap_bottom_n        ; -1 < min 0, so fix it to 0
+    dump_i                      ; 2 1 3 4 5 6
+    99 int swap_bottom_n        ; 99 > max 4, so fix it to 4
+    dump_i                      ; 2 1 3 4 6 5
+
+    clear

@@ -1,0 +1,87 @@
+;-------------------------------------------------------------
+; this program reads the input file from  /tmp/inputFile.dat
+; it carries out a 1 byte xor on every single byte, the
+; xor value is chosen by the user (0..255).
+;
+; here's a quick test you can do, create your original file in:
+;
+;   /tmp/inputFile.dat
+;
+; in the terminal use the xxd command to see the hex values for each byte:
+;
+;   xxd /tmp/inputFile.dat
+;   00000000: 4865 6c6c 6f2c 2057 6f72 6c64 210a       Hello, World!.
+;
+; run this program with KEY: 79
+;
+; in the terminal use the xxd command on the new output file (/tmp/outputFile.dat),
+; to see the hex values:
+;
+;   xxd /tmp/outputFile.dat
+;   00000000: 072a 2323 2063 6f18 203d 232b 6e45       .*## co. =#+nE
+;
+; copy the outputFile back to the inputFile (make a copy of the inputFile.data
+; if you need to, as it'll get overwritten now):
+;
+;   cp /tmp/outputFile.dat /tmp/inputFile.dat
+;
+; run this program 'again' with the same KEY: 79
+;
+; in the terminal use the xxd command on the new file, to see the hex values:
+;
+;   xxd /tmp/outputFile.dat
+;   00000000: 4865 6c6c 6f2c 2057 6f72 6c64 210a       Hello, World!.
+;
+; this proves that it encrypted your file & then decrypted it using the same key.
+;
+; ./echelon -f examples/demos/encrypt_and_decrypt_file.ech
+;-------------------------------------------------------------
+
+func: get_key
+    -1 int temp_key def_i
+
+    {
+        "Enter enc/dec KEY [0..255]: " printf fflush
+        read_i temp_key =
+    } temp_key peek dup 0 int < swap 255 int > || loop
+
+    temp_key peek       ; leave it as return val
+    return
+
+func: xor_data
+
+    ptr_1 def_i                 ; passed buffer param
+    f_size peek loop_var def_i
+
+    {
+        ptr_1 peek [peek_8] the_KEY peek 8 int ^    ; xor the byte with key
+        ptr_1 peek swap [poke_8]    ; write it back to buffer
+
+        1 int ptr_1 +=              ; inc ptr_1
+        1 int loop_var -=
+    } loop_var peek loop            ; loop through until we've read all bytes
+
+    return
+
+
+_start:
+
+    get_key call_func the_KEY def_i     ; used a 1 byte enc/dec.
+
+    "reading source file from: /tmp/inputFile.dat" puts_p
+
+    /tmp/inputFile.dat read_file    ; load the entire file into heap buffer
+    dup orig_ptr def_i
+
+    file_size -- f_size def_i   ; 1 less byte, no need to write '\0'
+
+    xor_data call_func
+
+    /tmp/outputFile.dat open_file   ; create & write str to file
+    orig_ptr peek f_size peek
+    bytes_to_file                   ; write f_size bytes to file
+
+    the_KEY peek "written xor key: %d to file: /tmp/outputFile.dat\n" printf
+
+    close_file
+    orig_ptr peek pop_free      ; deallocate memory

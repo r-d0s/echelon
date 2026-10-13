@@ -1,0 +1,138 @@
+;-------------------------------------------------------------------------
+; simple_http_page.ech
+;
+; a simple TCP web server that listens on port 8080 & sends:
+;
+; "_start: hell0_fr0m_echelon! puts" <-- HTML page to browser that connects
+;
+; Read: examples/demos/simple_http_page_README.md for more details...
+;
+; ./echelon -f examples/demos/simple_http_page.ech
+;-------------------------------------------------------------------------
+
+func: sendAndReceive        ; read client request (does nothing with it..)
+
+    100 int
+    the_buffer peek
+    connfd peek
+    0 int               ; sys_read (0) read client request (100 bytes) to buffer
+    4 int sys_call
+
+    ; HTTP response (HTML page)
+    "HTTP/1.1 200 OK\nContent-Type: text/html\nContent-Length: 70\nConnection: close\n\n<html><body><h1>_start: hell0_fr0m_echelon! puts</h1></body></html>\r\n"
+
+                            ; calc length of response string & send it
+    dup len_str ++          ; length + 1 (for null-term '\0')
+    swap                    ; swap so string is on top
+    connfd peek             ; socket fd
+    1 int 4 int sys_call    ; sys_write (1)
+
+    2 int 0 int sleep       ; wait 2 secs (make sure data is sent...)
+    return
+
+
+func: closeSocket
+    sockfd peek
+    3 int               ; sys_close (3) closes the server's main socket
+    2 int sys_call
+    return
+
+
+func: initialiseSockadd
+    ;--------------------------------------------------------------------
+    ; build sockaddr_in struct (16 bytes)
+    ;
+    ; layout:
+    ;     [0] (word)  : AF_INET (2) IPv4 family
+    ;     [2] (word)  : port number (8080 -> 0x1F90 -> 36895) BIG-ENDIAN
+    ;     [4] (dword) : IP address (0.0.0.0)
+    ;     [8] (qword) : padding (null out)
+    ;--------------------------------------------------------------------
+    sockaddr_in peek
+    dup 2 int [poke_16]                 ; (word) AF_INET at offset [0]
+    dup 2 int + 36895 int [poke_16]     ; (word) port 8080 at offset [2] (BIG-endian)
+    dup 4 int + 0 int [poke_32]         ; (dword) IP 0.0.0.0 at offset [4]
+    8 int + 0 int [poke_64]             ; (qword) null out padding at offset [8]
+    return
+
+
+_start:
+
+    "starting the server..." puts_p
+    "** try opening a webpage and enter: http://localhost:8080 **" puts_p
+
+    0 int           ; IPPROTO_IP
+    1 int           ; SOCK_STREAM
+    2 int           ; AF_INET
+    41 int          ; sys_socket (41) create socket
+    4 int sys_call
+    sockfd def_i    ; save socket
+
+    {
+        "failed to create socket." puts_p dump_rts
+        break
+    } sockfd peek -1 int == if      ; check for errors
+
+
+    16 int mem_alloc sockaddr_in def_i
+    initialiseSockadd call_func     ; build sockaddr_in structure & bind it
+
+
+    16 int
+    sockaddr_in peek
+    sockfd peek
+    49 int              ; sys_bind (49)  bind socket to port 8080
+    4 int sys_call
+    bind_res def_i
+
+    {
+        "socket bind failed.." puts_p
+        break
+    } bind_res peek if
+
+    "socket successfully binded.." puts_p
+
+    5 int
+    sockfd peek
+    50 int              ; sys_listen (50) start listening for connection..
+    3 int sys_call
+    listen_res def_i
+
+    {
+        "listen failed..." puts_p
+        break
+    } listen_res peek if
+
+    "server listening.." puts_p
+
+
+    16 int mem_alloc client def_i
+    8 int mem_alloc ptr_to_len def_i
+    ptr_to_len peek 16 int [poke_64]    ; store length ptr
+
+
+    ptr_to_len peek
+    client peek
+    sockfd peek
+    43 int                  ; sys_accept (43) accept client connection..
+    4 int sys_call
+    connfd def_i
+
+    {
+        "server accept failed..." puts_p
+        break
+    } connfd peek 0 int < if
+    "server accepted the client.." puts_p
+
+
+    100 int mem_alloc the_buffer def_i
+    2 int 0 int sleep       ; 2sec pause jst before we send data..
+
+    sendAndReceive call_func        ; handle request.
+    closeSocket call_func           ; close main socket
+    "ended the connection with client..." puts_p
+
+    the_buffer peek pop_free        ; free allocated memory (no leaks!)
+    ptr_to_len peek pop_free
+    client     peek pop_free
+    sockaddr_in peek pop_free

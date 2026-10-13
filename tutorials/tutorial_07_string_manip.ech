@@ -1,0 +1,142 @@
+;-----------------------------------------------------------------
+; tutorial_7_string_manip.ech
+;
+; most string operators create NEW strings on the heap.
+;
+; BASIC RULE FOR HEAP MEMORY: Allocate -> Read/Write -> Free
+;
+; ./echelon -f tutorials/tutorial_7_string_manip.ech
+;-----------------------------------------------------------------
+
+_start:
+
+    ;--- STR LENGTH
+    hello len_str print_i               ; 5
+    world len_str print_i               ; 5
+    "" len_str print_i                  ; 0
+    "Hello, World!" len_str print_i     ; 13
+    clear
+
+
+    ;--- CONCATENATE STR
+    ; add_str: [ str1, str2 ] -> [ heap_addr ]
+    Hello " World" add_str
+    puts pop_free
+
+    Good " Morning!" add_str
+    puts pop_free
+
+
+    ;--- CHAINING OPERATORS
+    ; each add_str creates a new string on the heap. use dup to make a copy before
+    ; you send it to another operator, so you can free it later.
+    ;
+    ; the operators below are deliberately split on seperate lines, so that you can
+    ; follow the changes to the stack at each stage. normally i'd write it on 1 or 2 lines
+
+    Hello " "       ; stack: [ hello, " " ]
+    add_str         ; stack: [ "hello " ]
+    dup             ; stack: [ "Hello ", "Hello " ]
+    World           ; stack: [ "Hello ", "Hello ", World ]
+    add_str         ; stack: [ "Hello ", "Hello World" ]
+    puts            ; stack: [ "Hello ", "Hello World" ] ; print: "Hello World"
+    pop_free        ; stack: [ "Hello " ]
+    pop_free        ; stack: []
+
+
+    ;--- COPY STRING
+    test cpy_str
+    puts pop_free
+
+
+    ;--- COPY STRING & THEN MODIFY THE COPY
+    hello cpy_str dup
+    puts                            ; hello
+    2 int + 120 int [poke_8]        ; change 'l' to 'x' at offset [2]
+    puts pop_free                   ; hexlo
+
+
+    ;--- SUB STRING
+    ; sub_str: [ str, start_index, len ] -> [ heap_addr ]
+    abcdefghi 1 int 4 int sub_str
+    puts pop_free                        ; bcde
+
+    "hello world" 0 int 5 int sub_str
+    puts pop_free                        ; hello
+
+    "hello world" 6 int 5 int sub_str
+    puts pop_free                        ; world
+
+
+    ;--- STR COMPARE
+    ;
+    ; cmp_str: [str1, str2] -> [-1, 0, 1]
+    ; result: -1 = str1 < str2
+    ;          0 = equal
+    ;          1 = str1 > str2
+    apple banana cmp_str print_i    ; -1
+    banana apple cmp_str print_i    ; 1
+    hello hello  cmp_str print_i    ; 0
+    clear
+
+
+    ;--- STR COMPARE (ignores case)
+    HELLO hello cmp_str_i print_i    ; 0
+    ABC abc cmp_str_i print_i        ; 0
+    ABC DEF cmp_str_i print_i        ; -1
+    clear
+
+
+    ;--- FIND SUB STRING INDEX
+    ; index_str: [str, substr] --> [index] or [-1]
+
+    abcdef cd index_str print_i             ; 2
+    "hello world" world index_str print_i   ; 6
+    "hello world" xyz index_str print_i     ; -1
+    clear
+
+
+    ;--- CONVERT TO UPPER/LOWER
+    "Hello World!" to_upper
+    puts pop_free
+
+    "Hello World!" to_lower
+    puts pop_free
+
+
+    ;--- TRIM LEADING/TRAILING SPACE
+    "  hello  " trim_str
+    puts pop_free
+
+    "   world   " trim_str
+    puts pop_free
+
+
+    ;--- SPLITS STRING AT WHITESPACES (\n, \t, space etc)
+    "The dog chased the cat!" split_str     ; splits on delimiters. each word is heap-allocated
+    dump_str
+    5 int pop_free_n                        ; free 5 heap allocations on the stack (careful!)
+
+
+    ;--- COMBINING OPERATORS
+    ; if memory was allocated, we need to be careful & dup it, so we can free it later.
+
+    "  hello world  " trim_str dup          ; trim & uppercase
+    to_upper
+    puts pop_free pop_free                  ; print: "hello world"
+
+    "HELLO WORLD" 0 int 5 int sub_str dup   ; substring & lowercase
+    to_lower
+    puts pop_free pop_free                  ; print: "hello"
+
+    "The quick brown fox" quick index_str   ; find & extract
+    dup print_i                             ; print: 4
+
+    "The quick brown fox" swap 5 int sub_str
+    puts pop_free                           ; print "quick"
+
+    "   G00D M0RNING   " trim_str
+    result def_i                            ; stores result in var
+    result peek to_lower puts pop_free      ; print: "g00d m0rning"
+    result peek pop_free
+

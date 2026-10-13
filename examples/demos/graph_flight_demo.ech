@@ -1,0 +1,316 @@
+;-------------------+
+; GRAPH FLIGHT DEMO |
+;-------------------+---------------------------------------------
+; tests all graph operators & clean-up depending on FLAG
+; FLAG: 0 = leave KEY & leave VALUE, 1 = FREE KEY & leave VALUE
+;       2 = leave KEY & FREE VALUE,  3 = FREE KEY & FREE VALUE
+;
+;
+; Run: ./echelon -f examples/demos/graph_flight_demo.ech
+;
+; Interested in the graph struct/details?
+; READ: docs/operators/graphs.md
+;
+; have a look in this dir:
+;
+;   benchmarks/graph/
+;
+; you'll see how millions of nodes & edges were tested.
+;-----------------------------------------------------------------
+
+_start:
+
+    "--- create_graph ---" puts_p
+
+    10 int create_graph flight_ptr def_i
+    flight_ptr peek dump_graph
+    clear
+
+    "--- graph_add_node (FLAG 2) ---" puts_p
+
+    ; FLAG 2 = leave KEY, free VALUE block when deleted
+    flight_ptr peek NYC     2 int graph_add_node
+    flight_ptr peek Paris   2 int graph_add_node
+    flight_ptr peek London  2 int graph_add_node
+    flight_ptr peek Delhi   2 int graph_add_node
+    flight_ptr peek Berlin  2 int graph_add_node
+    flight_ptr peek Tokyo   2 int graph_add_node
+    flight_ptr peek Moscow  2 int graph_add_node
+    flight_ptr peek Toronto 2 int graph_add_node
+    flight_ptr peek Rome    2 int graph_add_node
+    flight_ptr peek Beijing 2 int graph_add_node
+
+    dump_dict           ; check vars
+    flight_ptr peek dump_graph
+    clear
+
+    "\n--- graph_node_count ---" puts_p
+
+    flight_ptr peek graph_node_count print_i    ; 10
+    clear
+
+    "\n--- graph_node_exists ---" puts_p
+
+    {
+        "node 'NYC' exists at addr: %p\n" printf pop    ; show ptr address
+    }else{
+        "node 'NYC' not found" puts_p
+    } flight_ptr peek NYC graph_node_exists dup if
+
+    {
+        print_ptr
+    }else{
+        "node 'Glasgow' not found" puts_p
+    } flight_ptr peek Glasgow graph_node_exists dup if
+    clear
+
+    "\n--- graph_add_edge ---" puts_p
+    ;-----------------------------------------------------------
+    ; add edges FROM Rome (fwd links from Rome --> other cities)
+    ;-----------------------------------------------------------
+    flight_ptr peek                     ; ** use dup, its faster **
+    dup NYC     Rome graph_add_edge     ; fwd link from Rome --> NYC
+    dup Paris   Rome graph_add_edge     ; fwd link from Rome --> Paris
+    dup London  Rome graph_add_edge
+    dup Delhi   Rome graph_add_edge
+    dup Berlin  Rome graph_add_edge
+    dup Moscow  Rome graph_add_edge
+    dup Beijing Rome graph_add_edge
+    ;------------------------------------------------------------
+    ; add edges FROM Paris (fwd links from Paris --> other cities)
+    ;--------------------------------------------------------------
+    dup NYC     Paris graph_add_edge    ; fwd link from Paris --> NYC
+    dup London  Paris graph_add_edge
+    dup Delhi   Paris graph_add_edge
+    dup Berlin  Paris graph_add_edge
+    dup Moscow  Paris graph_add_edge
+    dup Beijing Paris graph_add_edge
+
+    dump_graph
+    clear
+
+    "\n--- graph_edge_count ---" puts_p
+    flight_ptr peek graph_edge_count print_i    ; 13 (7 + 6)
+    clear
+
+    "\n--- graph_edge_exists ---" puts_p
+
+    {
+        "flight exists: Rome --> NYC" puts_p
+    }else{
+        "can't find flight Rome --> NYC" puts_p
+    } flight_ptr peek NYC Rome graph_edge_exists dup if
+
+    {
+        "flight exists: Paris --> NYC" puts_p
+    }else{
+        "can't find flight Paris --> NYC" puts_p
+    } flight_ptr peek NYC Paris graph_edge_exists dup if
+
+    {
+        "flight exists: NYC --> Rome" puts_p
+    }else{
+        "can't find flight NYC --> Rome" puts_p
+    } flight_ptr peek Rome NYC graph_edge_exists dup if
+    clear
+
+    "\n--- duplicate edge (check error msg) ---" puts_p
+
+    flight_ptr peek Beijing Paris graph_add_edge   ; err
+    clear
+
+    "\n--- graph_add_edge_weight ---" puts_p
+
+    flight_ptr peek Moscow Delhi 2714 int graph_add_edge_weight   ; add edge with weight
+    flight_ptr peek Delhi  Rome  3690 int graph_add_edge_weight   ; err! adding dup edge with weight
+    flight_ptr peek dump_graph
+
+    clear
+
+    "\n---graph_get_weight ---" puts_p
+
+    {
+        "flight distance: Delhi --> Moscow: %d\n" printf pop    ; 2714
+    }else{
+        "flight not found" puts_p
+    } flight_ptr peek Moscow Delhi graph_get_weight dup if
+    clear
+
+    "\n--- graph_set_weight ---" puts_p
+
+    flight_ptr peek Paris Moscow 1545 int graph_add_edge_weight
+    flight_ptr peek Paris Moscow graph_get_weight print_i   ; 1545
+
+    flight_ptr peek London  Paris  215 int graph_set_weight ; edge/connection exists, just upd weight
+    flight_ptr peek Berlin  Paris  530 int graph_set_weight
+    flight_ptr peek Beijing Paris 5110 int graph_set_weight
+
+    clear
+
+    "\n--- graph_get_weight_ptr ---" puts_p
+
+    {
+        [peek_64] "Moscow --> Paris distance (ptr): %d\n" printf pop
+    }else{
+        "flight (and distance) not found" puts_p
+    } flight_ptr peek Paris Moscow graph_get_weight_ptr dup if
+    clear
+
+    "\n--- graph_get_fwd_links ---" puts_p
+
+    {
+        dup [peek_64] ptr_nodes def_i
+        dup 8 int + [peek_64] num_nodes def_i
+        pop_free                                    ; free the 16 byte block
+
+        num_nodes peek
+        "Rome has %d outward flights\n" printf pop
+
+        0 int i def_i
+        {
+            ptr_nodes peek i peek 8 int * + [peek_64] [peek_64]
+            "\t`---> Flight TO (fwd_links): %s\n" printf pop
+            1 int i +=
+        } i peek num_nodes peek < loop
+
+        ptr_nodes peek pop_free
+    }else{
+        "no outward flights (fwd_links) from Rome." puts_p
+    } flight_ptr peek Rome graph_get_fwd_links dup if
+    clear
+
+    "\n--- graph_get_back_links ---" puts_p
+
+    {
+        dup [peek_64] back_ptr def_i
+        dup 8 int + [peek_64] back_count def_i
+        pop_free
+
+        back_count peek "NYC has %d incoming flights..\n" printf pop
+
+        0 int j def_i
+        {
+            back_ptr peek j peek 8 int * + [peek_64] [peek_64]
+            "\t`---> flight FROM (back_links): %s\n" printf pop
+            1 int j +=
+        } j peek back_count peek < loop
+
+        back_ptr peek pop_free
+    }else{
+        "no incoming flights to NYC " puts_p
+    } flight_ptr peek NYC  graph_get_back_links dup if
+    clear
+
+    "\n--- graph_get_fwd_count ---" puts_p
+
+    flight_ptr peek Rome  graph_get_fwd_count print_i   ; 7
+    flight_ptr peek Paris graph_get_fwd_count print_i   ; 6
+    flight_ptr peek NYC   graph_get_fwd_count print_i   ; 0
+    clear
+
+    "\n--- graph_get_back_count ---" puts_p
+
+    flight_ptr peek Rome   graph_get_back_count print_i   ; 0 (no link to Rome)
+    flight_ptr peek NYC    graph_get_back_count print_i   ; 2 (Rome -> NYC , Paris -> NYC )
+    flight_ptr peek Moscow graph_get_back_count print_i   ; 3 (Rome -> Moscow, Paris -> Moscow, Delhi -> Moscow)
+    clear
+
+    "\n--- graph_del_edge ---" puts_p
+
+    flight_ptr peek Moscow Rome graph_del_edge   ; delete Rome --> Moscow
+    flight_ptr peek London Rome graph_del_edge   ; delete Rome --> London
+    flight_ptr peek dump_graph
+    clear
+
+    "\n--- graph_del_node ---" puts_p
+
+    flight_ptr peek Rome graph_del_node
+    "\n** deleted node --> Rome, now check incoming flights (back_links) **\n" puts_p
+
+    flight_ptr peek dump_graph
+    clear
+
+    "\n--- graph_get_nodes ---" puts_p
+
+    {
+        dup [peek_64] all_ptr def_i
+        dup 8 int + [peek_64] all_count def_i
+        pop_free
+
+        all_count peek "total nodes: %d\n" printf pop
+
+        0 int k def_i
+        {
+            all_ptr peek k peek 8 int * + [peek_64] [peek_64] "node: %s\n" printf pop
+            1 int k +=
+        } k peek all_count peek < loop
+
+        all_ptr peek pop_free
+    }else{
+        "no nodes found" puts_p
+    } flight_ptr peek graph_get_nodes dup if
+    clear
+
+    "\n--- graph_get_fwd_weight_links ---" puts_p
+
+    flight_ptr peek Paris graph_get_fwd_weight_links     ; this line is still evaluated in the 1st 'if' condition
+    {
+        "outward flights (fwd_links) from Paris:" puts_p
+
+        dup [peek_64] fw_ptr def_i
+        dup 8 int + [peek_64] fw_count def_i
+        pop_free
+
+        0 int m def_i
+        {
+            fw_ptr peek m peek 8 int * + dup [peek_64] [peek_64]
+            swap 8 int + [peek_64]
+
+            swap "\t`---> flight TO: %s  \tweight: %p\n"  printf pop pop
+
+            2 int m +=   ; each pair is 2 entries (node, weight)
+        } m peek fw_count peek < loop
+
+        fw_ptr peek pop_free
+    }else{
+        "no weighted forward links" puts_p
+    } dup if
+    clear
+
+    "\n--- TESTING SOME EDGE CASE ---" puts_p
+
+    flight_ptr peek Rome Glasgow graph_add_edge   ; add edge non-existent node
+    flight_ptr peek Boston graph_del_node         ; delete non-existent node
+    flight_ptr peek NYC Moscow graph_get_weight   ; get weight frm non-existent edge
+
+    "\n--- delete_graph ---" puts_p
+    flight_ptr peek delete_graph                  ; whole graph deleted
+
+    dump_rts
+    clear
+
+    ;------------------------------------------------------------------------------------
+    ; INFO: The Code..
+    ;------------------
+    ; this started off as a few basic examples, but very quickly ballooned into more & more
+    ; tests. ideally most of these examples should have been put into funcs, esp looping
+    ; through result **ptr.
+    ;
+    ; Try building this..
+    ;--------------------
+    ; you could easily improve this code by adding a menu & making a simple Flight DB!
+    ; rand_str & rand_str_batch will help you generate test data quickly & easily!
+    ;
+    ; for an extra challenge, write the flight data to files before you close the program.
+    ; then load the flight data back when you start it up again.
+    ;
+    ; the 'weight' for each fwd_links is 8 bytes, that means you don't have to store an int,
+    ; float or *char, you can store anything - even a *ptr to a complex struct containing
+    ; anything you want. if you decide to do this, you will need to take care of R/W to
+    ; the struct members, because 'graph_get_weight' & 'graph_get_weight_ptr' operators
+    ; only return a *ptr to the weight, the weight value or NULL.
+    ;
+    ; if you decide to use a *ptr struct for the 'weight', then make sure you deallocate it
+    ; BEFORE the clean-up. 'graph_get_weight_ptr' returns a *ptr to the struct or NULL, so
+    ; deallocating it is simple....
+    ;------------------------------------------------------------------------------------

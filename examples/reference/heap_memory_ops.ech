@@ -1,0 +1,81 @@
+;--------------------------------------------------------
+; echelon HEAP MEMORY R/W
+;
+; RUN: ./echelon -f examples/reference/heap_memory_ops.ech
+;---------------------------------------------------------
+
+func: byte_ops
+
+    "----- TEST [poke_8] (single byte updates) -----" puts_p
+    10 int mem_alloc        ; allocate 10 bytes
+
+                                    ; write ascii chars 'x', '8', '6', '-', 'a', 's', 'm', '\0' into heap
+    dup 120 int [poke_8]            ; offset [0] = 'x' (120)
+    dup 1 int +  56 int [poke_8]    ; offset [1] = '8' (56)
+    dup 2 int +  54 int [poke_8]    ; offset [2] = '6' (54)
+    dup 3 int +  45 int [poke_8]    ; offset [3] = '-' (45)
+    dup 4 int +  97 int [poke_8]    ; offset [4] = 'a' (97)
+    dup 5 int + 115 int [poke_8]    ; offset [5] = 's' (115)
+    dup 6 int + 109 int [poke_8]    ; offset [6] = 'm' (109)
+    dup 7 int +   0 int [poke_8]    ; offset [7] = null-term \0
+
+    "\nupdated heap string: [%s]\n" printf  ; print buffer as str
+    hex_str         ; print buffer as hex
+    pop_free        ; free
+    return
+
+
+func: multi_width_int_ops
+
+    "\n----- TEST [poke_16/32/64] & [peek_16/32/64] -----" puts_p
+    64 int mem_alloc        ; allocate 64 byte heap block
+
+    dup 4660 int [poke_16]      ; save word at offset [0]
+
+    dup 8 int + 305419896 int [poke_32]     ; save dword at offset [8]
+
+    dup 16 int + 1234567890123456789 int [poke_64]      ; save qword at offset [16]
+
+    "----- CHECK WRITES USING [peek_16/32/64] -----" puts_p
+
+    dup [peek_16]
+    "\nCheck 16 bit read, should be: 4660 <--> [%d]\n" printf pop
+
+    dup 8 int + [peek_32]
+    "Check 32 bit read, should be: 305419896 <--> [%d]\n" printf pop
+
+    dup 16 int + [peek_64]
+    "check 64 bit read, should be: 1234567890123456789 <--> [%lld]\n" printf pop
+
+    pop_free    ; free heap block
+    return
+
+
+func: heap_ptr_struct
+
+    "\n----- TEST HEAP STRUCT WITH NESTED POINTER -----" puts_p
+
+    "...the heap data *ptr demo....." heap_ptr def_i        ; ptr to string
+
+    16 int mem_alloc parent_ptr def_i       ; create block (16 bytes: [0..7]  = int user_id
+                                            ;                         [8..15] = ptr to string
+
+    parent_ptr peek 999 int [poke_64]       ; store user_id (999) at offset [0]
+
+    parent_ptr peek 8 int + heap_ptr peek [poke_64]     ; store ptr to string at offset [8]
+
+    parent_ptr peek [peek_64]
+    "\nreading 64 bits from index[0] (user_id): [%d]\n" printf
+
+    parent_ptr peek 8 int + [peek_64]
+    "\nreading 64 bits from index[8] (heap_ptr): [%s]\n" printf
+
+    parent_ptr peek pop_free
+    return
+
+
+_start:
+
+    byte_ops            call_func
+    multi_width_int_ops call_func
+    heap_ptr_struct     call_func

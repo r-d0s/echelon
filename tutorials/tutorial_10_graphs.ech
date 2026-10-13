@@ -1,0 +1,225 @@
+;--------------------------------------------------------------------------------------------------
+; tutorial_10: Graphs, Nodes & Edges
+;
+; Graphs store nodes connected by edges.
+;
+; The FLAG is set ONCE when a node is created. edge operations don't need a flag,
+; they use the node's stored flag for clean-up.
+;
+;   0 = leave KEY & leave VALUE
+;   1 = FREE KEY & leave VALUE
+;   2 = leave KEY & FREE VALUE     (mostly used in our examples)
+;   3 = FREE KEY & FREE VALUE
+;
+; valgrind -s --track-origins=yes --leak-check=full ./echelon -f tutorials/tutorial_10_graphs.ech
+;-------------------------------------------------------------------------------------------------
+
+_start:
+
+    ;--- CREATE GRAPH
+    ; similar to hashsets, graph capacity is rounded up to next power of 2 (min 64)
+    10 int create_graph g_ptr def_i         ; request 10, but defaults to 64
+    g_ptr peek dump_graph
+
+    ;--- ADD NODES
+    ; FLAG 2 = leave key, FREE value (mostly used in our examples)
+    ; A, B, C & D don't really need double quotes wrapped around them, but small
+    ; strings look clearer (with them) when reviewing the code
+    g_ptr peek "A" 2 int graph_add_node
+    g_ptr peek "B" 2 int graph_add_node
+    g_ptr peek "C" 2 int graph_add_node
+    g_ptr peek "D" 2 int graph_add_node
+
+    g_ptr peek dump_graph
+    g_ptr peek graph_node_count print_i pop   ; 4
+
+    ;--- NODE EXISTS CHECK
+    {
+        "Node 'A' exists" puts_p
+    }else{
+        "Node 'A' not found" puts_p
+    } g_ptr peek "A" graph_node_exists if
+
+    {
+        "Node 'Z' exists" puts_p
+    }else{
+        "Node 'Z' not found" puts_p
+    } g_ptr peek "Z" graph_node_exists if
+
+
+    ;---ADD EDGES
+    ; graph_add_edge: [ptr, dest, src] --> []
+    ; creates forward link src-->dest (automatically creates back link dest-->src)
+
+    g_ptr peek "B" "A" graph_add_edge   ; A --> B
+    g_ptr peek "C" "A" graph_add_edge   ; A --> C
+    g_ptr peek "D" "B" graph_add_edge   ; B --> D
+    g_ptr peek "D" "C" graph_add_edge   ; C --> D
+
+    g_ptr peek dump_graph
+    g_ptr peek graph_edge_count print_i pop   ; 4
+
+
+    ;--- EDGE EXISTS CHECK
+    {
+        "A --> B exists" puts_p
+    }else{
+        "A --> B not found" puts_p
+    } g_ptr peek "B" "A" graph_edge_exists if
+
+    {
+        "B --> A exists" puts_p
+    }else{
+        "B --> A not found" puts_p      ; <-- expected
+    } g_ptr peek "A" "B" graph_edge_exists if
+
+
+    ;--- ADD WEIGHTED EDGE
+    ; 8 byte weight slots mean you can push anything in there.
+    ; thats the reason dump_graph only displays weight as ptr
+    g_ptr peek "D" "A" 10 int graph_add_edge_weight   ; A --> D weight 10
+    g_ptr peek dump_graph
+
+    ;--- GET WEIGHTED EDGE
+    g_ptr peek "D" "A" graph_get_weight print_i pop   ; 10
+    g_ptr peek "B" "A" graph_get_weight print_i pop   ; 0 (no weight..)
+
+
+    ;--- SET WEIGHT
+    g_ptr peek "D" "A" 99 int graph_set_weight
+    g_ptr peek "D" "A" graph_get_weight print_i pop   ; 99
+
+
+    ;--- WEIGHT POINTER
+    {
+        [peek_64] "weight via ptr: %d\n" printf pop
+    }else{
+        "Edge not found" puts_p
+    } g_ptr peek "D" "A" graph_get_weight_ptr dup if
+
+    ;--- FORWARD LINKS DATA FOR A NODE
+    ; returns 16 byte block: [0] --> **ptr to nodes
+    ;                        [8] --> count
+
+    nl
+
+    {
+        dup [peek_64] nodes_ptr def_i
+        dup 8 int + [peek_64] count def_i
+        pop_free
+
+        count peek "A has %d forward links\n" printf pop
+
+        0 int i def_i
+        {
+            nodes_ptr peek i peek 8 int * + [peek_64] [peek_64]
+            "\t`---> %s\n" printf pop
+            1 int i +=
+        } i peek count peek < loop
+
+        nodes_ptr peek pop_free
+    }else{
+        "no forward links" puts_p
+    } g_ptr peek "A" graph_get_fwd_links dup if
+
+    nl
+    ;--- BACKWARD LINKS DATA FOR A NODE
+    {
+        dup [peek_64] back_ptr def_i
+        dup 8 int + [peek_64] back_count def_i
+        pop_free
+
+        back_count peek "D has %d backward links\n" printf pop
+
+        0 int i =
+        {
+            back_ptr peek i peek 8 int * + [peek_64] [peek_64]
+            "\t%s <---'\n" printf pop
+            1 int i +=
+        } i peek back_count peek < loop
+
+        back_ptr peek pop_free
+    }else{
+        "no backward links" puts_p
+    } g_ptr peek "D" graph_get_back_links dup if
+
+    ;--- COUNT FWD/BACK_LINKS FOR NODE
+    g_ptr peek "A" graph_get_fwd_count print_i pop   ; 3 (A-->B, A-->C, A-->D)
+    g_ptr peek "D" graph_get_back_count print_i pop  ; 2 (B-->D, C-->D)
+
+    nl
+    ;--- GET ALL GRAPH NODES
+    {
+        dup [peek_64] all_ptr def_i
+        dup 8 int + [peek_64] all_count def_i
+        pop_free
+
+        all_count peek "total nodes: %d\n" printf pop
+
+        0 int i =
+        {
+            all_ptr peek i peek 8 int * + [peek_64] [peek_64]
+            "node:\t[%s]\n" printf pop
+            1 int i +=
+        } i peek all_count peek < loop
+
+        all_ptr peek pop_free
+    }else{
+        "No nodes" puts_p
+    } g_ptr peek graph_get_nodes dup if
+
+    ;--- DELETE EDGE FROM NODE
+    g_ptr peek "C" "A" graph_del_edge
+    g_ptr peek dump_graph
+
+
+    ;--- DELETE NODE FROM GRAPH
+    g_ptr peek "C" graph_del_node
+    g_ptr peek dump_graph
+    g_ptr peek graph_node_count print_i pop   ; 3
+
+    g_ptr peek delete_graph
+
+    "\n--- CITY NETWORK EXAMPLE ---\n" puts_p
+
+    10 int create_graph network def_i
+
+    network peek "London" 2 int graph_add_node
+    network peek "Paris" 2 int graph_add_node
+    network peek "Berlin" 2 int graph_add_node
+    network peek "Rome" 2 int graph_add_node
+    network peek "Madrid" 2 int graph_add_node
+
+    network peek "Paris" "London" 285 int graph_add_edge_weight
+    network peek "Berlin" "Paris" 691 int graph_add_edge_weight
+    network peek "Rome" "Berlin" 934 int graph_add_edge_weight
+    network peek "Madrid" "Paris" 792 int graph_add_edge_weight
+
+
+    {   ; now show fwd connections from Paris --> ....
+
+        dup [peek_64] paris_nodes def_i
+        dup 8 int + [peek_64] paris_count def_i
+        pop_free
+
+        paris_count peek "Paris connects to %d cities\n" printf pop
+
+        0 int i =
+        {
+            paris_nodes peek i peek 8 int * + [peek_64] [peek_64]
+            dup network peek swap "Paris" graph_get_weight swap
+            "\t`---> %s\t%d mile\n" printf pop pop
+            1 int i +=
+        } i peek paris_count peek < loop
+
+        paris_nodes peek pop_free
+    }else{
+        "No connections...." puts_p
+    } network peek "Paris" graph_get_fwd_links dup if
+
+    "\n\nDo these results match-up with the graph dump:\n" puts_p
+
+    network peek dump_graph     ; check the data from the graph dump with the
+                                ; prev test carried out...
+
+    network peek delete_graph   ; deallocate everything in the graph

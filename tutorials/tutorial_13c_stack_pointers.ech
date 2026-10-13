@@ -1,0 +1,77 @@
+;---------------------------------------------------------------------------------------------------------
+; tutorial_13c: Stack Pointers - Risks & Dangers
+;
+; a simple program to show the dangers of using stack-pointers AFTER clearing
+; the stack. it's easy to corrupt the stack & ruin the program at runtime!
+;
+; the stack will be cleared after pushing data, however, the stack-pointers
+; will still point to their original addresses. this means they can STILL access
+; (read/write) data on the stack, that's already been popped-off!
+;
+; the stack is never scrubbed-clean/nulled-out & often you'll find data on
+; there from previous commands. the stack-pointer always points to the top of
+; the stack and moves UP on pushes and DOWN on pops (this works opposite to
+; your CPU's stack-pointer).
+;
+; this happens during runtime & it's how we handle the stack to make our code run.
+;
+; REMEMBER: after clearing the stack, always use 'pop_bp' to avoid the problems
+; shown in 'corrupting_the_stack' function.
+;
+; valgrind -s --track-origins=yes --leak-check=full ./echelon -f tutorials/tutorial_13c_stack_pointers.ech
+;-----------------------------------------------------------------------------------------------------------
+
+func: corrupting_the_stack
+
+    {  50 int rand } stack_size 8 int < loop  ; push 8 random ints onto the stack
+
+    push_bp             ; set up pointers
+
+    "Pushed 8 ints onto the stack." puts_p
+
+    dump_rts            ; display stack
+
+    bp_0 bp_1 bp_2      ; push these values again from index[0], [1], [2]
+
+    "\nPushed bp_0, bp_1 & bp_2 back onto the stack." puts_p
+
+    dump_rts            ; display stack with 3 new values
+
+    "\nclear the stack.." puts_p
+    clear dump_rts      ; CLEAR the whole stack. display EMPTY stack
+
+    ;pop_bp             ; un-comment this line to see the CORRECT error msg
+
+    ;-------------------------
+    ; REMEMBER: even though the stack is empty, the pointers are
+    ; STILL pointing to addresses on the stack. their values can still be
+    ; read/written to!
+
+    "\ntry pushing bp_0, bp_1 & bp_2 back onto the stack." puts_p
+
+    bp_0 bp_1 bp_2      ; the same 3 values are pushed back onto the stack
+    dump_rts
+    ;-------------------------
+    ; REMEMBER: because the stack was empty, pushing these 3 values
+    ; back onto an empty stack, means bp_7, bp_6 & bp_5 will ALSO
+    ; point to these values!
+
+    "\nclear the stack.." puts_p
+    clear dump_rts      ; CLEARS the whole stack. display EMPTY stack
+
+    "Have bp_7, bp_6 & bp_5 been updated? Even though the stack was cleared?" puts_p
+
+    bp_7 bp_6 bp_5
+
+    dump_rts            ; check the stack values now
+
+    ;------------------------- REVIEW
+    ; did you expect the stack to contain the same 3 integers from bp_0, bp_1 & bp_2?
+    ; you can see 2 of them, but... you're also looking at that string at the bottom of the stack!
+    ; try working out why that string is still visible and what exactly happened!
+
+    return
+
+
+_start:
+    corrupting_the_stack    call_func

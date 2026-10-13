@@ -1,0 +1,115 @@
+;------------------------------------------------------
+; regex_operators.ech: REGEX OVERVIEW
+;
+; RUN: ./echelon -f examples/demos/regex_operators.ech
+;
+; Interested in the regex struct/details?
+; READ: docs/operators/regex.md
+;------------------------------------------------------
+
+func: test_regex_match
+
+    "---- REGEX MATCH TEST 1 ----\n" puts_p
+
+    "profile_id:98127"
+    "profile_id:(\\d+)"
+    "pattern: [%s]\nstring: [%s]\n" printf
+    regex
+
+    "regex result: [%s]\n" printf pop_free        ; free matched string copy
+    "-----------------------------------\n" puts_p
+
+    "admin_user_login"
+    "error_code_\\d+"
+    "pattern: [%s]\nstring: [%s]\n" printf
+    regex
+
+    "regex result: [%p]\n" printf pop             ; NULL = no match, DON'T free!
+    "-----------------------------------\n" puts_p
+    return
+
+
+func: test_regex_match_2
+
+    "---- REGEX MATCH TEST 2 ----\n" puts_p
+
+    "developer_core@echelon.io"
+    "developer_core"
+    "pattern: [%s]\nstring: [%s]\n" printf
+    regex
+
+    "regex result: [%s]\n" printf pop_free        ; free matched string copy
+    "-----------------------------------\n" puts_p
+
+    "core_dump_at_0x55443300"
+    "0x[0-9]+"
+    "pattern: [%s]\nstring: [%s]\n" printf
+    regex
+
+    "regex result: [%s]\n" printf pop_free        ; free matched string copy
+    "-----------------------------------\n" puts_p
+
+    "the_build_date:08-12-2025_thurs_pm"
+    "[0-9]+-[0-9]+-[0-9]+"
+    "pattern: [%s]\nstring: [%s]\n" printf
+    regex
+
+    "regex result: [%s]\n" printf pop_free        ; free matched string copy
+    "-----------------------------------\n" puts_p
+
+    return
+
+
+func: test_regex_subs_bypass
+    ;----------------------------------------------------------------------------------------
+    ; ** BYPASSING the tokeniser **
+    ;
+    ; CHAR PROBLEMS: operator symbols like '+' (43) or '*' (42) (even if they're wrapped
+    ; in double quotes e.g "+", "*") are checked by the tokeniser.
+    ;
+    ; the double-quotes are removed & these tokens are now read as an operator (instruction)
+    ; rather than a 1 char string!
+    ;
+    ; pushing 43 int or 42 int doesn't work because they're not null-term '\0' strings
+    ;
+    ; WORKAROUND: push a safe 1 char string (e.g "X" or "@") dup it & use [poke_8] to
+    ; directly overwrite byte [0], with the ascii symbol you need, before running `regex_sub`.
+    ;
+    ; REMEMBER: dup is required before we do the update, because [poke_8/16/32/64] operators
+    ; always consume the operands from the stack.
+    ;--------------------------------------------------------------------------------------
+
+    "\n---- REGEX SUB TEST : UPDATE REPLACEMENT STRING USING [poke_8] BYPASS ----\n" puts_p
+
+    "Assembly Language Engine....."         ; arg 1  --> string
+    "[aeiouAEIOU]"                          ; arg 2  --> regex pattern
+    "X"                                     ; arg 3  --> temp 1 char string
+    dup 43 int [poke_8]                     ; BYPASS --> overwrite 'X' with ascii 43 '+'
+
+    "replace: [%s]\npattern: [%s]\nstring: [%s]\n" printf
+    regex_sub                               ; run regex_sub
+
+    "regex_sub result: [%s]\n" printf
+    pop_free                                ; free matched string copy
+    "-----------------------------------\n" puts_p
+
+    "secret_key_is_998174_now_secure_it!"   ; arg 1  --> string
+    "[0-9]+"                                ; arg 2  --> regex pattern
+    "@"                                     ; arg 3  --> temp 1 char string
+    dup 42 int [poke_8]                     ; BYPASS --> overwrite '@' with ascii 42 '*'
+
+    "replace: [%s]\npattern: [%s]\nstring: [%s]\n" printf
+    regex_sub                               ; run regex_sub
+
+    "regex_sub result: [%s]\n" printf
+    pop_free                                ; free matched string cpy
+    "-----------------------------------\n" puts_p
+
+    return
+
+
+_start:
+
+    test_regex_match       call_func
+    test_regex_match_2     call_func
+    test_regex_subs_bypass call_func

@@ -1,0 +1,58 @@
+=== Running on: "openSUSE Leap 15.6"
+rm -f *.o *.lst echelon
+==19== Memcheck, a memory error detector
+==19== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==19== Using Valgrind-3.24.0 and LibVEX; rerun with -h for copyright info
+==19== Command: ./echelon -f fibonacci_unbalanced_bin_tree.ech
+==19== 
+Number of nodes being tested in this tree: [20]
+## adding node: [0x4c2b670] --> val: [24]
+## adding node: [0x4c2b790] --> val: [21]
+## adding node: [0x4c2b9d0] --> val: [29]
+## adding node: [0x4c2bc10] --> val: [17]
+## adding node: [0x4c2be50] --> val: [31]
+## adding node: [0x4c2c090] --> val: [30]
+## adding node: [0x4c2c2d0] --> val: [26]
+## adding node: [0x4c2c510] --> val: [18]
+## adding node: [0x4c2c750] --> val: [24]
+## adding node: [0x4c2c990] --> val: [20]
+## adding node: [0x4c2cbd0] --> val: [22]
+## adding node: [0x4c2ce10] --> val: [29]
+## adding node: [0x4c2d050] --> val: [17]
+## adding node: [0x4c2d290] --> val: [29]
+## adding node: [0x4c2d4d0] --> val: [26]
+## adding node: [0x4c2d710] --> val: [30]
+## adding node: [0x4c2d950] --> val: [25]
+## adding node: [0x4c2db90] --> val: [30]
+## adding node: [0x4c2ddd0] --> val: [19]
+## adding node: [0x4c2e010] --> val: [31]
+## adding node: [0x4c2e250] --> val: [23]
+node: [0x4c2b670]	fib series: [24]	fib total: [46368]	less: [0x4c2b790]	more: [0x4c2b9d0]
+node: [0x4c2b790]	fib series: [21]	fib total: [10946]	less: [0x4c2bc10]	more: [0x4c2cbd0]
+node: [0x4c2bc10]	fib series: [17]	fib total: [1597]	less: [(nil)]	more: [0x4c2c510]
+node: [0x4c2c510]	fib series: [18]	fib total: [2584]	less: [0x4c2d050]	more: [0x4c2c990]
+node: [0x4c2d050]	fib series: [17]	fib total: [1597]	less: [(nil)]	more: [(nil)]
+node: [0x4c2c990]	fib series: [20]	fib total: [6765]	less: [0x4c2ddd0]	more: [(nil)]
+node: [0x4c2ddd0]	fib series: [19]	fib total: [4181]	less: [(nil)]	more: [(nil)]
+node: [0x4c2cbd0]	fib series: [22]	fib total: [17711]	less: [(nil)]	more: [0x4c2e250]
+node: [0x4c2e250]	fib series: [23]	fib total: [28657]	less: [(nil)]	more: [(nil)]
+node: [0x4c2b9d0]	fib series: [29]	fib total: [514229]	less: [0x4c2c2d0]	more: [0x4c2be50]
+node: [0x4c2c2d0]	fib series: [26]	fib total: [121393]	less: [0x4c2c750]	more: [0x4c2d4d0]
+node: [0x4c2c750]	fib series: [24]	fib total: [46368]	less: [(nil)]	more: [0x4c2d950]
+node: [0x4c2d950]	fib series: [25]	fib total: [75025]	less: [(nil)]	more: [(nil)]
+node: [0x4c2d4d0]	fib series: [26]	fib total: [121393]	less: [(nil)]	more: [(nil)]
+node: [0x4c2be50]	fib series: [31]	fib total: [1346269]	less: [0x4c2c090]	more: [0x4c2e010]
+node: [0x4c2c090]	fib series: [30]	fib total: [832040]	less: [0x4c2ce10]	more: [0x4c2d710]
+node: [0x4c2ce10]	fib series: [29]	fib total: [514229]	less: [(nil)]	more: [0x4c2d290]
+node: [0x4c2d290]	fib series: [29]	fib total: [514229]	less: [(nil)]	more: [(nil)]
+node: [0x4c2d710]	fib series: [30]	fib total: [832040]	less: [(nil)]	more: [0x4c2db90]
+node: [0x4c2db90]	fib series: [30]	fib total: [832040]	less: [(nil)]	more: [(nil)]
+node: [0x4c2e010]	fib series: [31]	fib total: [1346269]	less: [(nil)]	more: [(nil)]
+==19== 
+==19== HEAP SUMMARY:
+==19==     in use at exit: 0 bytes in 0 blocks
+==19==   total heap usage: 830 allocs, 830 frees, 34,111 bytes allocated
+==19== 
+==19== All heap blocks were freed -- no leaks are possible
+==19== 
+==19== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

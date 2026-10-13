@@ -1,0 +1,17 @@
+ubuntu_adm@EliteDesk[~/final_tests]
+Wed Aug 12 [17:22:55]$ sudo perf stat -e cycles,instructions,branches,branch-misses,cache-misses,cache-references ./echelon -f memory_fill_stress_test.ech >/dev/null
+
+ Performance counter stats for './echelon -f memory_fill_stress_test.ech':
+
+    68,179,715,821      cycles                                                                
+     1,579,060,412      instructions                     #    0.02  insn per cycle            
+       272,113,413      branches                                                              
+           700,668      branch-misses                    #    0.26% of all branches           
+     7,899,825,454      cache-misses                     #   99.81% of all cache refs         
+     7,914,745,365      cache-references                                                      
+
+      18.066702500 seconds time elapsed
+
+      17.672055000 seconds user
+       0.388891000 seconds sys
+

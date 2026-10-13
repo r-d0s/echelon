@@ -1,0 +1,3419 @@
+=== Running on: "openSUSE Leap 15.6"
+rm -f *.o *.lst echelon
+==19== Memcheck, a memory error detector
+==19== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==19== Using Valgrind-3.24.0 and LibVEX; rerun with -h for copyright info
+==19== Command: ./echelon -f nested_16_levels_IF_ELSE.ech
+==19== 
+while loop sum = 44963
+sum: -1 after gen num: 1
+while loop sum = 45315
+sum: -14 after gen num: 13
+while loop sum = 44802
+sum: -4 after gen num: 10
+while loop sum = 45006
+sum: 10 after gen num: 14
+while loop sum = 45210
+sum: -1 after gen num: 11
+while loop sum = 44575
+sum: 3 after gen num: 4
+while loop sum = 45226
+sum: 0 after gen num: 3
+while loop sum = 45324
+sum: 12 after gen num: 12
+while loop sum = 45150
+sum: 3 after gen num: 9
+while loop sum = 45168
+sum: -10 after gen num: 13
+while loop sum = 45038
+sum: -8 after gen num: 2
+while loop sum = 45004
+sum: -8 after gen num: 0
+while loop sum = 44676
+sum: -11 after gen num: 3
+while loop sum = 45231
+sum: -9 after gen num: 2
+while loop sum = 45263
+sum: 7 after gen num: 16
+while loop sum = 45104
+sum: 23 after gen num: 16
+depth: 16 & sum: 23
+------next_iteration!------
+while loop sum = 45179
+sum: -3 after gen num: 3
+while loop sum = 44940
+sum: 3 after gen num: 6
+while loop sum = 44849
+sum: 21 after gen num: 18
+while loop sum = 44746
+sum: 37 after gen num: 16
+while loop sum = 45407
+sum: 53 after gen num: 16
+while loop sum = 45322
+sum: 36 after gen num: 17
+while loop sum = 45020
+sum: 36 after gen num: 0
+while loop sum = 45287
+sum: 46 after gen num: 10
+while loop sum = 44917
+sum: 37 after gen num: 9
+while loop sum = 44975
+sum: 45 after gen num: 8
+while loop sum = 45043
+sum: 38 after gen num: 7
+while loop sum = 45503
+sum: 27 after gen num: 11
+while loop sum = 45069
+sum: 18 after gen num: 9
+while loop sum = 45120
+sum: 15 after gen num: 3
+while loop sum = 44673
+sum: 25 after gen num: 10
+while loop sum = 44789
+sum: 8 after gen num: 17
+depth: 16 & sum: 8
+------next_iteration!------
+while loop sum = 44725
+sum: -9 after gen num: 9
+while loop sum = 45208
+sum: -9 after gen num: 0
+while loop sum = 44835
+sum: 7 after gen num: 16
+while loop sum = 44711
+sum: 9 after gen num: 2
+while loop sum = 44690
+sum: 23 after gen num: 14
+while loop sum = 45076
+sum: 10 after gen num: 13
+while loop sum = 45286
+sum: 10 after gen num: 0
+while loop sum = 44593
+sum: 3 after gen num: 7
+while loop sum = 44772
+sum: 2 after gen num: 1
+while loop sum = 45102
+sum: 20 after gen num: 18
+while loop sum = 45070
+sum: 20 after gen num: 0
+while loop sum = 45174
+sum: 20 after gen num: 0
+while loop sum = 45326
+sum: 32 after gen num: 12
+while loop sum = 44632
+sum: 25 after gen num: 7
+while loop sum = 44877
+sum: 16 after gen num: 9
+while loop sum = 45649
+sum: 9 after gen num: 7
+depth: 16 & sum: 9
+------next_iteration!------
+while loop sum = 45055
+sum: 0 after gen num: 0
+while loop sum = 45633
+sum: -11 after gen num: 11
+while loop sum = 44921
+sum: 3 after gen num: 14
+while loop sum = 44888
+sum: 2 after gen num: 1
+while loop sum = 45120
+sum: -13 after gen num: 15
+while loop sum = 44803
+sum: -14 after gen num: 1
+while loop sum = 44784
+sum: -31 after gen num: 17
+while loop sum = 44971
+sum: -44 after gen num: 13
+while loop sum = 45275
+sum: -51 after gen num: 7
+while loop sum = 45165
+sum: -39 after gen num: 12
+while loop sum = 44616
+sum: -33 after gen num: 6
+while loop sum = 45247
+sum: -31 after gen num: 2
+while loop sum = 45264
+sum: -44 after gen num: 13
+while loop sum = 44479
+sum: -44 after gen num: 0
+while loop sum = 45201
+sum: -53 after gen num: 9
+while loop sum = 45514
+sum: -64 after gen num: 11
+depth: 16 & sum: -64
+------next_iteration!------
+while loop sum = 44943
+sum: -1 after gen num: 1
+while loop sum = 45184
+sum: -1 after gen num: 0
+while loop sum = 45289
+sum: -14 after gen num: 13
+while loop sum = 45196
+sum: -14 after gen num: 0
+while loop sum = 44967
+sum: -23 after gen num: 9
+while loop sum = 45130
+sum: -13 after gen num: 10
+while loop sum = 44930
+sum: -28 after gen num: 15
+while loop sum = 44916
+sum: -35 after gen num: 7
+while loop sum = 45459
+sum: -54 after gen num: 19
+while loop sum = 45011
+sum: -61 after gen num: 7
+while loop sum = 45142
+sum: -57 after gen num: 4
+while loop sum = 45409
+sum: -39 after gen num: 18
+while loop sum = 45152
+sum: -29 after gen num: 10
+while loop sum = 45080
+sum: -23 after gen num: 6
+while loop sum = 44645
+sum: -15 after gen num: 8
+while loop sum = 45423
+sum: -30 after gen num: 15
+depth: 16 & sum: -30
+------next_iteration!------
+while loop sum = 44795
+sum: -19 after gen num: 19
+while loop sum = 44898
+sum: -20 after gen num: 1
+while loop sum = 44638
+sum: -8 after gen num: 12
+while loop sum = 44906
+sum: -8 after gen num: 0
+while loop sum = 45222
+sum: 8 after gen num: 16
+while loop sum = 45445
+sum: 1 after gen num: 7
+while loop sum = 44889
+sum: -4 after gen num: 5
+while loop sum = 45315
+sum: 4 after gen num: 8
+while loop sum = 45098
+sum: 8 after gen num: 4
+while loop sum = 44942
+sum: 12 after gen num: 4
+while loop sum = 44565
+sum: 28 after gen num: 16
+while loop sum = 45365
+sum: 40 after gen num: 12
+while loop sum = 44849
+sum: 48 after gen num: 8
+while loop sum = 44873
+sum: 45 after gen num: 3
+while loop sum = 44558
+sum: 34 after gen num: 11
+while loop sum = 44981
+sum: 19 after gen num: 15
+depth: 16 & sum: 19
+------next_iteration!------
+while loop sum = 44955
+sum: -19 after gen num: 19
+while loop sum = 45477
+sum: -13 after gen num: 6
+while loop sum = 44778
+sum: -30 after gen num: 17
+while loop sum = 45613
+sum: -37 after gen num: 7
+while loop sum = 44900
+sum: -48 after gen num: 11
+while loop sum = 44736
+sum: -32 after gen num: 16
+while loop sum = 45201
+sum: -51 after gen num: 19
+while loop sum = 44936
+sum: -52 after gen num: 1
+while loop sum = 44798
+sum: -57 after gen num: 5
+while loop sum = 45120
+sum: -60 after gen num: 3
+while loop sum = 45055
+sum: -65 after gen num: 5
+while loop sum = 44796
+sum: -47 after gen num: 18
+while loop sum = 44497
+sum: -35 after gen num: 12
+while loop sum = 44677
+sum: -36 after gen num: 1
+while loop sum = 45409
+sum: -18 after gen num: 18
+while loop sum = 45226
+sum: -31 after gen num: 13
+depth: 16 & sum: -31
+------next_iteration!------
+while loop sum = 45471
+sum: -13 after gen num: 13
+while loop sum = 45173
+sum: -7 after gen num: 6
+while loop sum = 45072
+sum: -24 after gen num: 17
+while loop sum = 45329
+sum: -20 after gen num: 4
+while loop sum = 45301
+sum: -23 after gen num: 3
+while loop sum = 44656
+sum: -30 after gen num: 7
+while loop sum = 45683
+sum: -16 after gen num: 14
+while loop sum = 45081
+sum: -33 after gen num: 17
+while loop sum = 44756
+sum: -38 after gen num: 5
+while loop sum = 45292
+sum: -47 after gen num: 9
+while loop sum = 45070
+sum: -62 after gen num: 15
+while loop sum = 44947
+sum: -79 after gen num: 17
+while loop sum = 44975
+sum: -96 after gen num: 17
+while loop sum = 45252
+sum: -90 after gen num: 6
+while loop sum = 44975
+sum: -93 after gen num: 3
+while loop sum = 44996
+sum: -81 after gen num: 12
+depth: 16 & sum: -81
+------next_iteration!------
+while loop sum = 44937
+sum: 4 after gen num: 4
+while loop sum = 45400
+sum: 16 after gen num: 12
+while loop sum = 45268
+sum: 5 after gen num: 11
+while loop sum = 45044
+sum: 4 after gen num: 1
+while loop sum = 44596
+sum: 4 after gen num: 0
+while loop sum = 44969
+sum: -15 after gen num: 19
+while loop sum = 45177
+sum: -18 after gen num: 3
+while loop sum = 45068
+sum: -2 after gen num: 16
+while loop sum = 44984
+sum: -15 after gen num: 13
+while loop sum = 45294
+sum: -3 after gen num: 12
+while loop sum = 44969
+sum: -6 after gen num: 3
+while loop sum = 44583
+sum: -13 after gen num: 7
+while loop sum = 44812
+sum: -11 after gen num: 2
+while loop sum = 45633
+sum: -22 after gen num: 11
+while loop sum = 44941
+sum: -4 after gen num: 18
+while loop sum = 45013
+sum: -21 after gen num: 17
+depth: 16 & sum: -21
+------next_iteration!------
+while loop sum = 44859
+sum: -1 after gen num: 1
+while loop sum = 44663
+sum: 7 after gen num: 8
+while loop sum = 45027
+sum: -2 after gen num: 9
+while loop sum = 45198
+sum: -3 after gen num: 1
+while loop sum = 44775
+sum: 1 after gen num: 4
+while loop sum = 45426
+sum: 9 after gen num: 8
+while loop sum = 45279
+sum: 13 after gen num: 4
+while loop sum = 44917
+sum: 25 after gen num: 12
+while loop sum = 44891
+sum: 24 after gen num: 1
+while loop sum = 45139
+sum: 11 after gen num: 13
+while loop sum = 45411
+sum: -6 after gen num: 17
+while loop sum = 44379
+sum: -7 after gen num: 1
+while loop sum = 45099
+sum: 9 after gen num: 16
+while loop sum = 44719
+sum: 11 after gen num: 2
+while loop sum = 45200
+sum: 25 after gen num: 14
+while loop sum = 44392
+sum: 10 after gen num: 15
+depth: 16 & sum: 10
+------next_iteration!------
+while loop sum = 45040
+sum: 2 after gen num: 2
+while loop sum = 44670
+sum: 16 after gen num: 14
+while loop sum = 44885
+sum: 5 after gen num: 11
+while loop sum = 44746
+sum: -12 after gen num: 17
+while loop sum = 45147
+sum: -29 after gen num: 17
+while loop sum = 45233
+sum: -29 after gen num: 0
+while loop sum = 45018
+sum: -19 after gen num: 10
+while loop sum = 44306
+sum: -1 after gen num: 18
+while loop sum = 45157
+sum: 11 after gen num: 12
+while loop sum = 44335
+sum: 0 after gen num: 11
+while loop sum = 45322
+sum: -9 after gen num: 9
+while loop sum = 44578
+sum: -14 after gen num: 5
+while loop sum = 44679
+sum: -21 after gen num: 7
+while loop sum = 45194
+sum: -40 after gen num: 19
+while loop sum = 45182
+sum: -43 after gen num: 3
+while loop sum = 44630
+sum: -33 after gen num: 10
+depth: 16 & sum: -33
+------next_iteration!------
+while loop sum = 45409
+sum: -13 after gen num: 13
+while loop sum = 44757
+sum: -26 after gen num: 13
+while loop sum = 44642
+sum: -37 after gen num: 11
+while loop sum = 45420
+sum: -19 after gen num: 18
+while loop sum = 45386
+sum: -11 after gen num: 8
+while loop sum = 44876
+sum: -14 after gen num: 3
+while loop sum = 45024
+sum: 0 after gen num: 14
+while loop sum = 45010
+sum: -9 after gen num: 9
+while loop sum = 45322
+sum: -22 after gen num: 13
+while loop sum = 45359
+sum: -31 after gen num: 9
+while loop sum = 45298
+sum: -31 after gen num: 0
+while loop sum = 44962
+sum: -40 after gen num: 9
+while loop sum = 44955
+sum: -59 after gen num: 19
+while loop sum = 45371
+sum: -53 after gen num: 6
+while loop sum = 44696
+sum: -39 after gen num: 14
+while loop sum = 45000
+sum: -27 after gen num: 12
+depth: 16 & sum: -27
+------next_iteration!------
+while loop sum = 45079
+sum: 6 after gen num: 6
+while loop sum = 45409
+sum: 24 after gen num: 18
+while loop sum = 44824
+sum: 19 after gen num: 5
+while loop sum = 44459
+sum: 8 after gen num: 11
+while loop sum = 45047
+sum: 12 after gen num: 4
+while loop sum = 45203
+sum: -7 after gen num: 19
+while loop sum = 44766
+sum: -26 after gen num: 19
+while loop sum = 45380
+sum: -33 after gen num: 7
+while loop sum = 44977
+sum: -34 after gen num: 1
+while loop sum = 44944
+sum: -49 after gen num: 15
+while loop sum = 44961
+sum: -54 after gen num: 5
+while loop sum = 45004
+sum: -42 after gen num: 12
+while loop sum = 45550
+sum: -49 after gen num: 7
+while loop sum = 45414
+sum: -33 after gen num: 16
+while loop sum = 45189
+sum: -17 after gen num: 16
+while loop sum = 44508
+sum: -1 after gen num: 16
+depth: 16 & sum: -1
+------next_iteration!------
+while loop sum = 45294
+sum: 2 after gen num: 2
+while loop sum = 44977
+sum: 12 after gen num: 10
+while loop sum = 45206
+sum: -7 after gen num: 19
+while loop sum = 44711
+sum: 11 after gen num: 18
+while loop sum = 44782
+sum: 11 after gen num: 0
+while loop sum = 45344
+sum: 17 after gen num: 6
+while loop sum = 45070
+sum: 4 after gen num: 13
+while loop sum = 44416
+sum: 20 after gen num: 16
+while loop sum = 45407
+sum: 34 after gen num: 14
+while loop sum = 45003
+sum: 48 after gen num: 14
+while loop sum = 45785
+sum: 45 after gen num: 3
+while loop sum = 45086
+sum: 26 after gen num: 19
+while loop sum = 44736
+sum: 40 after gen num: 14
+while loop sum = 44799
+sum: 39 after gen num: 1
+while loop sum = 44906
+sum: 49 after gen num: 10
+while loop sum = 45356
+sum: 44 after gen num: 5
+depth: 16 & sum: 44
+------next_iteration!------
+while loop sum = 45060
+sum: 6 after gen num: 6
+while loop sum = 45257
+sum: 22 after gen num: 16
+while loop sum = 44824
+sum: 26 after gen num: 4
+while loop sum = 45140
+sum: 38 after gen num: 12
+while loop sum = 45083
+sum: 50 after gen num: 12
+while loop sum = 45262
+sum: 39 after gen num: 11
+while loop sum = 44855
+sum: 45 after gen num: 6
+while loop sum = 44810
+sum: 61 after gen num: 16
+while loop sum = 44999
+sum: 77 after gen num: 16
+while loop sum = 45476
+sum: 85 after gen num: 8
+while loop sum = 45148
+sum: 95 after gen num: 10
+while loop sum = 44902
+sum: 78 after gen num: 17
+while loop sum = 44970
+sum: 65 after gen num: 13
+while loop sum = 44851
+sum: 71 after gen num: 6
+while loop sum = 45071
+sum: 70 after gen num: 1
+while loop sum = 45111
+sum: 70 after gen num: 0
+depth: 16 & sum: 70
+------next_iteration!------
+while loop sum = 45203
+sum: -13 after gen num: 13
+while loop sum = 45048
+sum: -7 after gen num: 6
+while loop sum = 45270
+sum: -26 after gen num: 19
+while loop sum = 45015
+sum: -22 after gen num: 4
+while loop sum = 45121
+sum: -39 after gen num: 17
+while loop sum = 45047
+sum: -42 after gen num: 3
+while loop sum = 44725
+sum: -42 after gen num: 0
+while loop sum = 45246
+sum: -45 after gen num: 3
+while loop sum = 45155
+sum: -41 after gen num: 4
+while loop sum = 45182
+sum: -25 after gen num: 16
+while loop sum = 44920
+sum: -7 after gen num: 18
+while loop sum = 44593
+sum: -18 after gen num: 11
+while loop sum = 44771
+sum: -29 after gen num: 11
+while loop sum = 45282
+sum: -36 after gen num: 7
+while loop sum = 44926
+sum: -41 after gen num: 5
+while loop sum = 45083
+sum: -23 after gen num: 18
+depth: 16 & sum: -23
+------next_iteration!------
+while loop sum = 45490
+sum: 8 after gen num: 8
+while loop sum = 45341
+sum: -1 after gen num: 9
+while loop sum = 45016
+sum: -14 after gen num: 13
+while loop sum = 44808
+sum: -2 after gen num: 12
+while loop sum = 44963
+sum: -7 after gen num: 5
+while loop sum = 44693
+sum: -12 after gen num: 5
+while loop sum = 44986
+sum: -17 after gen num: 5
+while loop sum = 44678
+sum: -22 after gen num: 5
+while loop sum = 45502
+sum: -18 after gen num: 4
+while loop sum = 44367
+sum: -37 after gen num: 19
+while loop sum = 45396
+sum: -37 after gen num: 0
+while loop sum = 44948
+sum: -21 after gen num: 16
+while loop sum = 44818
+sum: -19 after gen num: 2
+while loop sum = 45096
+sum: -24 after gen num: 5
+while loop sum = 44649
+sum: -22 after gen num: 2
+while loop sum = 44959
+sum: -37 after gen num: 15
+depth: 16 & sum: -37
+------next_iteration!------
+while loop sum = 44856
+sum: -19 after gen num: 19
+while loop sum = 45353
+sum: -32 after gen num: 13
+while loop sum = 45336
+sum: -18 after gen num: 14
+while loop sum = 44400
+sum: -19 after gen num: 1
+while loop sum = 44867
+sum: -38 after gen num: 19
+while loop sum = 44482
+sum: -26 after gen num: 12
+while loop sum = 45579
+sum: -45 after gen num: 19
+while loop sum = 45112
+sum: -58 after gen num: 13
+while loop sum = 45343
+sum: -61 after gen num: 3
+while loop sum = 44734
+sum: -66 after gen num: 5
+while loop sum = 45698
+sum: -54 after gen num: 12
+while loop sum = 44531
+sum: -54 after gen num: 0
+while loop sum = 44820
+sum: -54 after gen num: 0
+while loop sum = 44837
+sum: -69 after gen num: 15
+while loop sum = 44880
+sum: -57 after gen num: 12
+while loop sum = 44596
+sum: -68 after gen num: 11
+depth: 16 & sum: -68
+------next_iteration!------
+while loop sum = 44653
+sum: -17 after gen num: 17
+while loop sum = 44780
+sum: -22 after gen num: 5
+while loop sum = 45157
+sum: -20 after gen num: 2
+while loop sum = 44968
+sum: -25 after gen num: 5
+while loop sum = 45149
+sum: -32 after gen num: 7
+while loop sum = 44818
+sum: -20 after gen num: 12
+while loop sum = 44846
+sum: -10 after gen num: 10
+while loop sum = 44484
+sum: -25 after gen num: 15
+while loop sum = 45360
+sum: -30 after gen num: 5
+while loop sum = 45194
+sum: -30 after gen num: 0
+while loop sum = 45066
+sum: -43 after gen num: 13
+while loop sum = 44826
+sum: -39 after gen num: 4
+while loop sum = 45087
+sum: -35 after gen num: 4
+while loop sum = 44742
+sum: -46 after gen num: 11
+while loop sum = 44227
+sum: -59 after gen num: 13
+while loop sum = 45370
+sum: -49 after gen num: 10
+depth: 16 & sum: -49
+------next_iteration!------
+while loop sum = 44798
+sum: -17 after gen num: 17
+while loop sum = 45126
+sum: -28 after gen num: 11
+while loop sum = 44892
+sum: -28 after gen num: 0
+while loop sum = 44909
+sum: -37 after gen num: 9
+while loop sum = 44834
+sum: -25 after gen num: 12
+while loop sum = 45439
+sum: -13 after gen num: 12
+while loop sum = 44529
+sum: -3 after gen num: 10
+while loop sum = 45336
+sum: 1 after gen num: 4
+while loop sum = 44817
+sum: 13 after gen num: 12
+while loop sum = 45269
+sum: -6 after gen num: 19
+while loop sum = 44921
+sum: -17 after gen num: 11
+while loop sum = 45353
+sum: -26 after gen num: 9
+while loop sum = 44721
+sum: -37 after gen num: 11
+while loop sum = 45067
+sum: -23 after gen num: 14
+while loop sum = 45177
+sum: -7 after gen num: 16
+while loop sum = 44718
+sum: -8 after gen num: 1
+depth: 16 & sum: -8
+------next_iteration!------
+while loop sum = 44973
+sum: 4 after gen num: 4
+while loop sum = 45004
+sum: 6 after gen num: 2
+while loop sum = 45210
+sum: -7 after gen num: 13
+while loop sum = 45058
+sum: -12 after gen num: 5
+while loop sum = 45398
+sum: -21 after gen num: 9
+while loop sum = 44878
+sum: -21 after gen num: 0
+while loop sum = 44970
+sum: -22 after gen num: 1
+while loop sum = 44596
+sum: -39 after gen num: 17
+while loop sum = 44779
+sum: -52 after gen num: 13
+while loop sum = 45044
+sum: -55 after gen num: 3
+while loop sum = 45032
+sum: -53 after gen num: 2
+while loop sum = 45062
+sum: -56 after gen num: 3
+while loop sum = 44559
+sum: -57 after gen num: 1
+while loop sum = 44746
+sum: -76 after gen num: 19
+while loop sum = 45448
+sum: -81 after gen num: 5
+while loop sum = 44813
+sum: -71 after gen num: 10
+depth: 16 & sum: -71
+------next_iteration!------
+while loop sum = 44811
+sum: 4 after gen num: 4
+while loop sum = 44922
+sum: 4 after gen num: 0
+while loop sum = 44871
+sum: 10 after gen num: 6
+while loop sum = 45517
+sum: 26 after gen num: 16
+while loop sum = 45182
+sum: 36 after gen num: 10
+while loop sum = 45038
+sum: 27 after gen num: 9
+while loop sum = 44513
+sum: 39 after gen num: 12
+while loop sum = 45028
+sum: 24 after gen num: 15
+while loop sum = 44240
+sum: 21 after gen num: 3
+while loop sum = 44912
+sum: 2 after gen num: 19
+while loop sum = 45534
+sum: -13 after gen num: 15
+while loop sum = 45301
+sum: 3 after gen num: 16
+while loop sum = 45100
+sum: -2 after gen num: 5
+while loop sum = 45156
+sum: -9 after gen num: 7
+while loop sum = 45332
+sum: -10 after gen num: 1
+while loop sum = 45046
+sum: -27 after gen num: 17
+depth: 16 & sum: -27
+------next_iteration!------
+while loop sum = 44692
+sum: 4 after gen num: 4
+while loop sum = 44643
+sum: 1 after gen num: 3
+while loop sum = 44840
+sum: 0 after gen num: 1
+while loop sum = 44381
+sum: 18 after gen num: 18
+while loop sum = 45321
+sum: 34 after gen num: 16
+while loop sum = 45450
+sum: 33 after gen num: 1
+while loop sum = 45075
+sum: 41 after gen num: 8
+while loop sum = 44428
+sum: 43 after gen num: 2
+while loop sum = 44827
+sum: 43 after gen num: 0
+while loop sum = 45437
+sum: 61 after gen num: 18
+while loop sum = 45698
+sum: 63 after gen num: 2
+while loop sum = 44787
+sum: 65 after gen num: 2
+while loop sum = 44945
+sum: 79 after gen num: 14
+while loop sum = 45358
+sum: 64 after gen num: 15
+while loop sum = 45452
+sum: 68 after gen num: 4
+while loop sum = 44741
+sum: 51 after gen num: 17
+depth: 16 & sum: 51
+------next_iteration!------
+while loop sum = 45209
+sum: 16 after gen num: 16
+while loop sum = 44795
+sum: 28 after gen num: 12
+while loop sum = 44997
+sum: 34 after gen num: 6
+while loop sum = 44712
+sum: 17 after gen num: 17
+while loop sum = 45113
+sum: 2 after gen num: 15
+while loop sum = 44703
+sum: -5 after gen num: 7
+while loop sum = 45333
+sum: -16 after gen num: 11
+while loop sum = 45057
+sum: -19 after gen num: 3
+while loop sum = 44594
+sum: -5 after gen num: 14
+while loop sum = 45127
+sum: -12 after gen num: 7
+while loop sum = 44719
+sum: -17 after gen num: 5
+while loop sum = 45713
+sum: -17 after gen num: 0
+while loop sum = 44898
+sum: -7 after gen num: 10
+while loop sum = 45225
+sum: 5 after gen num: 12
+while loop sum = 44812
+sum: -10 after gen num: 15
+while loop sum = 45230
+sum: -2 after gen num: 8
+depth: 16 & sum: -2
+------next_iteration!------
+while loop sum = 45298
+sum: -19 after gen num: 19
+while loop sum = 44382
+sum: -13 after gen num: 6
+while loop sum = 44799
+sum: -3 after gen num: 10
+while loop sum = 44402
+sum: -16 after gen num: 13
+while loop sum = 45290
+sum: -4 after gen num: 12
+while loop sum = 44763
+sum: -13 after gen num: 9
+while loop sum = 44602
+sum: -7 after gen num: 6
+while loop sum = 44940
+sum: -20 after gen num: 13
+while loop sum = 45273
+sum: -39 after gen num: 19
+while loop sum = 44431
+sum: -23 after gen num: 16
+while loop sum = 44738
+sum: -40 after gen num: 17
+while loop sum = 45117
+sum: -24 after gen num: 16
+while loop sum = 44419
+sum: -37 after gen num: 13
+while loop sum = 44928
+sum: -50 after gen num: 13
+while loop sum = 44496
+sum: -32 after gen num: 18
+while loop sum = 45210
+sum: -43 after gen num: 11
+depth: 16 & sum: -43
+------next_iteration!------
+while loop sum = 44590
+sum: 12 after gen num: 12
+while loop sum = 45522
+sum: 20 after gen num: 8
+while loop sum = 44620
+sum: 22 after gen num: 2
+while loop sum = 44547
+sum: 32 after gen num: 10
+while loop sum = 44729
+sum: 13 after gen num: 19
+while loop sum = 44979
+sum: 15 after gen num: 2
+while loop sum = 44834
+sum: 8 after gen num: 7
+while loop sum = 44662
+sum: 7 after gen num: 1
+while loop sum = 44993
+sum: 11 after gen num: 4
+while loop sum = 44769
+sum: 2 after gen num: 9
+while loop sum = 45455
+sum: 20 after gen num: 18
+while loop sum = 44619
+sum: 17 after gen num: 3
+while loop sum = 45063
+sum: -2 after gen num: 19
+while loop sum = 44962
+sum: 8 after gen num: 10
+while loop sum = 45232
+sum: -5 after gen num: 13
+while loop sum = 44815
+sum: 1 after gen num: 6
+depth: 16 & sum: 1
+------next_iteration!------
+while loop sum = 44818
+sum: -9 after gen num: 9
+while loop sum = 44680
+sum: -16 after gen num: 7
+while loop sum = 44431
+sum: -19 after gen num: 3
+while loop sum = 45047
+sum: -36 after gen num: 17
+while loop sum = 44548
+sum: -36 after gen num: 0
+while loop sum = 44396
+sum: -24 after gen num: 12
+while loop sum = 44688
+sum: -33 after gen num: 9
+while loop sum = 45079
+sum: -52 after gen num: 19
+while loop sum = 45541
+sum: -34 after gen num: 18
+while loop sum = 44673
+sum: -26 after gen num: 8
+while loop sum = 44921
+sum: -16 after gen num: 10
+while loop sum = 44979
+sum: -29 after gen num: 13
+while loop sum = 45058
+sum: -36 after gen num: 7
+while loop sum = 45088
+sum: -37 after gen num: 1
+while loop sum = 45007
+sum: -33 after gen num: 4
+while loop sum = 45036
+sum: -52 after gen num: 19
+depth: 16 & sum: -52
+------next_iteration!------
+while loop sum = 44988
+sum: 18 after gen num: 18
+while loop sum = 44875
+sum: 9 after gen num: 9
+while loop sum = 44666
+sum: 9 after gen num: 0
+while loop sum = 45103
+sum: 21 after gen num: 12
+while loop sum = 45019
+sum: 35 after gen num: 14
+while loop sum = 45159
+sum: 43 after gen num: 8
+while loop sum = 45540
+sum: 45 after gen num: 2
+while loop sum = 45018
+sum: 49 after gen num: 4
+while loop sum = 45526
+sum: 42 after gen num: 7
+while loop sum = 44980
+sum: 41 after gen num: 1
+while loop sum = 45053
+sum: 45 after gen num: 4
+while loop sum = 45002
+sum: 57 after gen num: 12
+while loop sum = 44578
+sum: 59 after gen num: 2
+while loop sum = 44667
+sum: 50 after gen num: 9
+while loop sum = 45182
+sum: 52 after gen num: 2
+while loop sum = 44849
+sum: 43 after gen num: 9
+depth: 16 & sum: 43
+------next_iteration!------
+while loop sum = 44954
+sum: -3 after gen num: 3
+while loop sum = 45109
+sum: -12 after gen num: 9
+while loop sum = 44953
+sum: -10 after gen num: 2
+while loop sum = 44587
+sum: -21 after gen num: 11
+while loop sum = 44970
+sum: -13 after gen num: 8
+while loop sum = 45287
+sum: -16 after gen num: 3
+while loop sum = 44994
+sum: -33 after gen num: 17
+while loop sum = 45135
+sum: -40 after gen num: 7
+while loop sum = 45282
+sum: -24 after gen num: 16
+while loop sum = 44610
+sum: -8 after gen num: 16
+while loop sum = 45119
+sum: -9 after gen num: 1
+while loop sum = 44701
+sum: -26 after gen num: 17
+while loop sum = 44918
+sum: -26 after gen num: 0
+while loop sum = 45120
+sum: -26 after gen num: 0
+while loop sum = 45212
+sum: -18 after gen num: 8
+while loop sum = 44752
+sum: -29 after gen num: 11
+depth: 16 & sum: -29
+------next_iteration!------
+while loop sum = 44769
+sum: 8 after gen num: 8
+while loop sum = 44922
+sum: 5 after gen num: 3
+while loop sum = 45338
+sum: -14 after gen num: 19
+while loop sum = 45396
+sum: -12 after gen num: 2
+while loop sum = 44182
+sum: -25 after gen num: 13
+while loop sum = 44827
+sum: -26 after gen num: 1
+while loop sum = 44570
+sum: -24 after gen num: 2
+while loop sum = 45400
+sum: -33 after gen num: 9
+while loop sum = 44856
+sum: -17 after gen num: 16
+while loop sum = 44588
+sum: -24 after gen num: 7
+while loop sum = 45098
+sum: -18 after gen num: 6
+while loop sum = 44467
+sum: -37 after gen num: 19
+while loop sum = 44723
+sum: -56 after gen num: 19
+while loop sum = 44917
+sum: -40 after gen num: 16
+while loop sum = 44984
+sum: -38 after gen num: 2
+while loop sum = 45186
+sum: -57 after gen num: 19
+depth: 16 & sum: -57
+------next_iteration!------
+while loop sum = 44383
+sum: 16 after gen num: 16
+while loop sum = 44717
+sum: 15 after gen num: 1
+while loop sum = 45029
+sum: 14 after gen num: 1
+while loop sum = 45256
+sum: 1 after gen num: 13
+while loop sum = 44866
+sum: 15 after gen num: 14
+while loop sum = 44967
+sum: 6 after gen num: 9
+while loop sum = 45223
+sum: 10 after gen num: 4
+while loop sum = 45601
+sum: 10 after gen num: 0
+while loop sum = 44580
+sum: 1 after gen num: 9
+while loop sum = 45054
+sum: -8 after gen num: 9
+while loop sum = 45377
+sum: -11 after gen num: 3
+while loop sum = 44950
+sum: -22 after gen num: 11
+while loop sum = 45182
+sum: -4 after gen num: 18
+while loop sum = 44664
+sum: -17 after gen num: 13
+while loop sum = 44592
+sum: -18 after gen num: 1
+while loop sum = 44558
+sum: -2 after gen num: 16
+depth: 16 & sum: -2
+------next_iteration!------
+while loop sum = 45012
+sum: -9 after gen num: 9
+while loop sum = 44606
+sum: -14 after gen num: 5
+while loop sum = 45182
+sum: -2 after gen num: 12
+while loop sum = 45380
+sum: -11 after gen num: 9
+while loop sum = 44774
+sum: -22 after gen num: 11
+while loop sum = 45264
+sum: -12 after gen num: 10
+while loop sum = 44992
+sum: 2 after gen num: 14
+while loop sum = 44533
+sum: -13 after gen num: 15
+while loop sum = 44570
+sum: 3 after gen num: 16
+while loop sum = 44740
+sum: 7 after gen num: 4
+while loop sum = 44825
+sum: -6 after gen num: 13
+while loop sum = 45121
+sum: -25 after gen num: 19
+while loop sum = 45182
+sum: -38 after gen num: 13
+while loop sum = 44867
+sum: -28 after gen num: 10
+while loop sum = 45092
+sum: -24 after gen num: 4
+while loop sum = 44448
+sum: -43 after gen num: 19
+depth: 16 & sum: -43
+------next_iteration!------
+while loop sum = 44323
+sum: -11 after gen num: 11
+while loop sum = 44970
+sum: 3 after gen num: 14
+while loop sum = 45028
+sum: -16 after gen num: 19
+while loop sum = 44897
+sum: -25 after gen num: 9
+while loop sum = 44604
+sum: -38 after gen num: 13
+while loop sum = 45011
+sum: -55 after gen num: 17
+while loop sum = 45298
+sum: -62 after gen num: 7
+while loop sum = 45443
+sum: -54 after gen num: 8
+while loop sum = 44863
+sum: -46 after gen num: 8
+while loop sum = 45098
+sum: -53 after gen num: 7
+while loop sum = 45330
+sum: -41 after gen num: 12
+while loop sum = 44977
+sum: -56 after gen num: 15
+while loop sum = 44705
+sum: -52 after gen num: 4
+while loop sum = 44637
+sum: -52 after gen num: 0
+while loop sum = 44727
+sum: -48 after gen num: 4
+while loop sum = 44894
+sum: -67 after gen num: 19
+depth: 16 & sum: -67
+------next_iteration!------
+while loop sum = 45384
+sum: -1 after gen num: 1
+while loop sum = 44829
+sum: 11 after gen num: 12
+while loop sum = 44920
+sum: -4 after gen num: 15
+while loop sum = 45553
+sum: -17 after gen num: 13
+while loop sum = 44936
+sum: -18 after gen num: 1
+while loop sum = 45283
+sum: -21 after gen num: 3
+while loop sum = 44945
+sum: -19 after gen num: 2
+while loop sum = 44460
+sum: -38 after gen num: 19
+while loop sum = 44690
+sum: -30 after gen num: 8
+while loop sum = 44516
+sum: -45 after gen num: 15
+while loop sum = 45502
+sum: -52 after gen num: 7
+while loop sum = 44786
+sum: -44 after gen num: 8
+while loop sum = 45076
+sum: -38 after gen num: 6
+while loop sum = 44516
+sum: -28 after gen num: 10
+while loop sum = 45186
+sum: -41 after gen num: 13
+while loop sum = 44737
+sum: -52 after gen num: 11
+depth: 16 & sum: -52
+------next_iteration!------
+while loop sum = 45430
+sum: 8 after gen num: 8
+while loop sum = 44963
+sum: -7 after gen num: 15
+while loop sum = 44977
+sum: -16 after gen num: 9
+while loop sum = 45070
+sum: -35 after gen num: 19
+while loop sum = 45667
+sum: -48 after gen num: 13
+while loop sum = 44709
+sum: -49 after gen num: 1
+while loop sum = 44668
+sum: -66 after gen num: 17
+while loop sum = 44871
+sum: -79 after gen num: 13
+while loop sum = 44754
+sum: -96 after gen num: 17
+while loop sum = 44715
+sum: -109 after gen num: 13
+while loop sum = 45158
+sum: -105 after gen num: 4
+while loop sum = 45184
+sum: -112 after gen num: 7
+while loop sum = 45160
+sum: -129 after gen num: 17
+while loop sum = 44682
+sum: -136 after gen num: 7
+while loop sum = 44953
+sum: -134 after gen num: 2
+while loop sum = 45006
+sum: -145 after gen num: 11
+depth: 16 & sum: -145
+------next_iteration!------
+while loop sum = 45652
+sum: -19 after gen num: 19
+while loop sum = 45165
+sum: -28 after gen num: 9
+while loop sum = 45289
+sum: -41 after gen num: 13
+while loop sum = 45093
+sum: -48 after gen num: 7
+while loop sum = 44745
+sum: -46 after gen num: 2
+while loop sum = 44891
+sum: -30 after gen num: 16
+while loop sum = 45096
+sum: -45 after gen num: 15
+while loop sum = 44450
+sum: -60 after gen num: 15
+while loop sum = 44824
+sum: -69 after gen num: 9
+while loop sum = 44942
+sum: -61 after gen num: 8
+while loop sum = 44833
+sum: -68 after gen num: 7
+while loop sum = 44853
+sum: -81 after gen num: 13
+while loop sum = 44882
+sum: -67 after gen num: 14
+while loop sum = 44906
+sum: -59 after gen num: 8
+while loop sum = 44856
+sum: -64 after gen num: 5
+while loop sum = 45053
+sum: -67 after gen num: 3
+depth: 16 & sum: -67
+------next_iteration!------
+while loop sum = 45074
+sum: -9 after gen num: 9
+while loop sum = 44731
+sum: 7 after gen num: 16
+while loop sum = 45280
+sum: 13 after gen num: 6
+while loop sum = 45370
+sum: 13 after gen num: 0
+while loop sum = 45212
+sum: 6 after gen num: 7
+while loop sum = 45384
+sum: 5 after gen num: 1
+while loop sum = 44823
+sum: -14 after gen num: 19
+while loop sum = 44936
+sum: -17 after gen num: 3
+while loop sum = 45080
+sum: -3 after gen num: 14
+while loop sum = 45154
+sum: -6 after gen num: 3
+while loop sum = 45015
+sum: -6 after gen num: 0
+while loop sum = 45097
+sum: -11 after gen num: 5
+while loop sum = 44763
+sum: -22 after gen num: 11
+while loop sum = 44791
+sum: -35 after gen num: 13
+while loop sum = 45100
+sum: -54 after gen num: 19
+while loop sum = 44927
+sum: -38 after gen num: 16
+depth: 16 & sum: -38
+------next_iteration!------
+while loop sum = 45195
+sum: -17 after gen num: 17
+while loop sum = 44785
+sum: -13 after gen num: 4
+while loop sum = 45132
+sum: -22 after gen num: 9
+while loop sum = 44844
+sum: -16 after gen num: 6
+while loop sum = 45233
+sum: -35 after gen num: 19
+while loop sum = 44801
+sum: -35 after gen num: 0
+while loop sum = 45144
+sum: -46 after gen num: 11
+while loop sum = 45266
+sum: -40 after gen num: 6
+while loop sum = 44770
+sum: -22 after gen num: 18
+while loop sum = 44988
+sum: -35 after gen num: 13
+while loop sum = 44830
+sum: -21 after gen num: 14
+while loop sum = 44946
+sum: -22 after gen num: 1
+while loop sum = 45321
+sum: -16 after gen num: 6
+while loop sum = 45354
+sum: 2 after gen num: 18
+while loop sum = 45117
+sum: 18 after gen num: 16
+while loop sum = 44460
+sum: 24 after gen num: 6
+depth: 16 & sum: 24
+------next_iteration!------
+while loop sum = 44833
+sum: 14 after gen num: 14
+while loop sum = 44840
+sum: -5 after gen num: 19
+while loop sum = 45149
+sum: 13 after gen num: 18
+while loop sum = 45309
+sum: 4 after gen num: 9
+while loop sum = 45098
+sum: 22 after gen num: 18
+while loop sum = 44925
+sum: 40 after gen num: 18
+while loop sum = 44990
+sum: 50 after gen num: 10
+while loop sum = 45174
+sum: 50 after gen num: 0
+while loop sum = 44575
+sum: 49 after gen num: 1
+while loop sum = 44530
+sum: 61 after gen num: 12
+while loop sum = 45533
+sum: 42 after gen num: 19
+while loop sum = 44603
+sum: 41 after gen num: 1
+while loop sum = 44776
+sum: 51 after gen num: 10
+while loop sum = 45429
+sum: 61 after gen num: 10
+while loop sum = 45103
+sum: 44 after gen num: 17
+while loop sum = 44843
+sum: 37 after gen num: 7
+depth: 16 & sum: 37
+------next_iteration!------
+while loop sum = 44876
+sum: -1 after gen num: 1
+while loop sum = 44795
+sum: -4 after gen num: 3
+while loop sum = 44855
+sum: -4 after gen num: 0
+while loop sum = 44850
+sum: 0 after gen num: 4
+while loop sum = 45172
+sum: -11 after gen num: 11
+while loop sum = 45268
+sum: 1 after gen num: 12
+while loop sum = 44533
+sum: 17 after gen num: 16
+while loop sum = 44701
+sum: 16 after gen num: 1
+while loop sum = 45330
+sum: 28 after gen num: 12
+while loop sum = 44997
+sum: 28 after gen num: 0
+while loop sum = 45373
+sum: 44 after gen num: 16
+while loop sum = 45271
+sum: 35 after gen num: 9
+while loop sum = 45072
+sum: 22 after gen num: 13
+while loop sum = 44585
+sum: 21 after gen num: 1
+while loop sum = 44845
+sum: 29 after gen num: 8
+while loop sum = 45512
+sum: 28 after gen num: 1
+depth: 16 & sum: 28
+------next_iteration!------
+while loop sum = 44899
+sum: 12 after gen num: 12
+while loop sum = 44969
+sum: 14 after gen num: 2
+while loop sum = 45044
+sum: -5 after gen num: 19
+while loop sum = 44755
+sum: -1 after gen num: 4
+while loop sum = 44984
+sum: -12 after gen num: 11
+while loop sum = 45682
+sum: -27 after gen num: 15
+while loop sum = 44928
+sum: -36 after gen num: 9
+while loop sum = 44606
+sum: -43 after gen num: 7
+while loop sum = 44664
+sum: -39 after gen num: 4
+while loop sum = 45212
+sum: -21 after gen num: 18
+while loop sum = 45067
+sum: -34 after gen num: 13
+while loop sum = 44662
+sum: -18 after gen num: 16
+while loop sum = 45214
+sum: -19 after gen num: 1
+while loop sum = 44839
+sum: -32 after gen num: 13
+while loop sum = 45110
+sum: -24 after gen num: 8
+while loop sum = 44435
+sum: -43 after gen num: 19
+depth: 16 & sum: -43
+------next_iteration!------
+while loop sum = 44943
+sum: -17 after gen num: 17
+while loop sum = 45008
+sum: -1 after gen num: 16
+while loop sum = 45090
+sum: -12 after gen num: 11
+while loop sum = 45263
+sum: -25 after gen num: 13
+while loop sum = 45223
+sum: -9 after gen num: 16
+while loop sum = 44487
+sum: -12 after gen num: 3
+while loop sum = 44770
+sum: -27 after gen num: 15
+while loop sum = 45429
+sum: -17 after gen num: 10
+while loop sum = 44605
+sum: -30 after gen num: 13
+while loop sum = 44696
+sum: -16 after gen num: 14
+while loop sum = 44970
+sum: -2 after gen num: 14
+while loop sum = 44937
+sum: -9 after gen num: 7
+while loop sum = 45007
+sum: -18 after gen num: 9
+while loop sum = 44464
+sum: -8 after gen num: 10
+while loop sum = 45404
+sum: -2 after gen num: 6
+while loop sum = 44869
+sum: -5 after gen num: 3
+depth: 16 & sum: -5
+------next_iteration!------
+while loop sum = 44530
+sum: 18 after gen num: 18
+while loop sum = 44565
+sum: 30 after gen num: 12
+while loop sum = 44776
+sum: 17 after gen num: 13
+while loop sum = 45143
+sum: 21 after gen num: 4
+while loop sum = 44930
+sum: 35 after gen num: 14
+while loop sum = 45191
+sum: 20 after gen num: 15
+while loop sum = 44835
+sum: 26 after gen num: 6
+while loop sum = 44750
+sum: 34 after gen num: 8
+while loop sum = 44738
+sum: 27 after gen num: 7
+while loop sum = 45473
+sum: 35 after gen num: 8
+while loop sum = 45018
+sum: 22 after gen num: 13
+while loop sum = 45008
+sum: 32 after gen num: 10
+while loop sum = 45366
+sum: 44 after gen num: 12
+while loop sum = 44869
+sum: 25 after gen num: 19
+while loop sum = 45352
+sum: 29 after gen num: 4
+while loop sum = 45181
+sum: 43 after gen num: 14
+depth: 16 & sum: 43
+------next_iteration!------
+while loop sum = 45231
+sum: -17 after gen num: 17
+while loop sum = 45203
+sum: -22 after gen num: 5
+while loop sum = 44995
+sum: -18 after gen num: 4
+while loop sum = 44884
+sum: -37 after gen num: 19
+while loop sum = 45148
+sum: -54 after gen num: 17
+while loop sum = 45319
+sum: -73 after gen num: 19
+while loop sum = 45039
+sum: -74 after gen num: 1
+while loop sum = 44977
+sum: -74 after gen num: 0
+while loop sum = 44991
+sum: -60 after gen num: 14
+while loop sum = 45391
+sum: -69 after gen num: 9
+while loop sum = 45238
+sum: -67 after gen num: 2
+while loop sum = 44697
+sum: -55 after gen num: 12
+while loop sum = 44590
+sum: -58 after gen num: 3
+while loop sum = 45265
+sum: -71 after gen num: 13
+while loop sum = 44762
+sum: -53 after gen num: 18
+while loop sum = 45118
+sum: -68 after gen num: 15
+depth: 16 & sum: -68
+------next_iteration!------
+while loop sum = 44591
+sum: 2 after gen num: 2
+while loop sum = 44630
+sum: -7 after gen num: 9
+while loop sum = 45159
+sum: -3 after gen num: 4
+while loop sum = 45046
+sum: -18 after gen num: 15
+while loop sum = 44822
+sum: -21 after gen num: 3
+while loop sum = 45332
+sum: -24 after gen num: 3
+while loop sum = 45002
+sum: -43 after gen num: 19
+while loop sum = 45342
+sum: -31 after gen num: 12
+while loop sum = 44554
+sum: -42 after gen num: 11
+while loop sum = 45124
+sum: -28 after gen num: 14
+while loop sum = 44786
+sum: -41 after gen num: 13
+while loop sum = 44678
+sum: -54 after gen num: 13
+while loop sum = 44877
+sum: -73 after gen num: 19
+while loop sum = 44912
+sum: -84 after gen num: 11
+while loop sum = 45389
+sum: -103 after gen num: 19
+while loop sum = 45372
+sum: -93 after gen num: 10
+depth: 16 & sum: -93
+------next_iteration!------
+while loop sum = 44523
+sum: -1 after gen num: 1
+while loop sum = 44722
+sum: -2 after gen num: 1
+while loop sum = 44948
+sum: -2 after gen num: 0
+while loop sum = 45095
+sum: -9 after gen num: 7
+while loop sum = 45303
+sum: -22 after gen num: 13
+while loop sum = 45041
+sum: -31 after gen num: 9
+while loop sum = 45183
+sum: -50 after gen num: 19
+while loop sum = 44780
+sum: -61 after gen num: 11
+while loop sum = 45187
+sum: -72 after gen num: 11
+while loop sum = 44654
+sum: -81 after gen num: 9
+while loop sum = 45152
+sum: -71 after gen num: 10
+while loop sum = 44524
+sum: -78 after gen num: 7
+while loop sum = 44391
+sum: -78 after gen num: 0
+while loop sum = 45050
+sum: -95 after gen num: 17
+while loop sum = 44567
+sum: -112 after gen num: 17
+while loop sum = 45075
+sum: -125 after gen num: 13
+depth: 16 & sum: -125
+------next_iteration!------
+while loop sum = 44696
+sum: 16 after gen num: 16
+while loop sum = 44834
+sum: 24 after gen num: 8
+while loop sum = 44852
+sum: 11 after gen num: 13
+while loop sum = 44918
+sum: 13 after gen num: 2
+while loop sum = 45116
+sum: 21 after gen num: 8
+while loop sum = 44968
+sum: 21 after gen num: 0
+while loop sum = 44649
+sum: 16 after gen num: 5
+while loop sum = 44782
+sum: 5 after gen num: 11
+while loop sum = 44878
+sum: -14 after gen num: 19
+while loop sum = 44784
+sum: -33 after gen num: 19
+while loop sum = 44691
+sum: -36 after gen num: 3
+while loop sum = 44867
+sum: -36 after gen num: 0
+while loop sum = 45133
+sum: -20 after gen num: 16
+while loop sum = 45335
+sum: -29 after gen num: 9
+while loop sum = 44731
+sum: -40 after gen num: 11
+while loop sum = 45321
+sum: -22 after gen num: 18
+depth: 16 & sum: -22
+------next_iteration!------
+while loop sum = 44858
+sum: 6 after gen num: 6
+while loop sum = 45001
+sum: 20 after gen num: 14
+while loop sum = 44515
+sum: 9 after gen num: 11
+while loop sum = 44654
+sum: -4 after gen num: 13
+while loop sum = 44972
+sum: 0 after gen num: 4
+while loop sum = 45337
+sum: -3 after gen num: 3
+while loop sum = 44860
+sum: -6 after gen num: 3
+while loop sum = 45193
+sum: 6 after gen num: 12
+while loop sum = 45095
+sum: 22 after gen num: 16
+while loop sum = 45244
+sum: 21 after gen num: 1
+while loop sum = 44671
+sum: 10 after gen num: 11
+while loop sum = 44737
+sum: 22 after gen num: 12
+while loop sum = 44902
+sum: 34 after gen num: 12
+while loop sum = 44911
+sum: 46 after gen num: 12
+while loop sum = 45019
+sum: 52 after gen num: 6
+while loop sum = 44571
+sum: 41 after gen num: 11
+depth: 16 & sum: 41
+------next_iteration!------
+while loop sum = 45002
+sum: 8 after gen num: 8
+while loop sum = 44872
+sum: -3 after gen num: 11
+while loop sum = 45576
+sum: -3 after gen num: 0
+while loop sum = 44949
+sum: -16 after gen num: 13
+while loop sum = 45199
+sum: -27 after gen num: 11
+while loop sum = 44749
+sum: -17 after gen num: 10
+while loop sum = 45124
+sum: -1 after gen num: 16
+while loop sum = 44371
+sum: 3 after gen num: 4
+while loop sum = 44814
+sum: 3 after gen num: 0
+while loop sum = 45018
+sum: 21 after gen num: 18
+while loop sum = 45127
+sum: 39 after gen num: 18
+while loop sum = 45206
+sum: 47 after gen num: 8
+while loop sum = 45336
+sum: 61 after gen num: 14
+while loop sum = 44582
+sum: 75 after gen num: 14
+while loop sum = 45167
+sum: 72 after gen num: 3
+while loop sum = 44541
+sum: 59 after gen num: 13
+depth: 16 & sum: 59
+------next_iteration!------
+while loop sum = 44800
+sum: 6 after gen num: 6
+while loop sum = 44171
+sum: 6 after gen num: 0
+while loop sum = 44669
+sum: 1 after gen num: 5
+while loop sum = 45548
+sum: 17 after gen num: 16
+while loop sum = 44303
+sum: 27 after gen num: 10
+while loop sum = 45255
+sum: 37 after gen num: 10
+while loop sum = 44744
+sum: 49 after gen num: 12
+while loop sum = 44591
+sum: 46 after gen num: 3
+while loop sum = 45068
+sum: 48 after gen num: 2
+while loop sum = 44898
+sum: 60 after gen num: 12
+while loop sum = 44225
+sum: 47 after gen num: 13
+while loop sum = 44759
+sum: 51 after gen num: 4
+while loop sum = 45109
+sum: 59 after gen num: 8
+while loop sum = 45084
+sum: 44 after gen num: 15
+while loop sum = 45022
+sum: 58 after gen num: 14
+while loop sum = 45226
+sum: 41 after gen num: 17
+depth: 16 & sum: 41
+------next_iteration!------
+while loop sum = 45076
+sum: -13 after gen num: 13
+while loop sum = 44820
+sum: -22 after gen num: 9
+while loop sum = 44813
+sum: -16 after gen num: 6
+while loop sum = 45322
+sum: -19 after gen num: 3
+while loop sum = 45346
+sum: -13 after gen num: 6
+while loop sum = 44723
+sum: -16 after gen num: 3
+while loop sum = 45416
+sum: -8 after gen num: 8
+while loop sum = 44794
+sum: 2 after gen num: 10
+while loop sum = 45342
+sum: -13 after gen num: 15
+while loop sum = 45244
+sum: -32 after gen num: 19
+while loop sum = 44905
+sum: -26 after gen num: 6
+while loop sum = 45005
+sum: -24 after gen num: 2
+while loop sum = 44900
+sum: -37 after gen num: 13
+while loop sum = 44794
+sum: -19 after gen num: 18
+while loop sum = 44831
+sum: -22 after gen num: 3
+while loop sum = 45035
+sum: -37 after gen num: 15
+depth: 16 & sum: -37
+------next_iteration!------
+while loop sum = 45397
+sum: 18 after gen num: 18
+while loop sum = 45109
+sum: 30 after gen num: 12
+while loop sum = 44714
+sum: 11 after gen num: 19
+while loop sum = 44920
+sum: 23 after gen num: 12
+while loop sum = 44669
+sum: 35 after gen num: 12
+while loop sum = 44995
+sum: 20 after gen num: 15
+while loop sum = 45074
+sum: 11 after gen num: 9
+while loop sum = 44832
+sum: 17 after gen num: 6
+while loop sum = 44747
+sum: 33 after gen num: 16
+while loop sum = 45302
+sum: 18 after gen num: 15
+while loop sum = 45538
+sum: 28 after gen num: 10
+while loop sum = 45708
+sum: 11 after gen num: 17
+while loop sum = 44450
+sum: -4 after gen num: 15
+while loop sum = 44676
+sum: 0 after gen num: 4
+while loop sum = 45255
+sum: 4 after gen num: 4
+while loop sum = 45121
+sum: 1 after gen num: 3
+depth: 16 & sum: 1
+------next_iteration!------
+while loop sum = 45257
+sum: -9 after gen num: 9
+while loop sum = 45321
+sum: -7 after gen num: 2
+while loop sum = 45331
+sum: -18 after gen num: 11
+while loop sum = 45184
+sum: -8 after gen num: 10
+while loop sum = 44349
+sum: 6 after gen num: 14
+while loop sum = 44871
+sum: 20 after gen num: 14
+while loop sum = 45098
+sum: 5 after gen num: 15
+while loop sum = 44813
+sum: 0 after gen num: 5
+while loop sum = 44998
+sum: -17 after gen num: 17
+while loop sum = 44880
+sum: -36 after gen num: 19
+while loop sum = 45123
+sum: -49 after gen num: 13
+while loop sum = 44697
+sum: -45 after gen num: 4
+while loop sum = 45118
+sum: -54 after gen num: 9
+while loop sum = 44843
+sum: -50 after gen num: 4
+while loop sum = 45110
+sum: -34 after gen num: 16
+while loop sum = 45190
+sum: -49 after gen num: 15
+depth: 16 & sum: -49
+------next_iteration!------
+while loop sum = 45130
+sum: 18 after gen num: 18
+while loop sum = 45465
+sum: 7 after gen num: 11
+while loop sum = 44708
+sum: 9 after gen num: 2
+while loop sum = 44807
+sum: 23 after gen num: 14
+while loop sum = 44718
+sum: 20 after gen num: 3
+while loop sum = 44213
+sum: 5 after gen num: 15
+while loop sum = 45008
+sum: -6 after gen num: 11
+while loop sum = 45115
+sum: -9 after gen num: 3
+while loop sum = 45161
+sum: -1 after gen num: 8
+while loop sum = 44830
+sum: -8 after gen num: 7
+while loop sum = 44719
+sum: 0 after gen num: 8
+while loop sum = 45918
+sum: 18 after gen num: 18
+while loop sum = 44256
+sum: 32 after gen num: 14
+while loop sum = 45053
+sum: 40 after gen num: 8
+while loop sum = 45002
+sum: 54 after gen num: 14
+while loop sum = 44933
+sum: 58 after gen num: 4
+depth: 16 & sum: 58
+------next_iteration!------
+while loop sum = 44411
+sum: -7 after gen num: 7
+while loop sum = 45210
+sum: 9 after gen num: 16
+while loop sum = 44912
+sum: -6 after gen num: 15
+while loop sum = 45168
+sum: -15 after gen num: 9
+while loop sum = 44751
+sum: -9 after gen num: 6
+while loop sum = 45106
+sum: -26 after gen num: 17
+while loop sum = 45449
+sum: -29 after gen num: 3
+while loop sum = 44963
+sum: -27 after gen num: 2
+while loop sum = 45341
+sum: -40 after gen num: 13
+while loop sum = 44519
+sum: -59 after gen num: 19
+while loop sum = 44746
+sum: -76 after gen num: 17
+while loop sum = 45416
+sum: -68 after gen num: 8
+while loop sum = 45045
+sum: -81 after gen num: 13
+while loop sum = 45133
+sum: -71 after gen num: 10
+while loop sum = 45219
+sum: -74 after gen num: 3
+while loop sum = 44660
+sum: -74 after gen num: 0
+depth: 16 & sum: -74
+------next_iteration!------
+while loop sum = 45057
+sum: 2 after gen num: 2
+while loop sum = 44780
+sum: 10 after gen num: 8
+while loop sum = 44906
+sum: 1 after gen num: 9
+while loop sum = 45076
+sum: 15 after gen num: 14
+while loop sum = 45479
+sum: 17 after gen num: 2
+while loop sum = 44951
+sum: 33 after gen num: 16
+while loop sum = 44973
+sum: 39 after gen num: 6
+while loop sum = 45182
+sum: 32 after gen num: 7
+while loop sum = 44656
+sum: 21 after gen num: 11
+while loop sum = 45020
+sum: 33 after gen num: 12
+while loop sum = 45155
+sum: 28 after gen num: 5
+while loop sum = 44625
+sum: 34 after gen num: 6
+while loop sum = 44773
+sum: 50 after gen num: 16
+while loop sum = 44728
+sum: 68 after gen num: 18
+while loop sum = 45557
+sum: 49 after gen num: 19
+while loop sum = 45122
+sum: 32 after gen num: 17
+depth: 16 & sum: 32
+------next_iteration!------
+while loop sum = 44670
+sum: 4 after gen num: 4
+while loop sum = 44942
+sum: 14 after gen num: 10
+while loop sum = 44864
+sum: -5 after gen num: 19
+while loop sum = 45074
+sum: -18 after gen num: 13
+while loop sum = 44498
+sum: -18 after gen num: 0
+while loop sum = 45397
+sum: -19 after gen num: 1
+while loop sum = 45230
+sum: -26 after gen num: 7
+while loop sum = 45060
+sum: -24 after gen num: 2
+while loop sum = 44947
+sum: -33 after gen num: 9
+while loop sum = 44590
+sum: -46 after gen num: 13
+while loop sum = 45378
+sum: -40 after gen num: 6
+while loop sum = 45074
+sum: -45 after gen num: 5
+while loop sum = 45446
+sum: -48 after gen num: 3
+while loop sum = 44565
+sum: -67 after gen num: 19
+while loop sum = 44440
+sum: -55 after gen num: 12
+while loop sum = 45227
+sum: -58 after gen num: 3
+depth: 16 & sum: -58
+------next_iteration!------
+while loop sum = 44947
+sum: 10 after gen num: 10
+while loop sum = 44894
+sum: 5 after gen num: 5
+while loop sum = 44987
+sum: 11 after gen num: 6
+while loop sum = 44941
+sum: 8 after gen num: 3
+while loop sum = 44837
+sum: 5 after gen num: 3
+while loop sum = 44652
+sum: -8 after gen num: 13
+while loop sum = 44955
+sum: -13 after gen num: 5
+while loop sum = 44896
+sum: 5 after gen num: 18
+while loop sum = 44835
+sum: -4 after gen num: 9
+while loop sum = 45229
+sum: 0 after gen num: 4
+while loop sum = 45160
+sum: 10 after gen num: 10
+while loop sum = 45435
+sum: 5 after gen num: 5
+while loop sum = 45100
+sum: 4 after gen num: 1
+while loop sum = 45030
+sum: 6 after gen num: 2
+while loop sum = 44266
+sum: -1 after gen num: 7
+while loop sum = 44608
+sum: 1 after gen num: 2
+depth: 16 & sum: 1
+------next_iteration!------
+while loop sum = 45241
+sum: -9 after gen num: 9
+while loop sum = 44572
+sum: -7 after gen num: 2
+while loop sum = 44939
+sum: -8 after gen num: 1
+while loop sum = 44667
+sum: 8 after gen num: 16
+while loop sum = 44388
+sum: 22 after gen num: 14
+while loop sum = 44930
+sum: 22 after gen num: 0
+while loop sum = 44789
+sum: 30 after gen num: 8
+while loop sum = 44749
+sum: 19 after gen num: 11
+while loop sum = 45023
+sum: 0 after gen num: 19
+while loop sum = 45231
+sum: -13 after gen num: 13
+while loop sum = 45136
+sum: -22 after gen num: 9
+while loop sum = 45145
+sum: -6 after gen num: 16
+while loop sum = 45092
+sum: 12 after gen num: 18
+while loop sum = 44906
+sum: 28 after gen num: 16
+while loop sum = 44907
+sum: 34 after gen num: 6
+while loop sum = 44750
+sum: 46 after gen num: 12
+depth: 16 & sum: 46
+------next_iteration!------
+while loop sum = 44807
+sum: 8 after gen num: 8
+while loop sum = 45059
+sum: 26 after gen num: 18
+while loop sum = 45311
+sum: 26 after gen num: 0
+while loop sum = 44960
+sum: 34 after gen num: 8
+while loop sum = 45409
+sum: 52 after gen num: 18
+while loop sum = 44956
+sum: 51 after gen num: 1
+while loop sum = 44948
+sum: 36 after gen num: 15
+while loop sum = 45055
+sum: 46 after gen num: 10
+while loop sum = 44954
+sum: 27 after gen num: 19
+while loop sum = 44633
+sum: 33 after gen num: 6
+while loop sum = 44993
+sum: 39 after gen num: 6
+while loop sum = 45371
+sum: 49 after gen num: 10
+while loop sum = 44994
+sum: 42 after gen num: 7
+while loop sum = 44970
+sum: 54 after gen num: 12
+while loop sum = 45248
+sum: 41 after gen num: 13
+while loop sum = 44558
+sum: 40 after gen num: 1
+depth: 16 & sum: 40
+------next_iteration!------
+while loop sum = 45177
+sum: 18 after gen num: 18
+while loop sum = 44718
+sum: 5 after gen num: 13
+while loop sum = 45134
+sum: 0 after gen num: 5
+while loop sum = 45083
+sum: 4 after gen num: 4
+while loop sum = 44861
+sum: 14 after gen num: 10
+while loop sum = 44881
+sum: 14 after gen num: 0
+while loop sum = 44823
+sum: 20 after gen num: 6
+while loop sum = 45045
+sum: 28 after gen num: 8
+while loop sum = 44255
+sum: 28 after gen num: 0
+while loop sum = 45046
+sum: 11 after gen num: 17
+while loop sum = 44958
+sum: 11 after gen num: 0
+while loop sum = 45383
+sum: 11 after gen num: 0
+while loop sum = 45248
+sum: 21 after gen num: 10
+while loop sum = 45024
+sum: 23 after gen num: 2
+while loop sum = 45143
+sum: 25 after gen num: 2
+while loop sum = 45194
+sum: 10 after gen num: 15
+depth: 16 & sum: 10
+------next_iteration!------
+while loop sum = 45253
+sum: 14 after gen num: 14
+while loop sum = 44853
+sum: 5 after gen num: 9
+while loop sum = 45176
+sum: 13 after gen num: 8
+while loop sum = 45103
+sum: -6 after gen num: 19
+while loop sum = 45075
+sum: -17 after gen num: 11
+while loop sum = 45110
+sum: -34 after gen num: 17
+while loop sum = 45164
+sum: -53 after gen num: 19
+while loop sum = 44761
+sum: -47 after gen num: 6
+while loop sum = 45788
+sum: -41 after gen num: 6
+while loop sum = 44843
+sum: -58 after gen num: 17
+while loop sum = 44661
+sum: -46 after gen num: 12
+while loop sum = 44741
+sum: -63 after gen num: 17
+while loop sum = 45010
+sum: -51 after gen num: 12
+while loop sum = 45419
+sum: -60 after gen num: 9
+while loop sum = 45371
+sum: -67 after gen num: 7
+while loop sum = 44755
+sum: -78 after gen num: 11
+depth: 16 & sum: -78
+------next_iteration!------
+while loop sum = 44752
+sum: -13 after gen num: 13
+while loop sum = 45262
+sum: -11 after gen num: 2
+while loop sum = 45095
+sum: -14 after gen num: 3
+while loop sum = 45092
+sum: -25 after gen num: 11
+while loop sum = 45320
+sum: -21 after gen num: 4
+while loop sum = 44517
+sum: -17 after gen num: 4
+while loop sum = 45282
+sum: -18 after gen num: 1
+while loop sum = 45437
+sum: -35 after gen num: 17
+while loop sum = 44756
+sum: -40 after gen num: 5
+while loop sum = 44994
+sum: -53 after gen num: 13
+while loop sum = 44826
+sum: -70 after gen num: 17
+while loop sum = 44745
+sum: -60 after gen num: 10
+while loop sum = 45002
+sum: -50 after gen num: 10
+while loop sum = 45255
+sum: -63 after gen num: 13
+while loop sum = 45119
+sum: -57 after gen num: 6
+while loop sum = 44958
+sum: -66 after gen num: 9
+depth: 16 & sum: -66
+------next_iteration!------
+while loop sum = 45222
+sum: -11 after gen num: 11
+while loop sum = 44512
+sum: -5 after gen num: 6
+while loop sum = 44933
+sum: -24 after gen num: 19
+while loop sum = 44787
+sum: -27 after gen num: 3
+while loop sum = 44739
+sum: -19 after gen num: 8
+while loop sum = 45390
+sum: -38 after gen num: 19
+while loop sum = 44993
+sum: -20 after gen num: 18
+while loop sum = 45432
+sum: -35 after gen num: 15
+while loop sum = 44960
+sum: -52 after gen num: 17
+while loop sum = 44869
+sum: -52 after gen num: 0
+while loop sum = 44740
+sum: -38 after gen num: 14
+while loop sum = 45356
+sum: -24 after gen num: 14
+while loop sum = 45082
+sum: -31 after gen num: 7
+while loop sum = 44702
+sum: -44 after gen num: 13
+while loop sum = 44693
+sum: -28 after gen num: 16
+while loop sum = 44803
+sum: -33 after gen num: 5
+depth: 16 & sum: -33
+------next_iteration!------
+while loop sum = 45224
+sum: 12 after gen num: 12
+while loop sum = 45194
+sum: 9 after gen num: 3
+while loop sum = 45099
+sum: 17 after gen num: 8
+while loop sum = 45656
+sum: 17 after gen num: 0
+while loop sum = 44883
+sum: 8 after gen num: 9
+while loop sum = 45113
+sum: 1 after gen num: 7
+while loop sum = 45124
+sum: -4 after gen num: 5
+while loop sum = 45679
+sum: -17 after gen num: 13
+while loop sum = 44920
+sum: -3 after gen num: 14
+while loop sum = 44817
+sum: -16 after gen num: 13
+while loop sum = 44999
+sum: -27 after gen num: 11
+while loop sum = 44704
+sum: -15 after gen num: 12
+while loop sum = 44491
+sum: -1 after gen num: 14
+while loop sum = 44988
+sum: 3 after gen num: 4
+while loop sum = 45426
+sum: -8 after gen num: 11
+while loop sum = 45232
+sum: -9 after gen num: 1
+depth: 16 & sum: -9
+------next_iteration!------
+while loop sum = 44948
+sum: -5 after gen num: 5
+while loop sum = 45117
+sum: -1 after gen num: 4
+while loop sum = 45095
+sum: -2 after gen num: 1
+while loop sum = 44881
+sum: 4 after gen num: 6
+while loop sum = 44998
+sum: -11 after gen num: 15
+while loop sum = 45512
+sum: 3 after gen num: 14
+while loop sum = 45359
+sum: 3 after gen num: 0
+while loop sum = 45120
+sum: 7 after gen num: 4
+while loop sum = 45031
+sum: -10 after gen num: 17
+while loop sum = 44911
+sum: 0 after gen num: 10
+while loop sum = 45017
+sum: 12 after gen num: 12
+while loop sum = 45102
+sum: 18 after gen num: 6
+while loop sum = 44793
+sum: 32 after gen num: 14
+while loop sum = 44832
+sum: 32 after gen num: 0
+while loop sum = 44824
+sum: 32 after gen num: 0
+while loop sum = 45724
+sum: 13 after gen num: 19
+depth: 16 & sum: 13
+------next_iteration!------
+while loop sum = 44847
+sum: -19 after gen num: 19
+while loop sum = 44448
+sum: -19 after gen num: 0
+while loop sum = 45197
+sum: -30 after gen num: 11
+while loop sum = 45507
+sum: -41 after gen num: 11
+while loop sum = 45106
+sum: -35 after gen num: 6
+while loop sum = 44974
+sum: -48 after gen num: 13
+while loop sum = 44879
+sum: -51 after gen num: 3
+while loop sum = 45133
+sum: -43 after gen num: 8
+while loop sum = 45527
+sum: -54 after gen num: 11
+while loop sum = 44499
+sum: -63 after gen num: 9
+while loop sum = 45109
+sum: -57 after gen num: 6
+while loop sum = 44939
+sum: -47 after gen num: 10
+while loop sum = 45117
+sum: -66 after gen num: 19
+while loop sum = 45049
+sum: -50 after gen num: 16
+while loop sum = 45232
+sum: -36 after gen num: 14
+while loop sum = 45098
+sum: -49 after gen num: 13
+depth: 16 & sum: -49
+------next_iteration!------
+while loop sum = 45196
+sum: 12 after gen num: 12
+while loop sum = 44537
+sum: 28 after gen num: 16
+while loop sum = 45318
+sum: 44 after gen num: 16
+while loop sum = 45173
+sum: 48 after gen num: 4
+while loop sum = 44898
+sum: 41 after gen num: 7
+while loop sum = 44597
+sum: 36 after gen num: 5
+while loop sum = 44867
+sum: 31 after gen num: 5
+while loop sum = 44655
+sum: 22 after gen num: 9
+while loop sum = 44746
+sum: 26 after gen num: 4
+while loop sum = 44916
+sum: 9 after gen num: 17
+while loop sum = 45077
+sum: 27 after gen num: 18
+while loop sum = 45176
+sum: 33 after gen num: 6
+while loop sum = 44923
+sum: 16 after gen num: 17
+while loop sum = 44782
+sum: 26 after gen num: 10
+while loop sum = 45384
+sum: 13 after gen num: 13
+while loop sum = 45170
+sum: 25 after gen num: 12
+depth: 16 & sum: 25
+------next_iteration!------
+while loop sum = 45629
+sum: 6 after gen num: 6
+while loop sum = 45389
+sum: 24 after gen num: 18
+while loop sum = 45657
+sum: 13 after gen num: 11
+while loop sum = 45422
+sum: 29 after gen num: 16
+while loop sum = 44507
+sum: 18 after gen num: 11
+while loop sum = 44665
+sum: 15 after gen num: 3
+while loop sum = 45405
+sum: 2 after gen num: 13
+while loop sum = 45060
+sum: -7 after gen num: 9
+while loop sum = 44929
+sum: -26 after gen num: 19
+while loop sum = 45329
+sum: -31 after gen num: 5
+while loop sum = 44610
+sum: -21 after gen num: 10
+while loop sum = 44719
+sum: -34 after gen num: 13
+while loop sum = 45250
+sum: -53 after gen num: 19
+while loop sum = 45045
+sum: -60 after gen num: 7
+while loop sum = 44777
+sum: -69 after gen num: 9
+while loop sum = 45159
+sum: -59 after gen num: 10
+depth: 16 & sum: -59
+------next_iteration!------
+while loop sum = 44874
+sum: -13 after gen num: 13
+while loop sum = 44675
+sum: 3 after gen num: 16
+while loop sum = 44760
+sum: 0 after gen num: 3
+while loop sum = 45201
+sum: -17 after gen num: 17
+while loop sum = 45435
+sum: -9 after gen num: 8
+while loop sum = 44967
+sum: 9 after gen num: 18
+while loop sum = 45166
+sum: 13 after gen num: 4
+while loop sum = 44422
+sum: 13 after gen num: 0
+while loop sum = 45151
+sum: 15 after gen num: 2
+while loop sum = 44840
+sum: 0 after gen num: 15
+while loop sum = 45015
+sum: 6 after gen num: 6
+while loop sum = 44592
+sum: 24 after gen num: 18
+while loop sum = 44582
+sum: 13 after gen num: 11
+while loop sum = 45231
+sum: 19 after gen num: 6
+while loop sum = 44889
+sum: 16 after gen num: 3
+while loop sum = 44833
+sum: 26 after gen num: 10
+depth: 16 & sum: 26
+------next_iteration!------
+while loop sum = 45240
+sum: 0 after gen num: 0
+while loop sum = 44801
+sum: -11 after gen num: 11
+while loop sum = 44800
+sum: -22 after gen num: 11
+while loop sum = 45208
+sum: -27 after gen num: 5
+while loop sum = 44963
+sum: -11 after gen num: 16
+while loop sum = 44678
+sum: -16 after gen num: 5
+while loop sum = 45334
+sum: -10 after gen num: 6
+while loop sum = 44732
+sum: -25 after gen num: 15
+while loop sum = 44688
+sum: -21 after gen num: 4
+while loop sum = 44933
+sum: -26 after gen num: 5
+while loop sum = 44786
+sum: -29 after gen num: 3
+while loop sum = 45276
+sum: -29 after gen num: 0
+while loop sum = 45399
+sum: -38 after gen num: 9
+while loop sum = 45510
+sum: -45 after gen num: 7
+while loop sum = 45166
+sum: -33 after gen num: 12
+while loop sum = 44772
+sum: -23 after gen num: 10
+depth: 16 & sum: -23
+------next_iteration!------
+while loop sum = 44433
+sum: -13 after gen num: 13
+while loop sum = 45288
+sum: -32 after gen num: 19
+while loop sum = 44837
+sum: -51 after gen num: 19
+while loop sum = 45355
+sum: -68 after gen num: 17
+while loop sum = 44944
+sum: -62 after gen num: 6
+while loop sum = 45273
+sum: -71 after gen num: 9
+while loop sum = 44319
+sum: -74 after gen num: 3
+while loop sum = 45044
+sum: -87 after gen num: 13
+while loop sum = 45282
+sum: -71 after gen num: 16
+while loop sum = 44552
+sum: -84 after gen num: 13
+while loop sum = 45321
+sum: -66 after gen num: 18
+while loop sum = 45062
+sum: -52 after gen num: 14
+while loop sum = 45479
+sum: -55 after gen num: 3
+while loop sum = 45379
+sum: -43 after gen num: 12
+while loop sum = 44969
+sum: -43 after gen num: 0
+while loop sum = 45284
+sum: -25 after gen num: 18
+depth: 16 & sum: -25
+------next_iteration!------
+while loop sum = 45432
+sum: 6 after gen num: 6
+while loop sum = 44730
+sum: 5 after gen num: 1
+while loop sum = 44745
+sum: 2 after gen num: 3
+while loop sum = 45289
+sum: -13 after gen num: 15
+while loop sum = 45138
+sum: -24 after gen num: 11
+while loop sum = 44938
+sum: -39 after gen num: 15
+while loop sum = 45040
+sum: -52 after gen num: 13
+while loop sum = 44928
+sum: -44 after gen num: 8
+while loop sum = 45394
+sum: -34 after gen num: 10
+while loop sum = 44886
+sum: -37 after gen num: 3
+while loop sum = 44995
+sum: -52 after gen num: 15
+while loop sum = 44763
+sum: -67 after gen num: 15
+while loop sum = 44779
+sum: -86 after gen num: 19
+while loop sum = 44654
+sum: -74 after gen num: 12
+while loop sum = 45386
+sum: -85 after gen num: 11
+while loop sum = 45165
+sum: -96 after gen num: 11
+depth: 16 & sum: -96
+------next_iteration!------
+while loop sum = 44886
+sum: -3 after gen num: 3
+while loop sum = 44768
+sum: -14 after gen num: 11
+while loop sum = 44702
+sum: 2 after gen num: 16
+while loop sum = 44902
+sum: -15 after gen num: 17
+while loop sum = 44898
+sum: -13 after gen num: 2
+while loop sum = 45287
+sum: -11 after gen num: 2
+while loop sum = 44513
+sum: -1 after gen num: 10
+while loop sum = 45499
+sum: 13 after gen num: 14
+while loop sum = 45016
+sum: -6 after gen num: 19
+while loop sum = 44989
+sum: -23 after gen num: 17
+while loop sum = 45125
+sum: -5 after gen num: 18
+while loop sum = 44613
+sum: -14 after gen num: 9
+while loop sum = 45291
+sum: -21 after gen num: 7
+while loop sum = 44530
+sum: -21 after gen num: 0
+while loop sum = 45053
+sum: -13 after gen num: 8
+while loop sum = 45413
+sum: -24 after gen num: 11
+depth: 16 & sum: -24
+------next_iteration!------
+while loop sum = 44241
+sum: -5 after gen num: 5
+while loop sum = 44944
+sum: -16 after gen num: 11
+while loop sum = 45489
+sum: -17 after gen num: 1
+while loop sum = 45499
+sum: -30 after gen num: 13
+while loop sum = 45054
+sum: -24 after gen num: 6
+while loop sum = 45186
+sum: -31 after gen num: 7
+while loop sum = 45400
+sum: -19 after gen num: 12
+while loop sum = 44992
+sum: -3 after gen num: 16
+while loop sum = 45291
+sum: -12 after gen num: 9
+while loop sum = 44189
+sum: -19 after gen num: 7
+while loop sum = 45143
+sum: -36 after gen num: 17
+while loop sum = 44650
+sum: -49 after gen num: 13
+while loop sum = 45120
+sum: -31 after gen num: 18
+while loop sum = 45732
+sum: -21 after gen num: 10
+while loop sum = 44688
+sum: -13 after gen num: 8
+while loop sum = 44705
+sum: -9 after gen num: 4
+depth: 16 & sum: -9
+------next_iteration!------
+while loop sum = 44928
+sum: -17 after gen num: 17
+while loop sum = 45032
+sum: -28 after gen num: 11
+while loop sum = 45239
+sum: -10 after gen num: 18
+while loop sum = 44797
+sum: -29 after gen num: 19
+while loop sum = 44606
+sum: -23 after gen num: 6
+while loop sum = 45117
+sum: -26 after gen num: 3
+while loop sum = 44947
+sum: -24 after gen num: 2
+while loop sum = 44777
+sum: -31 after gen num: 7
+while loop sum = 44758
+sum: -50 after gen num: 19
+while loop sum = 44762
+sum: -34 after gen num: 16
+while loop sum = 45160
+sum: -18 after gen num: 16
+while loop sum = 44558
+sum: -19 after gen num: 1
+while loop sum = 45073
+sum: -3 after gen num: 16
+while loop sum = 45062
+sum: 1 after gen num: 4
+while loop sum = 45359
+sum: -18 after gen num: 19
+while loop sum = 44973
+sum: -33 after gen num: 15
+depth: 16 & sum: -33
+------next_iteration!------
+while loop sum = 45415
+sum: -11 after gen num: 11
+while loop sum = 45260
+sum: -20 after gen num: 9
+while loop sum = 44749
+sum: -10 after gen num: 10
+while loop sum = 44663
+sum: -29 after gen num: 19
+while loop sum = 45196
+sum: -23 after gen num: 6
+while loop sum = 45496
+sum: -21 after gen num: 2
+while loop sum = 45184
+sum: -32 after gen num: 11
+while loop sum = 45158
+sum: -47 after gen num: 15
+while loop sum = 44960
+sum: -29 after gen num: 18
+while loop sum = 44521
+sum: -19 after gen num: 10
+while loop sum = 44611
+sum: -3 after gen num: 16
+while loop sum = 44856
+sum: -6 after gen num: 3
+while loop sum = 45041
+sum: -15 after gen num: 9
+while loop sum = 44366
+sum: -9 after gen num: 6
+while loop sum = 44838
+sum: -9 after gen num: 0
+while loop sum = 44760
+sum: -10 after gen num: 1
+depth: 16 & sum: -10
+------next_iteration!------
+while loop sum = 45614
+sum: 8 after gen num: 8
+while loop sum = 44480
+sum: 24 after gen num: 16
+while loop sum = 44990
+sum: 40 after gen num: 16
+while loop sum = 44957
+sum: 39 after gen num: 1
+while loop sum = 44933
+sum: 36 after gen num: 3
+while loop sum = 44857
+sum: 29 after gen num: 7
+while loop sum = 45163
+sum: 10 after gen num: 19
+while loop sum = 44732
+sum: 20 after gen num: 10
+while loop sum = 44933
+sum: 9 after gen num: 11
+while loop sum = 45183
+sum: 4 after gen num: 5
+while loop sum = 44811
+sum: 1 after gen num: 3
+while loop sum = 45139
+sum: -2 after gen num: 3
+while loop sum = 44659
+sum: -3 after gen num: 1
+while loop sum = 45135
+sum: 3 after gen num: 6
+while loop sum = 45426
+sum: 15 after gen num: 12
+while loop sum = 45139
+sum: 25 after gen num: 10
+depth: 16 & sum: 25
+------next_iteration!------
+while loop sum = 44684
+sum: -3 after gen num: 3
+while loop sum = 45101
+sum: -14 after gen num: 11
+while loop sum = 45279
+sum: -15 after gen num: 1
+while loop sum = 45063
+sum: -16 after gen num: 1
+while loop sum = 44549
+sum: -17 after gen num: 1
+while loop sum = 44856
+sum: -28 after gen num: 11
+while loop sum = 44978
+sum: -28 after gen num: 0
+while loop sum = 44727
+sum: -18 after gen num: 10
+while loop sum = 45083
+sum: -4 after gen num: 14
+while loop sum = 44708
+sum: -9 after gen num: 5
+while loop sum = 45365
+sum: -20 after gen num: 11
+while loop sum = 44924
+sum: -2 after gen num: 18
+while loop sum = 44308
+sum: -19 after gen num: 17
+while loop sum = 44984
+sum: -3 after gen num: 16
+while loop sum = 45103
+sum: -12 after gen num: 9
+while loop sum = 45276
+sum: -25 after gen num: 13
+depth: 16 & sum: -25
+------next_iteration!------
+while loop sum = 44560
+sum: -1 after gen num: 1
+while loop sum = 44636
+sum: 15 after gen num: 16
+while loop sum = 45086
+sum: 23 after gen num: 8
+while loop sum = 44891
+sum: 6 after gen num: 17
+while loop sum = 45365
+sum: -5 after gen num: 11
+while loop sum = 45129
+sum: -24 after gen num: 19
+while loop sum = 45316
+sum: -33 after gen num: 9
+while loop sum = 44794
+sum: -17 after gen num: 16
+while loop sum = 45288
+sum: -34 after gen num: 17
+while loop sum = 45333
+sum: -20 after gen num: 14
+while loop sum = 44891
+sum: -16 after gen num: 4
+while loop sum = 44657
+sum: -2 after gen num: 14
+while loop sum = 45134
+sum: -7 after gen num: 5
+while loop sum = 45184
+sum: 3 after gen num: 10
+while loop sum = 45089
+sum: -12 after gen num: 15
+while loop sum = 45075
+sum: -21 after gen num: 9
+depth: 16 & sum: -21
+------next_iteration!------
+while loop sum = 45076
+sum: 14 after gen num: 14
+while loop sum = 45228
+sum: 30 after gen num: 16
+while loop sum = 44701
+sum: 13 after gen num: 17
+while loop sum = 45175
+sum: 21 after gen num: 8
+while loop sum = 44966
+sum: 25 after gen num: 4
+while loop sum = 45240
+sum: 12 after gen num: 13
+while loop sum = 44496
+sum: 11 after gen num: 1
+while loop sum = 44538
+sum: 15 after gen num: 4
+while loop sum = 45028
+sum: 14 after gen num: 1
+while loop sum = 44826
+sum: 32 after gen num: 18
+while loop sum = 45035
+sum: 38 after gen num: 6
+while loop sum = 45361
+sum: 33 after gen num: 5
+while loop sum = 45026
+sum: 18 after gen num: 15
+while loop sum = 44829
+sum: 15 after gen num: 3
+while loop sum = 45060
+sum: 29 after gen num: 14
+while loop sum = 44512
+sum: 43 after gen num: 14
+depth: 16 & sum: 43
+------next_iteration!------
+while loop sum = 44911
+sum: 6 after gen num: 6
+while loop sum = 45120
+sum: -7 after gen num: 13
+while loop sum = 45486
+sum: 1 after gen num: 8
+while loop sum = 45121
+sum: -8 after gen num: 9
+while loop sum = 45368
+sum: -2 after gen num: 6
+while loop sum = 44996
+sum: 4 after gen num: 6
+while loop sum = 44786
+sum: -13 after gen num: 17
+while loop sum = 44769
+sum: -13 after gen num: 0
+while loop sum = 45164
+sum: -24 after gen num: 11
+while loop sum = 45233
+sum: -33 after gen num: 9
+while loop sum = 44481
+sum: -44 after gen num: 11
+while loop sum = 44658
+sum: -36 after gen num: 8
+while loop sum = 45060
+sum: -26 after gen num: 10
+while loop sum = 44891
+sum: -37 after gen num: 11
+while loop sum = 45044
+sum: -31 after gen num: 6
+while loop sum = 44904
+sum: -17 after gen num: 14
+depth: 16 & sum: -17
+------next_iteration!------
+while loop sum = 45168
+sum: 18 after gen num: 18
+while loop sum = 44743
+sum: 11 after gen num: 7
+while loop sum = 45016
+sum: -4 after gen num: 15
+while loop sum = 43916
+sum: 12 after gen num: 16
+while loop sum = 44546
+sum: 12 after gen num: 0
+while loop sum = 44717
+sum: 7 after gen num: 5
+while loop sum = 44834
+sum: 21 after gen num: 14
+while loop sum = 45036
+sum: 25 after gen num: 4
+while loop sum = 45253
+sum: 8 after gen num: 17
+while loop sum = 44890
+sum: 26 after gen num: 18
+while loop sum = 44732
+sum: 44 after gen num: 18
+while loop sum = 45144
+sum: 25 after gen num: 19
+while loop sum = 44650
+sum: 39 after gen num: 14
+while loop sum = 44999
+sum: 28 after gen num: 11
+while loop sum = 44870
+sum: 13 after gen num: 15
+while loop sum = 45279
+sum: 23 after gen num: 10
+depth: 16 & sum: 23
+------next_iteration!------
+while loop sum = 44891
+sum: 18 after gen num: 18
+while loop sum = 45357
+sum: 18 after gen num: 0
+while loop sum = 44892
+sum: 15 after gen num: 3
+while loop sum = 44623
+sum: 23 after gen num: 8
+while loop sum = 45332
+sum: 33 after gen num: 10
+while loop sum = 45028
+sum: 33 after gen num: 0
+while loop sum = 44892
+sum: 35 after gen num: 2
+while loop sum = 45101
+sum: 18 after gen num: 17
+while loop sum = 44909
+sum: 30 after gen num: 12
+while loop sum = 44980
+sum: 36 after gen num: 6
+while loop sum = 45175
+sum: 25 after gen num: 11
+while loop sum = 45546
+sum: 25 after gen num: 0
+while loop sum = 45078
+sum: 29 after gen num: 4
+while loop sum = 44970
+sum: 45 after gen num: 16
+while loop sum = 45138
+sum: 40 after gen num: 5
+while loop sum = 44703
+sum: 25 after gen num: 15
+depth: 16 & sum: 25
+------next_iteration!------
+while loop sum = 45344
+sum: 10 after gen num: 10
+while loop sum = 44671
+sum: 26 after gen num: 16
+while loop sum = 44784
+sum: 25 after gen num: 1
+while loop sum = 45065
+sum: 16 after gen num: 9
+while loop sum = 44855
+sum: 9 after gen num: 7
+while loop sum = 45181
+sum: -4 after gen num: 13
+while loop sum = 44720
+sum: -4 after gen num: 0
+while loop sum = 45583
+sum: -19 after gen num: 15
+while loop sum = 45436
+sum: -28 after gen num: 9
+while loop sum = 45048
+sum: -20 after gen num: 8
+while loop sum = 45012
+sum: -4 after gen num: 16
+while loop sum = 45063
+sum: -15 after gen num: 11
+while loop sum = 45132
+sum: -9 after gen num: 6
+while loop sum = 44853
+sum: -1 after gen num: 8
+while loop sum = 45154
+sum: -16 after gen num: 15
+while loop sum = 45160
+sum: -14 after gen num: 2
+depth: 16 & sum: -14
+------next_iteration!------
+while loop sum = 44912
+sum: 12 after gen num: 12
+while loop sum = 44783
+sum: -1 after gen num: 13
+while loop sum = 45433
+sum: 9 after gen num: 10
+while loop sum = 44889
+sum: -10 after gen num: 19
+while loop sum = 44952
+sum: -27 after gen num: 17
+while loop sum = 45159
+sum: -46 after gen num: 19
+while loop sum = 44785
+sum: -57 after gen num: 11
+while loop sum = 45122
+sum: -66 after gen num: 9
+while loop sum = 44869
+sum: -79 after gen num: 13
+while loop sum = 45029
+sum: -67 after gen num: 12
+while loop sum = 45262
+sum: -76 after gen num: 9
+while loop sum = 45063
+sum: -64 after gen num: 12
+while loop sum = 45120
+sum: -71 after gen num: 7
+while loop sum = 44338
+sum: -80 after gen num: 9
+while loop sum = 44973
+sum: -99 after gen num: 19
+while loop sum = 44947
+sum: -108 after gen num: 9
+depth: 16 & sum: -108
+------next_iteration!------
+while loop sum = 45123
+sum: 12 after gen num: 12
+while loop sum = 44772
+sum: 22 after gen num: 10
+while loop sum = 44989
+sum: 19 after gen num: 3
+while loop sum = 45378
+sum: 31 after gen num: 12
+while loop sum = 44771
+sum: 14 after gen num: 17
+while loop sum = 45037
+sum: 7 after gen num: 7
+while loop sum = 45331
+sum: 2 after gen num: 5
+while loop sum = 45145
+sum: 10 after gen num: 8
+while loop sum = 44864
+sum: -1 after gen num: 11
+while loop sum = 45041
+sum: -2 after gen num: 1
+while loop sum = 44849
+sum: 14 after gen num: 16
+while loop sum = 44957
+sum: 26 after gen num: 12
+while loop sum = 44727
+sum: 19 after gen num: 7
+while loop sum = 45062
+sum: 33 after gen num: 14
+while loop sum = 45651
+sum: 26 after gen num: 7
+while loop sum = 45059
+sum: 28 after gen num: 2
+depth: 16 & sum: 28
+------next_iteration!------
+while loop sum = 44693
+sum: 4 after gen num: 4
+while loop sum = 44568
+sum: -7 after gen num: 11
+while loop sum = 44763
+sum: -8 after gen num: 1
+while loop sum = 44959
+sum: 0 after gen num: 8
+while loop sum = 45118
+sum: 6 after gen num: 6
+while loop sum = 45130
+sum: -13 after gen num: 19
+while loop sum = 45047
+sum: -22 after gen num: 9
+while loop sum = 44703
+sum: -18 after gen num: 4
+while loop sum = 45009
+sum: -2 after gen num: 16
+while loop sum = 45027
+sum: 8 after gen num: 10
+while loop sum = 45286
+sum: 26 after gen num: 18
+while loop sum = 44900
+sum: 13 after gen num: 13
+while loop sum = 45280
+sum: 21 after gen num: 8
+while loop sum = 45201
+sum: 33 after gen num: 12
+while loop sum = 45026
+sum: 47 after gen num: 14
+while loop sum = 44940
+sum: 38 after gen num: 9
+depth: 16 & sum: 38
+------next_iteration!------
+while loop sum = 44620
+sum: -19 after gen num: 19
+while loop sum = 44766
+sum: -36 after gen num: 17
+while loop sum = 44634
+sum: -45 after gen num: 9
+while loop sum = 44707
+sum: -46 after gen num: 1
+while loop sum = 45235
+sum: -65 after gen num: 19
+while loop sum = 44969
+sum: -68 after gen num: 3
+while loop sum = 44877
+sum: -85 after gen num: 17
+while loop sum = 45004
+sum: -96 after gen num: 11
+while loop sum = 44979
+sum: -103 after gen num: 7
+while loop sum = 44833
+sum: -103 after gen num: 0
+while loop sum = 44595
+sum: -99 after gen num: 4
+while loop sum = 44968
+sum: -85 after gen num: 14
+while loop sum = 44848
+sum: -83 after gen num: 2
+while loop sum = 45210
+sum: -73 after gen num: 10
+while loop sum = 44741
+sum: -71 after gen num: 2
+while loop sum = 45674
+sum: -53 after gen num: 18
+depth: 16 & sum: -53
+------next_iteration!------
+while loop sum = 44341
+sum: 8 after gen num: 8
+while loop sum = 44620
+sum: -7 after gen num: 15
+while loop sum = 44944
+sum: -5 after gen num: 2
+while loop sum = 45197
+sum: 7 after gen num: 12
+while loop sum = 44836
+sum: -2 after gen num: 9
+while loop sum = 45259
+sum: -2 after gen num: 0
+while loop sum = 45311
+sum: -13 after gen num: 11
+while loop sum = 45552
+sum: -26 after gen num: 13
+while loop sum = 45350
+sum: -29 after gen num: 3
+while loop sum = 44459
+sum: -19 after gen num: 10
+while loop sum = 45249
+sum: -17 after gen num: 2
+while loop sum = 45006
+sum: -13 after gen num: 4
+while loop sum = 44662
+sum: -22 after gen num: 9
+while loop sum = 44856
+sum: -31 after gen num: 9
+while loop sum = 45047
+sum: -27 after gen num: 4
+while loop sum = 44573
+sum: -28 after gen num: 1
+depth: 16 & sum: -28
+------next_iteration!------
+while loop sum = 44781
+sum: 8 after gen num: 8
+while loop sum = 44679
+sum: 24 after gen num: 16
+while loop sum = 44813
+sum: 11 after gen num: 13
+while loop sum = 45173
+sum: 29 after gen num: 18
+while loop sum = 45102
+sum: 16 after gen num: 13
+while loop sum = 44766
+sum: 32 after gen num: 16
+while loop sum = 44938
+sum: 23 after gen num: 9
+while loop sum = 44670
+sum: 22 after gen num: 1
+while loop sum = 44546
+sum: 9 after gen num: 13
+while loop sum = 44816
+sum: 0 after gen num: 9
+while loop sum = 45176
+sum: 14 after gen num: 14
+while loop sum = 44684
+sum: 30 after gen num: 16
+while loop sum = 44988
+sum: 23 after gen num: 7
+while loop sum = 45357
+sum: 16 after gen num: 7
+while loop sum = 45163
+sum: 26 after gen num: 10
+while loop sum = 45177
+sum: 34 after gen num: 8
+depth: 16 & sum: 34
+------next_iteration!------
+while loop sum = 44920
+sum: -5 after gen num: 5
+while loop sum = 45094
+sum: -6 after gen num: 1
+while loop sum = 45098
+sum: 6 after gen num: 12
+while loop sum = 45153
+sum: 3 after gen num: 3
+while loop sum = 44933
+sum: 5 after gen num: 2
+while loop sum = 44616
+sum: 19 after gen num: 14
+while loop sum = 45181
+sum: 21 after gen num: 2
+while loop sum = 45114
+sum: 20 after gen num: 1
+while loop sum = 44553
+sum: 9 after gen num: 11
+while loop sum = 45392
+sum: 8 after gen num: 1
+while loop sum = 44781
+sum: 18 after gen num: 10
+while loop sum = 44776
+sum: 3 after gen num: 15
+while loop sum = 45020
+sum: 17 after gen num: 14
+while loop sum = 44789
+sum: 31 after gen num: 14
+while loop sum = 44619
+sum: 45 after gen num: 14
+while loop sum = 45138
+sum: 57 after gen num: 12
+depth: 16 & sum: 57
+------next_iteration!------
+while loop sum = 44857
+sum: 4 after gen num: 4
+while loop sum = 44726
+sum: -3 after gen num: 7
+while loop sum = 44961
+sum: 7 after gen num: 10
+while loop sum = 44758
+sum: 21 after gen num: 14
+while loop sum = 44757
+sum: 35 after gen num: 14
+while loop sum = 45029
+sum: 37 after gen num: 2
+while loop sum = 45178
+sum: 43 after gen num: 6
+while loop sum = 44757
+sum: 26 after gen num: 17
+while loop sum = 44448
+sum: 38 after gen num: 12
+while loop sum = 45277
+sum: 19 after gen num: 19
+while loop sum = 44621
+sum: 21 after gen num: 2
+while loop sum = 45037
+sum: 12 after gen num: 9
+while loop sum = 44906
+sum: -7 after gen num: 19
+while loop sum = 45186
+sum: 7 after gen num: 14
+while loop sum = 45316
+sum: -2 after gen num: 9
+while loop sum = 45002
+sum: 0 after gen num: 2
+depth: 16 & sum: 0
+------next_iteration!------
+while loop sum = 45320
+sum: 14 after gen num: 14
+while loop sum = 44863
+sum: 3 after gen num: 11
+while loop sum = 44896
+sum: 7 after gen num: 4
+while loop sum = 45161
+sum: 2 after gen num: 5
+while loop sum = 44904
+sum: -13 after gen num: 15
+while loop sum = 44883
+sum: -22 after gen num: 9
+while loop sum = 44999
+sum: -23 after gen num: 1
+while loop sum = 44904
+sum: -7 after gen num: 16
+while loop sum = 44811
+sum: -14 after gen num: 7
+while loop sum = 44950
+sum: -15 after gen num: 1
+while loop sum = 45126
+sum: -9 after gen num: 6
+while loop sum = 44819
+sum: -9 after gen num: 0
+while loop sum = 44493
+sum: -3 after gen num: 6
+while loop sum = 45100
+sum: 15 after gen num: 18
+while loop sum = 45183
+sum: 33 after gen num: 18
+while loop sum = 44849
+sum: 41 after gen num: 8
+depth: 16 & sum: 41
+------next_iteration!------
+while loop sum = 44687
+sum: 2 after gen num: 2
+while loop sum = 45006
+sum: -5 after gen num: 7
+while loop sum = 45184
+sum: -6 after gen num: 1
+while loop sum = 45364
+sum: 10 after gen num: 16
+while loop sum = 45049
+sum: -3 after gen num: 13
+while loop sum = 45280
+sum: -4 after gen num: 1
+while loop sum = 44709
+sum: -4 after gen num: 0
+while loop sum = 45007
+sum: -23 after gen num: 19
+while loop sum = 45196
+sum: -42 after gen num: 19
+while loop sum = 44901
+sum: -55 after gen num: 13
+while loop sum = 45053
+sum: -64 after gen num: 9
+while loop sum = 45069
+sum: -52 after gen num: 12
+while loop sum = 45213
+sum: -67 after gen num: 15
+while loop sum = 45307
+sum: -53 after gen num: 14
+while loop sum = 44679
+sum: -70 after gen num: 17
+while loop sum = 44509
+sum: -68 after gen num: 2
+depth: 16 & sum: -68
+------next_iteration!------
+while loop sum = 45055
+sum: 18 after gen num: 18
+while loop sum = 45171
+sum: 36 after gen num: 18
+while loop sum = 45167
+sum: 31 after gen num: 5
+while loop sum = 44910
+sum: 28 after gen num: 3
+while loop sum = 44922
+sum: 28 after gen num: 0
+while loop sum = 44748
+sum: 46 after gen num: 18
+while loop sum = 45058
+sum: 60 after gen num: 14
+while loop sum = 45107
+sum: 49 after gen num: 11
+while loop sum = 44670
+sum: 48 after gen num: 1
+while loop sum = 45207
+sum: 66 after gen num: 18
+while loop sum = 45495
+sum: 70 after gen num: 4
+while loop sum = 45373
+sum: 78 after gen num: 8
+while loop sum = 44943
+sum: 82 after gen num: 4
+while loop sum = 44790
+sum: 92 after gen num: 10
+while loop sum = 45442
+sum: 81 after gen num: 11
+while loop sum = 45542
+sum: 64 after gen num: 17
+depth: 16 & sum: 64
+------next_iteration!------
+while loop sum = 45210
+sum: -17 after gen num: 17
+while loop sum = 44961
+sum: -1 after gen num: 16
+while loop sum = 45145
+sum: 3 after gen num: 4
+while loop sum = 45106
+sum: 2 after gen num: 1
+while loop sum = 45148
+sum: -17 after gen num: 19
+while loop sum = 45580
+sum: -18 after gen num: 1
+while loop sum = 44457
+sum: -33 after gen num: 15
+while loop sum = 44783
+sum: -34 after gen num: 1
+while loop sum = 44730
+sum: -37 after gen num: 3
+while loop sum = 45105
+sum: -42 after gen num: 5
+while loop sum = 45542
+sum: -28 after gen num: 14
+while loop sum = 44968
+sum: -18 after gen num: 10
+while loop sum = 45307
+sum: -37 after gen num: 19
+while loop sum = 44864
+sum: -50 after gen num: 13
+while loop sum = 45287
+sum: -55 after gen num: 5
+while loop sum = 45233
+sum: -49 after gen num: 6
+depth: 16 & sum: -49
+------next_iteration!------
+while loop sum = 44983
+sum: -9 after gen num: 9
+while loop sum = 45267
+sum: -20 after gen num: 11
+while loop sum = 45169
+sum: -25 after gen num: 5
+while loop sum = 45296
+sum: -28 after gen num: 3
+while loop sum = 44353
+sum: -12 after gen num: 16
+while loop sum = 44914
+sum: -4 after gen num: 8
+while loop sum = 45493
+sum: 8 after gen num: 12
+while loop sum = 45708
+sum: 10 after gen num: 2
+while loop sum = 45309
+sum: -5 after gen num: 15
+while loop sum = 44945
+sum: -20 after gen num: 15
+while loop sum = 45168
+sum: -35 after gen num: 15
+while loop sum = 44828
+sum: -19 after gen num: 16
+while loop sum = 44475
+sum: -19 after gen num: 0
+while loop sum = 45083
+sum: -32 after gen num: 13
+while loop sum = 45281
+sum: -37 after gen num: 5
+while loop sum = 45356
+sum: -29 after gen num: 8
+depth: 16 & sum: -29
+------next_iteration!------
+while loop sum = 44702
+sum: 16 after gen num: 16
+while loop sum = 44674
+sum: 24 after gen num: 8
+while loop sum = 44496
+sum: 28 after gen num: 4
+while loop sum = 44778
+sum: 9 after gen num: 19
+while loop sum = 44872
+sum: 2 after gen num: 7
+while loop sum = 44754
+sum: 2 after gen num: 0
+while loop sum = 45054
+sum: 12 after gen num: 10
+while loop sum = 45051
+sum: 16 after gen num: 4
+while loop sum = 44864
+sum: 24 after gen num: 8
+while loop sum = 45157
+sum: 28 after gen num: 4
+while loop sum = 45183
+sum: 34 after gen num: 6
+while loop sum = 44934
+sum: 15 after gen num: 19
+while loop sum = 44993
+sum: 17 after gen num: 2
+while loop sum = 44984
+sum: 14 after gen num: 3
+while loop sum = 45238
+sum: -3 after gen num: 17
+while loop sum = 44922
+sum: -20 after gen num: 17
+depth: 16 & sum: -20
+------next_iteration!------
+while loop sum = 45048
+sum: -11 after gen num: 11
+while loop sum = 45302
+sum: -12 after gen num: 1
+while loop sum = 44934
+sum: 6 after gen num: 18
+while loop sum = 45085
+sum: -9 after gen num: 15
+while loop sum = 45279
+sum: -10 after gen num: 1
+while loop sum = 44968
+sum: -4 after gen num: 6
+while loop sum = 45444
+sum: -4 after gen num: 0
+while loop sum = 45264
+sum: 4 after gen num: 8
+while loop sum = 45003
+sum: 14 after gen num: 10
+while loop sum = 45327
+sum: 30 after gen num: 16
+while loop sum = 44868
+sum: 36 after gen num: 6
+while loop sum = 45015
+sum: 31 after gen num: 5
+while loop sum = 45092
+sum: 20 after gen num: 11
+while loop sum = 44996
+sum: 26 after gen num: 6
+while loop sum = 44948
+sum: 19 after gen num: 7
+while loop sum = 45123
+sum: 31 after gen num: 12
+depth: 16 & sum: 31
+------next_iteration!------
+
+-------- [START] of run_time_stack dump ------v
+^------- [END] of run_time_stack dump -------
+
+==19== 
+==19== HEAP SUMMARY:
+==19==     in use at exit: 0 bytes in 0 blocks
+==19==   total heap usage: 2,494,103 allocs, 2,494,103 frees, 122,889,703 bytes allocated
+==19== 
+==19== All heap blocks were freed -- no leaks are possible
+==19== 
+==19== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

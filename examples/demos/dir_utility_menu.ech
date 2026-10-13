@@ -1,0 +1,110 @@
+;---------------------------------------------------------------------
+; dir_utility_menu.ech
+;
+; a simple menu that lets you list files or find directories
+; using fork() & execve() to run commands.
+;
+; read: examples/demos/fork_child_proc_syscall_README.md
+;       &
+;       examples/demos/dir_utility_menu_README.md for more details.
+;
+; ./echelon -f examples/demos/dir_utility_menu.ech
+;---------------------------------------------------------------------
+
+func: menu_disp
+    "\n***************************************" puts_p
+    "**** FILE & DIRECTORY UTILITY MENU ****" puts_p
+    "***************************************" puts_p
+    "1:    SHOW ALL FILES IN A DIRECTORY" puts_p
+    "2:    SHOW ALL DIRS AND SUB-DIRS" puts_p
+    "3:    QUIT" puts_p
+    "Enter your choice: " printf fflush     ; force output on screen
+    read_i                                  ; read user choice
+    return
+
+
+func: prepare_LS                            ; build arg list for /usr/bin/ls in 40 byte struct
+
+    argvList peek "/usr/bin/ls"  [poke_64]  ; index[0] = program name
+                                            ; index[8] already holds dir path (set in _start:)
+    argvList peek 16 int + "-l"  [poke_64]  ; index[16] = 1st arg (-l)
+    argvList peek 24 int + 0 int [poke_64]  ; index[24] = NULL
+    ;---------------------------
+                        ; prepare registers for sys_execve (syscall 59)
+    0 int               ; rdx = NULL (no env vars)
+    argvList peek       ; rsi = ptr to arg array
+    "/usr/bin/ls"       ; rdi = program path
+    return
+
+
+func: prepare_FIND                              ; build arg list for /usr/bin/find in 40 byte struct
+
+    argvList peek "/usr/bin/find" [poke_64]     ; index[0] = program name
+                                                ; index[8] already holds dir path (set in _start:)
+    argvList peek 16 int + "-type" [poke_64]    ; index[16] = 1st arg (-type)
+    argvList peek 24 int + "d"     [poke_64]    ; index[24] = 2nd arg (d = dirs only)
+    argvList peek 32 int + 0 int   [poke_64]    ; index[32] = NULL
+    ;---------------------------
+                    ; prepare regs for sys_execve (syscall 59)
+    0 int           ; rdx = NULL (no env vars)
+    argvList peek   ; rsi = ptr to arg array
+    "/usr/bin/find" ; rdi = program path
+    return
+
+func: fork_and_run_commands
+
+    1  int menu_choice        def_i   ; users menu selection
+
+    {
+        menu_disp call_func menu_choice poke        ; show menu & read the users choice
+        ;---------------------------
+        {
+            menu_disp call_func
+            menu_choice poke
+        } menu_choice peek 3 int > menu_choice peek 1 int < || loop ; range check ONLY allow [1->3]
+        ;---------------------------
+        {
+            "** ENDED PROGRAM, BYE! **" puts_p  ; quit, free memory & break
+            dirs peek     pop_free
+            argvList peek pop_free
+            break
+        } menu_choice peek 3 int == if
+        ;---------------------------
+        57 int 1 int sys_call        ; sys_fork (57) child proc will run the command
+        proc_id poke                 ; store return value (0 = child, >0 = parent)
+        ;---------------------------
+        {                               ; PARENT --> **WAITS** for child to finish
+            0 int                       ; (unused reg)
+            0 int                       ; (unused reg)
+            0 int                       ; rdx = options (0 = blocking wait)
+            0 int                       ; rsi = status ptr (NULL)
+            61 int                      ; sys_wait4 (61)
+            5 int sys_call              ; run the syscall
+            pop                         ; pop return val
+        }else{
+                                        ; CHILD --> run command, then ENDS
+            argvList peek 8 int +       ; ptr to index[8]
+            "Enter full path to list directory: " printf fflush ; ask user for path
+            read_str [poke_64]          ; store user input at index[8]
+            ;---------------------------
+            { prepare_LS call_func }   menu_choice peek 1 int == if
+            { prepare_FIND call_func } menu_choice peek 2 int == if
+            ;---------------------------
+            59 int 1 int sys_call       ; execute command (sys_execve, syscall 59)
+
+        } proc_id peek if  ; PARENT != 0 --> TRUE
+                           ; CHILD  == 0 --> FALSE
+
+    } menu_choice peek 3 int != loop    ; keep looping until user selects QUIT (option 3)
+
+    return
+
+_start:     ; <-- main entry point
+
+    24 int mem_alloc dirs     def_i   ; user dir path
+    40 int mem_alloc argvList def_i   ; 5 * 8 bytes for program args
+    0  int proc_id            def_i   ; store child proc ID after fork
+
+    fork_and_run_commands    call_func
+
+    dump_ptr

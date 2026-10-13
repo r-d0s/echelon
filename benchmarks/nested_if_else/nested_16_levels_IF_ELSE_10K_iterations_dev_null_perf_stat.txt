@@ -1,0 +1,23 @@
+Thu Oct 01 [17:39:31]$ sudo perf stat -e cycles,instructions,L1-dcache-loads,L1-dcache-load-misses,L2-loads,L2-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses,branches,branch-misses ./echelon -f ~/final_tests/nested_16_levels_IF_ELSE.ech >/dev/null
+[sudo] password for ubuntu_adm:
+
+ Performance counter stats for './echelon -f /home/ubuntu_adm/final_tests/nested_16_levels_IF_ELSE.ech':
+
+   513,505,930,773      cycles                                                                  (66.66%)
+ 1,141,490,389,042      instructions                     #    2.22  insn per cycle              (75.00%)
+   358,285,099,996      L1-dcache-loads                                                         (75.00%)
+        56,172,267      L1-dcache-load-misses            #    0.02% of all L1-dcache accesses   (75.00%)
+         5,044,341      L2-loads                                                                (75.00%)
+         1,420,755      L2-load-misses                   #   28.17% of all LL-cache accesses    (75.00%)
+         5,020,239      LLC-loads                                                               (75.00%)
+         1,399,016      LLC-load-misses                  #   27.73% of all LL-cache accesses    (75.00%)
+   358,317,011,555      dTLB-loads                                                              (75.00%)
+           553,990      dTLB-load-misses                 #    0.00% of all dTLB cache accesses  (75.00%)
+   376,071,286,436      branches                                                                (66.67%)
+        10,518,323      branch-misses                    #    0.00% of all branches             (66.67%)
+
+     137.719299501 seconds time elapsed
+
+     137.323189000 seconds user
+       0.276951000 seconds sys
+

@@ -1,0 +1,115 @@
+;----------------------------------------------------------------------
+; Stack Operators
+;
+; Run: ./echelon -f examples/reference/stack_manipulation_operators.ech
+;----------------------------------------------------------------------
+
+_start:
+
+    "---- (INC) ++ ----" puts_p
+    10 int ++ print_i       ; 11
+    0 int ++ print_i        ; 1
+    -5 int ++ print_i       ; -4
+    clear
+
+    "---- (DEC) -- ----" puts_p
+    10 int -- print_i       ; 9
+    0 int -- print_i        ; -1
+    -5 int -- print_i       ; -6
+    clear
+
+    "---- SWAP ----" puts_p
+    10 int 20 int swap print_i pop print_i pop      ; 10 20
+    hello world swap puts_p puts_p                  ; hello world
+    clear
+
+    "---- DUP ----" puts_p
+    5 int dup * print_i         ; 25
+    3 int dup + print_i         ; 6
+    hello dup puts_p puts_p     ; hello hello
+    clear
+
+    "---- DUP_N ----" puts_p
+    cherries 3 int dup_n
+    dump_rts        ; cherries (4 times)
+    clear
+
+    37 int 2 int dup_n
+    dump_i      ; 37 (3 times)
+    clear
+
+    "---- REV ----" puts_p
+    1 int 2 int 3 int 4 int 5 int
+    dump_i          ; 1 2 3 4 5
+    rev
+    dump_i          ; 5 4 3 2 1
+    clear
+
+    apple banana cherries dates
+    dump_str        ; apple banana cherries dates
+    rev
+    dump_str        ; dates cherries banana apple
+    clear
+
+    "---- CLEAR_ABOVE ----" puts_p
+    apple banana cherries dates figs grapes
+    dump_str                ; apple banana cherries dates figs grapes
+    1 int clear_above
+    dump_str                ; apple banana cherries dates
+    clear
+
+    apple banana cherries dates figs grapes
+    3 int clear_above
+    dump_str        ; apple banana
+    clear
+
+    "---- CLEAR_BELOW ----" puts_p
+    apple banana cherries dates figs grapes
+    dump_str                ; apple banana cherries dates figs grapes
+    2 int clear_below
+    dump_str                ; cherries dates figs grapes
+    clear
+
+    apple banana cherries dates figs grapes
+    4 int clear_below
+    dump_str        ; figs grapes
+    clear
+
+    "---- SHIFT_UP ----" puts_p
+    apple banana cherries dates figs
+    dump_str       ; apple banana cherries dates figs
+    shift_up
+    dump_str       ; figs apple banana cherries dates
+    clear
+
+    1 int 2 int 3 int 4 int 5 int
+    dump_i         ; 1 2 3 4 5
+    shift_up
+    dump_i         ; 5 1 2 3 4
+    clear
+
+    "---- SHIFT_DOWN ----" puts_p
+    apple banana cherries dates figs
+    dump_str        ; apple banana cherries dates figs
+    shift_down
+    dump_str        ; banana cherries dates figs apple
+    clear
+
+    1 int 2 int 3 int 4 int 5 int
+    dump_i          ; 1 2 3 4 5
+    shift_down
+    dump_i          ; 2 3 4 5 1
+    clear
+
+    "---- COMBINED OPS ----" puts_p
+    10 int 5 int + 2 int * print_i      ; 30
+    20 int 5 int - 3 int / print_i      ; 5
+    5 int dup * 3 int dup * + print_i   ; 34
+    clear
+
+    1 int 2 int 3 int 4 int 5 int
+    swap
+    dump_i      ; 1 2 3 5 4
+    rev
+    dump_i      ; 4 5 3 2 1
+    clear

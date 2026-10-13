@@ -1,0 +1,58 @@
+;-----------------------------+------------------------------------------------------
+; memory_fill_stress_test.ech |
+;-----------------------------+
+;
+; Stress test for filling memory
+; ------------------------------
+;
+; this test allocates 1GB memory ONCE, then repeatedly fills smaller
+; amounts (-1MB/iteration) with rand bytes. this tests the 'fill_mem'
+; operators performance at different mem sizes
+;
+; each iteration:
+;   1) fill 'count' bytes (starting at 1,000,000,000, decreasing 1,000,000)
+;      with a rand byte (0-255) using fill_mem
+;   2) print 1st byte to check memory was actually written to
+;   3) reduce fill size by 1,000,000 bytes
+;   4) repeat until 'count' == 0
+;   5) then deallocate the 1GB block (pop_free)
+;
+; total iterations: 1,000 (from 1,000,000,000 bytes to --> 1,000,000 bytes).
+; total data written: apprx 500 GB
+;
+; make one allocation of 1GB to begin with & this allocation is freed ONCE
+; at the end using pop_free
+;
+; (no allocations/deallocations take place in each iteration, we just -1MB in writes)
+;
+; time & check mem usage:
+;   /usr/bin/time -v ./echelon -f benchmarks/memory_fill/memory_fill_stress_test.ech
+;---------------------------------------------------------------------------------------
+
+;-------------------------------------------------------------------------
+;  allocates 1GB memory once, then fills it in decreasing 1MB amounts
+;  from 1GB --> 1MB, printing the 1st byte of each filled block to
+;  check the write occurred
+;-------------------------------------------------------------------------
+func: allocate_mem
+
+    1000000000 int mem_alloc ptr def_i   ; allocate 1GB once
+    1000000000 int count def_i           ; start fill size = 1GB
+
+    {
+        ptr peek 256 int rand count peek fill_mem  ; fill 'count' bytes
+
+        ptr peek
+        dup [peek_8]                               ; read first byte
+        count peek
+        "test: [%d]  ----> [%d]  mem addr: [%p]\n" 3 int printf_p
+
+        1000000 int count -=                       ; reduce 1MB each iteration
+    } count peek loop                              ; loop until count is false (0)
+
+    ptr peek pop_free                              ; free whole 1GB block
+    return
+
+_start:
+
+   allocate_mem call_func

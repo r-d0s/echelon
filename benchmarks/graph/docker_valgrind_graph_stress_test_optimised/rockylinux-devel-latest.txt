@@ -1,0 +1,146 @@
+=== Running on: "Rocky Linux 9.3 (Blue Onyx)"
+rm -f *.o *.lst echelon
+==19== Memcheck, a memory error detector
+==19== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==19== Using Valgrind-3.26.0 and LibVEX; rerun with -h for copyright info
+==19== Command: ./echelon -f graph_stress_test_optimised.ech
+==19== 
+100000 nodes each with 16 edges
+strings created...
+add hash done...
+Error: edge already exists between [sixrezmzwl] ---> [qedckezqst]!
+Error: edge already exists between [kcwqipbndi] ---> [dwxoflqpnh]!
+Error: edge already exists between [uyvvuksqfb] ---> [fkdhnoqqcn]!
+Error: edge already exists between [wvrsphryot] ---> [wnmhuyzwcz]!
+Error: edge already exists between [tnjsyiaapj] ---> [usyzdpblje]!
+Error: edge already exists between [uxxukuoraz] ---> [thxmpufpfv]!
+Error: edge already exists between [jiadapdear] ---> [qljpvhaeam]!
+Error: edge already exists between [ypuzogukrw] ---> [zecegwauvd]!
+Error: edge already exists between [ckfzpsrqsb] ---> [xghwiotgvn]!
+Error: edge already exists between [vruupeulju] ---> [ciubwvzwgh]!
+Error: edge already exists between [cfbfuujqav] ---> [qprfmeuzig]!
+Error: edge already exists between [fixztxiyny] ---> [cxrdpzowvg]!
+Error: edge already exists between [jsecqddqdt] ---> [eqbqzycntf]!
+Error: edge already exists between [jzszwwhkjn] ---> [psryffxjqx]!
+Error: edge already exists between [ayjbxbctry] ---> [thcdnfuqrj]!
+Error: edge already exists between [sfoesihujb] ---> [bfbynflpns]!
+Error: edge already exists between [mxbwpwwmgs] ---> [vetdpprniv]!
+Error: edge already exists between [jribpgtqvk] ---> [usnamkdzxl]!
+Error: edge already exists between [ginwljbskg] ---> [xithhwwhvo]!
+Error: edge already exists between [sdvghmulxt] ---> [eteykwvojj]!
+Error: edge already exists between [xfyfovqlmn] ---> [wewjxlrjzs]!
+Error: edge already exists between [qjulbbqxaa] ---> [xjnyuscryf]!
+Error: edge already exists between [jyozoinflr] ---> [gpzaszdigl]!
+Error: edge already exists between [lktqmcvieq] ---> [klihujfsoq]!
+Error: edge already exists between [ubbpaccoui] ---> [xagcgnbxjb]!
+Error: edge already exists between [obowagaiop] ---> [vpvcquqhdw]!
+Error: edge already exists between [qxqczkcgpk] ---> [rhzsqwkjei]!
+Error: edge already exists between [ecawnguvhr] ---> [jihehimsot]!
+Error: edge already exists between [qtfqindgxz] ---> [snjvaoiyfd]!
+Error: edge already exists between [iqxchzajrc] ---> [ajqvogcubs]!
+Error: edge already exists between [aqjknspvqk] ---> [dahgsbzose]!
+Error: edge already exists between [dyzridnomn] ---> [ovlbogleai]!
+Error: edge already exists between [flsskkqhso] ---> [orbghiizan]!
+Error: edge already exists between [syttdkgwpt] ---> [dcrcwldoxf]!
+Error: edge already exists between [sbzwgfumzd] ---> [kiuupkakzg]!
+Error: edge already exists between [bkiuxmgxhm] ---> [eteyijtetz]!
+Error: edge already exists between [dyiydwwoux] ---> [rajufsuzmp]!
+Error: edge already exists between [kfyilgvvjs] ---> [msknmolmbf]!
+Error: edge already exists between [lqmuvnidnj] ---> [lxmdrrrtnz]!
+Error: edge already exists between [cqhbvzuovu] ---> [jbqpymxjdj]!
+Error: edge already exists between [acfnvfidfn] ---> [gdkhaxxugw]!
+Error: edge already exists between [drmezfuxla] ---> [jflqwwixlz]!
+Error: edge already exists between [usljejvhtn] ---> [qwvfkrokpv]!
+Error: edge already exists between [uyirrtuwoa] ---> [gsblftaley]!
+Error: edge already exists between [qxyymncsfg] ---> [uekwztascn]!
+Error: edge already exists between [rqnugougvv] ---> [bqxohphvmf]!
+Error: edge already exists between [swjyulcgfc] ---> [ubnmaaflfx]!
+Error: edge already exists between [zpengdqezx] ---> [chowajjbzi]!
+Error: edge already exists between [vbpvzrvejk] ---> [kcuzveqdqi]!
+Error: edge already exists between [rfeyzibqko] ---> [ompwaxbxvz]!
+Error: edge already exists between [dbyxenmdbd] ---> [tmzfiqzyel]!
+Error: edge already exists between [rjemswymhp] ---> [bplurmfwey]!
+Error: edge already exists between [ocwfvxyeyo] ---> [fkbojazgml]!
+Error: edge already exists between [piqgerxbrl] ---> [jjnqiffxag]!
+Error: edge already exists between [puilwbkdxz] ---> [omanuqehkv]!
+Error: edge already exists between [cdtuhuxcig] ---> [ggxcuaaapq]!
+Error: edge already exists between [ynioulcntn] ---> [pgdnszlfli]!
+Error: edge already exists between [oovngvnfvr] ---> [vnedllyqkg]!
+Error: edge already exists between [fwnxlizfqa] ---> [wvmhymxnko]!
+Error: edge already exists between [bxavuwthso] ---> [pxzzifzyvc]!
+Error: edge already exists between [iqschpvptu] ---> [azlqwwcvub]!
+Error: edge already exists between [njtaijjnlq] ---> [eckhuzovgg]!
+Error: edge already exists between [atzfcelynj] ---> [tchnfopfwu]!
+Error: edge already exists between [tyxjfpcnqn] ---> [vomcbkwqzg]!
+Error: edge already exists between [gounqqpabn] ---> [rtprwxdhze]!
+Error: edge already exists between [iqwkkdnjwh] ---> [gfgorsrqym]!
+Error: edge already exists between [yoapfouool] ---> [zvqmhojgry]!
+Error: edge already exists between [vmofcecdwy] ---> [yrprvhfeuc]!
+Error: edge already exists between [remdkcpvyf] ---> [aevkshjxdl]!
+Error: edge already exists between [clcijlepna] ---> [fctnkwzmpw]!
+Error: edge already exists between [fwhcwzclwl] ---> [rkgslshsdo]!
+Error: edge already exists between [yfwxphbybw] ---> [sgwanmptnp]!
+Error: edge already exists between [rwvkxqmoaj] ---> [xjoqemwcbp]!
+Error: edge already exists between [gljhmyudoe] ---> [vqrqugdtqy]!
+Error: edge already exists between [sacdtemknd] ---> [imvciaunxd]!
+Error: edge already exists between [hcxsbwhhci] ---> [bluzjhuiez]!
+Error: edge already exists between [bqezeffgjq] ---> [fksbqvjeeq]!
+Error: edge already exists between [ztzjqgcigk] ---> [bzufknoayc]!
+Error: edge already exists between [jodajaqfeh] ---> [csopmltzwp]!
+Error: edge already exists between [ojqwrnppgn] ---> [wzryjfzdop]!
+Error: edge already exists between [naokaoqitf] ---> [dxqlyyxttu]!
+Error: edge already exists between [tvuusvknwr] ---> [qymhgadfwb]!
+Error: edge already exists between [jhngwlcglk] ---> [lmydeiunwd]!
+Error: edge already exists between [vewgvllelq] ---> [ypgvfhfogs]!
+Error: edge already exists between [nkyakchuda] ---> [uzidnlswpz]!
+Error: edge already exists between [awyhdjttar] ---> [ztfeyjuyzx]!
+Error: edge already exists between [drtudqhzgq] ---> [ycpkorqjvn]!
+Error: edge already exists between [oegcteqqgn] ---> [zayvgxnozb]!
+Error: edge already exists between [kehxmstckv] ---> [quywfylxqx]!
+Error: edge already exists between [ixnjveeunb] ---> [imxlfhjbog]!
+Error: edge already exists between [dqohruxukm] ---> [nhksbbfojt]!
+Error: edge already exists between [namehwihmz] ---> [zjyirhkxqt]!
+Error: edge already exists between [aczcvkciod] ---> [korarpnliy]!
+Error: edge already exists between [dbhmglwzyu] ---> [axvpnqmyzk]!
+Error: edge already exists between [sogyldgwca] ---> [frskdhhoua]!
+Error: edge already exists between [kfxtxjhovx] ---> [riaglkvhav]!
+Error: edge already exists between [rxoiwlxzjo] ---> [viftimrkko]!
+Error: edge already exists between [npcblbhcou] ---> [bkpifllxsa]!
+Error: edge already exists between [ccasszvayf] ---> [wuogaxjizt]!
+Error: edge already exists between [kbtqfhhqle] ---> [sxmnflhgvs]!
+Error: edge already exists between [ihvlsevnui] ---> [mkgewacpwk]!
+Error: edge already exists between [ctkawidjbv] ---> [uspwtibtfr]!
+Error: edge already exists between [vkrgtgrhrx] ---> [opqfpvwsna]!
+Error: edge already exists between [tjfrqtixoh] ---> [stxiwiifnp]!
+Error: edge already exists between [gsebbepydj] ---> [mzqvdelorj]!
+Error: edge already exists between [ldywztxtbi] ---> [wgavxdqfns]!
+Error: edge already exists between [jovuyywwqa] ---> [snzeccqffm]!
+Error: edge already exists between [hxvvolcnfq] ---> [ixotfiwvxq]!
+Error: edge already exists between [zcvqklvnqm] ---> [duylpvsrdc]!
+Error: edge already exists between [pgzckfyyqc] ---> [qckeeuocdn]!
+Error: edge already exists between [lbtclexfrh] ---> [ueefowkzzk]!
+Error: edge already exists between [rqvjjffyud] ---> [yebefurctf]!
+Error: edge already exists between [tfflnctvfr] ---> [ebnkovcmub]!
+Error: edge already exists between [pklzqjgibr] ---> [inektkgzve]!
+Error: edge already exists between [hadnctxjra] ---> [iagoddodyb]!
+Error: edge already exists between [uogmrujlha] ---> [szfkxhvbck]!
+Error: edge already exists between [dmpeqpsopg] ---> [fkkpoxlkbd]!
+Error: edge already exists between [dxgiprmjtf] ---> [qcutwlehwr]!
+Error: edge already exists between [wnroqrdgkh] ---> [otbkqfhsdp]!
+Error: edge already exists between [abjkmrxbxv] ---> [xuisllhhyt]!
+Error: edge already exists between [krioayrsug] ---> [bhqqxagkge]!
+Error: edge already exists between [baatlhngsx] ---> [ihfvfmuaie]!
+add edges done...
+1599878
+100000
+del hash done...
+deleted hashset
+clean up hashset done...
+==19== 
+==19== HEAP SUMMARY:
+==19==     in use at exit: 0 bytes in 0 blocks
+==19==   total heap usage: 741,848 allocs, 741,848 frees, 81,084,410 bytes allocated
+==19== 
+==19== All heap blocks were freed -- no leaks are possible
+==19== 
+==19== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

@@ -1,0 +1,153 @@
+;-------------------------------------------------------------------------------
+; hashset_stress_test_fast.ech ;
+;-----------------------------;
+;
+; stack-pointer (bp_0->bp_n) version of the hashset stress test (hashset_stress_test.ech).
+; uses (fast) stack-pointers instead of dict variables (peek/poke).
+;
+; this test works well on a 8GB machine, you can try running other tests by changing
+; the number of nodes (e.g 40M) & the key length (e.g 50) chars.
+;
+; test details:
+;   1) generate 50M random strings (40 chars each).
+;   2) inserts them into a hashset (starts at 64 buckets, resizes (*2) if > 75% capacity).
+;   3) sequential look-ups the first 25M keys
+;   4) sequential delete those same 25M keys
+;   5) delete the hashset & free all memory
+;
+; why sequential records & not random?
+;   - random look-ups/deletes can hit the same index twice, which messes up the 50% target.
+;   - sequential access means exactly 50% operations & 100% success. this makes the
+;     test more reliable
+;
+;
+; performance vs dict variables:
+;   - no dict look-ups for loop counters, sizes or temp values etc
+;   - direct register access (bp_0->bp_n) are faster.
+;   - push_bp/pop_bp easily manage register set-up/allocation
+;
+; time & memory usage:
+;   /usr/bin/time -v ./echelon -f hashset_stress_test_fast.ech
+;------------------------------------------------------------------------------
+
+func: create_strings
+
+    40 int              ; chars in string (40)
+    3  int              ; used for shl << 3 (mult by 8)
+                        ; bp_4   bp_3       bp_2      bp_1       bp_0
+    push_bp             ; [size, str_array, loop_var, rand_size, shl]
+
+    {
+        bp_3 bp_2 bp_0 << +           ; address of str_array + loop_var
+        bp_1 rand_str [poke_64]       ; generate 40 char string & store ptr
+        bp_2 ++ [bp_2]                ; loop_var++
+    } bp_2 bp_4 < loop
+
+    0 int [bp_2]        ; reset loop_var = 0
+    pop_bp pop pop      ; pop shl & string length
+    return
+
+
+func: clean_strings
+
+     ;  bp_5  bp_4       bp_3      bp_2     bp_1   bp_0
+     ; [size, str_array, loop_var, hashset, 256,   shl]
+
+    {
+        bp_4 bp_3 bp_0 << + [peek_64]   ; get ptr to string at str_array + loop_var
+        pop_free                        ; free string
+        bp_3 ++ [bp_3]                  ; loop_var++
+    } bp_3 bp_5 < loop
+
+    bp_4 pop_free   ; free str_array ptr array
+    return
+
+
+func: disp_strings
+
+    ;  bp_5  bp_4       bp_3      bp_2     bp_1   bp_0
+    ; [size, str_array, loop_var, hashset, 256,   shl]
+
+    {
+        bp_4 bp_3 bp_0 << + [peek_64] puts_p   ; print string
+        bp_3 ++ [bp_3]                         ; loop_var++
+    } bp_3 bp_5 < loop
+
+    0 int [bp_3]        ; reset loop_var
+    return
+
+
+_start:     ; <-- main entry point
+
+    ;--- allocate str array & gen keys
+    50000000 int dup              ; num_nodes (50M)
+    3 int << mem_alloc            ; allocate 50M * 8 bytes = 400 MB
+    0 int                         ; init loop_var (used by create_strings)
+
+    create_strings call_func
+    "strings created..." puts_p
+
+    ;--- create hashset & set up stack-pointers
+    ; push_bp layout:
+    ; bp_5 = size (num_nodes), bp_4 = str_array ptr, bp_3 = loop_var,
+    ; bp_2 = hashset ptr, bp_1 = 256 (rand limit), bp_0 = shl (3)
+
+    64  int new_hash        ; create hashset 64 buckets
+    256 int                 ; rand() % 256 limit (0..255)
+    3   int                 ; shl (<< 3 = *8)
+
+    push_bp                 ; register layout:
+                            ; bp_5   bp_4       bp_3      bp_2     bp_1   bp_0
+                            ; [size, str_array, loop_var, hashset, 256,   shl]
+
+    ; Un-comment to display all strings (debug only)
+    ;disp_strings call_func
+
+    ; --- insert all nodes ---
+    {
+        bp_2 bp_4 bp_3 bp_0 << + [peek_64]     ; get key from str_array + loop_var
+        bp_1 rand 0 int add_hash               ; value = rand()%256, flag = 0
+        bp_3 ++ [bp_3]                         ; loop_var++
+    }   bp_3 bp_5 < loop
+
+    "add hash done..." print_str pop
+
+    ; Un-comment to dump entire hashset (debug only)
+    ;bp_2 dump_hashset
+
+    ; --- 50% look-ups ---
+    0 int [bp_3]                    ; reset loop_var 0
+    bp_5 1 int >> [bp_5]            ; half size for 50% look-ups (num_nodes/2)
+
+    {
+        bp_2 bp_4 bp_3 bp_0 << + [peek_64]    ; get key from str_array + loop_var (first half)
+        hash_exists pop                       ; look-up
+        bp_3 ++ [bp_3]                        ; counter++
+    } bp_3 bp_5 < loop
+
+    "get hash done..." print_str pop
+
+    ;--- 50% deletions ---
+    0 int [bp_3]                    ; reset loop_var
+
+    {
+        bp_2 bp_4 bp_3 bp_0 << + [peek_64]    ; get key from str_array + loop_var (first half)
+        del_hash pop                          ; delete node
+        bp_3 ++ [bp_3]                        ; counter++
+    } bp_3 bp_5 < loop
+
+    "del hash done..." puts_p
+
+    ; Un-comment to dump entire hashset (debug only)
+    ;bp_2 dump_hashset
+
+    ;--- clean-up ---
+    bp_2 del_hashset
+    "deleted hashset" puts_p
+
+    ;--- clean up strings ---
+    bp_5 1 int << [bp_5]            ; restore size to full num_nodes
+    0 int [bp_3]                    ; reset loop_var 0
+
+    clean_strings call_func
+    "clean up hashset done..." puts_p

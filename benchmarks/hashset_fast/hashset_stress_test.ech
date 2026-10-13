@@ -1,0 +1,120 @@
+;-----------------------------------------------------------------------------------------
+; hashset_stress_test.ech ;
+;------------------------;
+;
+; this test works well on a 8GB machine, you can try running other tests by changing
+; the number of nodes (e.g 40M) & the key length (e.g 50) chars.
+;
+; test details:
+;   1) generate 50M random strings (40 chars each).
+;   2) inserts them into a hashset (starts at 64 buckets, resizes (*2) if > 75% capacity).
+;   3) sequential look-ups the first 25M keys
+;   4) sequential delete those same 25M keys
+;   5) delete the hashset & free all memory
+;
+; why sequential records & not random?
+;   - random look-ups/deletes can hit the same index twice, which messes up the 50% target.
+;   - sequential access means exactly 50% operations & 100% success. this makes the
+;     test more reliable
+;
+;
+; time & memory usage:
+;   /usr/bin/time -v ./echelon -f benchmarks/hashset_fast/hashset_stress_test.ech
+;--------------------------------------------------------------------------------------------
+
+
+func: create_strings
+
+    0 int loop_var def_i
+
+    {
+        str_array peek loop_var peek 8 int * +   ; address of str_array + loop_var
+        40 int rand_str [poke_64]                ; generate 40 char string & store ptr
+        1 int loop_var +=
+    } loop_var peek num_nodes peek < loop
+    clear
+    return
+
+
+func: clean_strings
+
+    0 int loop_var def_i
+
+    {
+        str_array peek loop_var peek 8 int * +   ; address of str_array + loop_var
+        [peek_64] pop_free                       ; free string
+        1 int loop_var +=
+    } loop_var peek num_nodes peek < loop
+
+    str_array peek pop_free clear                ; free ptr array
+    return
+
+
+func: disp_strings
+
+    0 int loop_var def_i
+
+    {
+        str_array peek loop_var peek 8 int * +
+        [peek_64] puts_p
+        1 int loop_var +=
+    } loop_var peek num_nodes peek < loop
+    clear
+    return
+
+
+_start:         ; <- entry point
+
+    ;--- allocate str array & gen keys ---
+    50000000 int dup num_nodes def_i          ; number of nodes (50M)
+    3 int << mem_alloc str_array def_i        ; allocate 50M * 8 bytes = 400 MB
+
+    create_strings call_func
+    "strings created..." puts_p
+
+    ;--- create hashset & insert all nodes ---
+    64 int new_hash hash_data def_i           ; hashset with 64 buckets
+    0  int counter def_i
+
+    {
+        hash_data peek
+        str_array peek counter peek 8 int * + [peek_64]   ; get key string
+        256 int rand 0 int add_hash                       ; value = rand()%256, flag=0 (key NOT freed by hashset)
+        1 int counter +=
+    } counter peek num_nodes peek < loop
+
+    "add hash done..." print_str pop
+    ;hash_data peek dump_hashset                        ; un-comment to check
+
+    ;--- 50% look-ups ---
+    num_nodes peek 2 int / half_nodes def_i             ; half of total nodes
+
+    0  int counter =
+    {
+        hash_data peek
+        str_array peek counter peek 8 int * + [peek_64]     ; get key from str_array + counter
+        hash_exists pop                                     ; look-up
+        1 int counter +=
+    } counter peek half_nodes peek < loop
+
+    "get hash done..." print_str pop
+
+    ;--- 50% deletions ---
+    0  int counter =
+
+    {
+        hash_data peek
+        str_array peek counter peek 8 int * + [peek_64]     ; get key from str_array + counter
+        del_hash pop                                        ; delete it
+        1 int counter +=
+    } counter peek half_nodes peek < loop
+
+    "del hash done..." puts_p
+    ;hash_data peek dump_hashset                           ; un-comment to dump entire hashset
+
+    ;--- clean-up ---
+    hash_data peek del_hashset
+    "hashset deleted..." puts_p
+
+    clean_strings call_func
+    "strings deallocated..." puts_p

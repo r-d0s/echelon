@@ -1,0 +1,96 @@
+;------------------------------------------------------------------------------------
+; tutorial_14: Scoping
+;
+; echelon has two kinds of variables:
+;   GLOBAL  - declared in _start: visible to ALL functions
+;   LOCAL   - declared inside a function & visible only there
+;
+; IMPORTANT: you can NOT re-declare/shadow a global variable inside another function.
+; the program will reject it & report an error!
+;
+; ./echelon -f tutorials/tutorial_14_scoping.ech
+;------------------------------------------------------------------------------------
+
+func: var_check_3
+    "\n--- inside var_check_3 ---" puts_p
+
+    90 int total_score def_i
+    80 int attendance  def_i
+    33 int glob_3 +=
+
+    dump_dict
+    ;-------------------------------------------------------------------
+    ; dump_dict shows ALL variables, but only locals from this function
+    ; & globals are accessible here. the total_score and attendance
+    ; from other functions are still in the dictionary (not cleaned up
+    ; because their functions are still WAITING to resume!) but they're
+    ; NOT in this function's scope!
+
+    total_score peek attendance peek glob_3 peek
+    "var_check_3:\nglob_3 = %d attendance = %d total_score = %d\n" printf
+    clear
+
+    ; this would fail:
+    ; "error test" glob_2 def_str   ; can't re-declare a global!
+
+    "\n--- leaving var_check_3 ---\n" puts_p
+    return
+
+func: var_check_2
+    "\n--- inside var_check_2 ---" puts_p
+
+    70 int total_score def_i
+    60 int attendance  def_i
+    22 int glob_2 +=
+
+    dump_dict
+
+    total_score peek attendance peek glob_2 peek
+    "var_check_2:\nglob_2 = %d attendance = %d total_score = %d\n" printf
+    clear
+
+    var_check_3 call_func
+
+    "--- leaving var_check_2 ---\n" puts_p
+    return
+
+func: var_check_1
+    "\n--- inside var_check_1 ---" puts_p
+
+    50 int total_score def_i
+    40 int attendance  def_i
+    11 int glob_1 +=
+
+    dump_dict
+
+    total_score peek attendance peek glob_1 peek
+    "var_check_1:\nglob_1 = %d attendance = %d total_score = %d\n" printf
+    clear
+
+    var_check_2 call_func
+
+    "--- leaving var_check_1 ---\n" puts_p
+    return
+
+_start:
+
+    "--- GLOBAL VARS ---" puts_p
+
+    100 int glob_1  def_i       ; these are visible everywhere for the entire program.
+    200 int glob_2  def_i       ; any function can R/W them.
+    300 int glob_3  def_i
+
+    dump_dict
+
+    "--- CALLING FUNCTIONS ---" puts_p
+
+    var_check_1 call_func
+
+    "--- BACK IN _start: ---" puts_p
+
+    dump_dict       ; the local variables from var_check_1/2/3 are
+                    ; now deleted from the dict (removed once their functions ended..)
+
+    glob_1 peek glob_2 peek glob_3 peek     ; only globals are accessible here
+    "final globals: %d, %d, %d\n" printf
+

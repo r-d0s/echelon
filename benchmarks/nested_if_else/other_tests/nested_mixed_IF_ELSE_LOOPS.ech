@@ -1,0 +1,120 @@
+;---------------------------------------------------------------------------------------------------
+; deliberately mixed IF, within IF/ELSE, within LOOPs etc
+; RUN: valgrind -s --track-origins=yes --leak-check=full ./echelon -f mixed_nested_IF_ELSE_LOOPS.ech
+;---------------------------------------------------------------------------------------------------
+
+func: mixed_if_else_loops
+
+    {
+        20 int rand rand_num def_i
+
+        rand_num peek "\nrandom number is: %d, check it follows correct path AFTER 1st loop (sum 1..9 -> total: 45).\n" printf pop
+
+        0 int counter def_i
+        0 int total   def_i
+        {
+            total +=    ; total = total + counter
+            1 int counter +=
+        } counter peek dup 10 int < loop    ; sum 1->9 total always: 45
+
+        total peek "1st loop total: %d\n" printf pop
+
+        {       ; < 10
+            {   ; < 5
+                { rand_num peek print_i } rand_num peek 4 int == if
+                { rand_num peek print_i } rand_num peek 3 int == if
+                { rand_num peek print_i } rand_num peek 2 int == if
+                { rand_num peek print_i } rand_num peek 1 int == if
+                { rand_num peek print_i } rand_num peek 0 int == if
+
+                clear
+
+                0 int counter =     ; reset total/counter
+                0 int total   =
+                {
+                    total +=    ; total = total + counter
+                    1 int counter +=
+                } counter peek dup 30 int < loop    ; sum 1->29 total always: 435
+                total peek "total: %d\n" printf pop
+
+            }else{  ; >= 5
+                { rand_num peek print_i } rand_num peek 9 int == if
+                { rand_num peek print_i } rand_num peek 8 int == if
+                { rand_num peek print_i } rand_num peek 7 int == if
+                { rand_num peek print_i } rand_num peek 6 int == if
+                { rand_num peek print_i } rand_num peek 5 int == if
+
+                clear
+
+                0 int counter =     ; reset total/counter
+                0 int total   =
+                {
+                    total +=    ; total = total + counter
+                    1 int counter +=
+                } counter peek dup 40 int < loop    ; sum 1->39 total always: 780
+                total peek "total: %d\n" printf pop
+
+            } rand_num peek 5 int < if
+
+        }else{  ; >= 10
+
+            {   ; < 15
+                { rand_num peek print_i } rand_num peek 14 int == if
+                { rand_num peek print_i } rand_num peek 13 int == if
+                { rand_num peek print_i } rand_num peek 12 int == if
+                { rand_num peek print_i } rand_num peek 11 int == if
+                { rand_num peek print_i } rand_num peek 10 int == if
+
+                clear
+
+                0 int counter =     ; reset total/counter
+                0 int total   =
+                {
+                    total +=    ; total = total + counter
+                    1 int counter +=
+                } counter peek dup 60 int < loop    ; sum 1->59 total always: 1770
+                total peek "total: %d\n" printf pop
+
+            }else{  ; >= 15
+                { rand_num peek print_i } rand_num peek 19 int == if
+                { rand_num peek print_i } rand_num peek 18 int == if
+                { rand_num peek print_i } rand_num peek 17 int == if
+                { rand_num peek print_i } rand_num peek 16 int == if
+                { rand_num peek print_i } rand_num peek 15 int == if
+
+                clear
+
+                0 int counter =     ; reset total/counter
+                0 int total   =
+                {
+                    total +=    ; total = total + counter
+                    1 int counter +=
+                } counter peek dup 70 int < loop    ; sum 1->69 total always: 2415
+                total peek "total: %d\n" printf pop
+
+            } rand_num peek 15 int < if
+
+        } rand_num peek 10 int < if     ; rand num < 10?
+
+        0 int counter =     ; reset total/counter
+        0 int total   =
+        {
+            total +=    ; total = total + counter
+            1 int counter +=
+        } counter peek dup 50 int < loop    ; sum 1->49 total always displayed: 1225
+
+        total peek "total: %d\n" printf pop
+
+
+    } 1 int if
+
+    return
+
+_start:
+
+    0 int count def_i
+
+    {
+        mixed_if_else_loops call_func
+        1 int count +=
+    } count peek 5 int < loop

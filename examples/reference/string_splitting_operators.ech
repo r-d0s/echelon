@@ -1,0 +1,99 @@
+;---------------------------------------------------------------------;
+; String Splitting & Conversion Ops
+;
+; RUN: ./echelon -f examples/reference/string_splitting_operators.ech
+;---------------------------------------------------------------------;
+
+_start:
+
+    "----- DUP_ARGS -----" puts_p
+
+    10 int 20 int 30 int 40 int 50 int 2 int dup_args
+
+    dump_i          ; 10 20 30 40 50 40 50  <-- top 2 (40, 50) duplicated
+    clear
+
+    "----- HEX_INT -----" puts_p
+
+    100 hex_int print_i     ; 256
+    255 hex_int print_i     ; 597
+    FF hex_int print_i      ; 255
+    0x10 hex_int print_i    ; 16
+    clear
+
+    "----- SPLIT_STR_DELIM -----" puts_p
+
+    ",,,,hello,,how,,,are:,11,,::11,you?1,,,::" print_str
+    ",:1"                           ;  <-- delims being used (,:1)
+    split_str_delim
+    split_block def_i               ; save the results
+
+    split_block peek [peek_64]
+    0 int push_bp                   ; get ptr to string array and count var
+                                    ; bp_0 = 0 (count)
+                                    ; bp_1 = split_block
+    {                               ; loop through all strings
+        puts_p
+        bp_0 ++ [bp_0]
+    } bp_1 bp_0 3 int << + [peek_64] dup loop ; (while *split_block)... fails at NULL
+
+    split_block peek del_str_set pop_bp     ; clean-up the string block
+    clear
+
+    "----- GET_LINES -----" puts_p
+
+    "First Line\nSecond Line\nThird Line\nFourth Line" get_lines
+    lines_block def_i
+
+    lines_block peek [peek_64]
+    0 int push_bp                   ; bp_0 = 0 (count)
+                                    ; bp_1 = lines_block
+
+    {
+        puts_p
+        bp_0 ++ [bp_0]
+    } bp_1 bp_0 3 int << + [peek_64] dup loop   ; (while *lines_block)... fails at NULL
+
+    lines_block peek del_str_set pop_bp
+    clear
+
+
+    "----- COMBINED OPERATORS -----" puts_p
+
+    "apple:,:;banana;::cherry:;date"    ; split a string with delimiters, then process result-set
+    ",;:" split_str_delim
+    combined_block def_i
+
+    combined_block peek [peek_64]       ; bp_0 = 0 (count)
+                                        ; bp_1 = combined_block
+    0 int push_bp
+
+    {
+        "Token: [%s]\n" printf pop
+        bp_0 ++ [bp_0]
+    } bp_1 bp_0 3 int << + [peek_64] dup loop   ; (while *combined_block)... fails at NULL
+
+    combined_block peek del_str_set pop_bp
+    clear
+
+    "----- TEST EDGE CASES -----" puts_p
+
+    "Testing invalid hex:" puts_p           ; hex_int with invalid string
+    XYZ hex_int print_ptr                   ; 0
+    clear
+
+    "Testing empty string:" puts_p          ; split_str_delim with no matching delimiters
+    "aa bb cc" ",:1" split_str_delim
+    empty_block def_i                       ; returns a cpy of the original string wrapped in a block
+
+    ; if there are no matches, the original string is copied onto the heap.
+    ; number of elements in the struct will be 1, meaning: 0 splits.
+    ; the allocated block still needs to be freed...
+    {
+        "Warning! no splits generated from split_str_delim!" puts_p
+        empty_block peek del_str_set                    ; free the entire block on error condition
+        120 int exit                                    ; echo $? in terminal --> 120
+    } empty_block peek 8 int + [peek_64] 1 int == if    ; get to status section & check match count (1 = no splits)
+
+    empty_block peek del_str_set    ; clean-up & free the block (if we had any matching data...)
+    clear

@@ -1,0 +1,145 @@
+;----------------------------------------------------------------------
+; tutorial_8: File I/O
+;
+; we can read & write to files. only ONE file can be open at a time.
+; always use close_file when you're finished with the file
+;
+; important info:
+;   read_file returns heap memory        --> pop_free it
+;   str_to_file pushes num bytes written --> pop it unless you need it
+;   open_file pushes a file descriptor   --> pop it unless you need it
+;
+; ./echelon -f tutorials/tutorial_8_file_IO.ech
+;----------------------------------------------------------------------
+
+_start:
+
+    ;--- WRITING TO FILE
+    "/tmp/echelon_test.txt" open_file pop
+
+    "Hello, " str_to_file pop
+    "World!!" str_to_file pop
+    write_nl
+    "This is a test file." str_to_file pop
+    write_nl
+
+    close_file
+    "File written." puts_p
+    clear
+
+
+    ;--- READING FROM FILE
+    "/tmp/echelon_test.txt" read_file     ; load the entire file into heap buffer
+    puts
+    pop_free
+
+    ;--- FILE SIZE (bytes)
+    "/tmp/echelon_test.txt" read_file
+    file_size print_i pop
+    pop_free
+    clear
+
+    ;--- APPEND TO EXISTING FILE
+    "/tmp/echelon_test.txt" open_file_app pop
+    "This line is appended!" str_to_file pop
+    write_nl
+    close_file
+
+    "/tmp/echelon_test.txt" read_file     ; read back to check
+    puts
+    pop_free
+    clear
+
+
+    ;--- BINARY WRITE TO FILE
+    ; write_bin: [val1, val2, ... , count] --> [ ]
+    ; writes each value as 8 byte little-endian int
+    "/tmp/echelon_binary.dat" open_file
+
+    15 int 31 int 127 int 255 int   ; write 4 values = 32 bytes total
+    32 int write_bin                ; 32 --> number of bytes to write
+
+    close_file
+
+    "/tmp/echelon_binary.dat" read_file   ; read back & hex dump
+    32 int hex_mem_n
+    pop_free
+    clear
+
+    ;--- WRITE BYTES FROM PTR TO FILE
+    ; bytes_to_file: [data_ptr, count] -> []
+
+    "we are going to write some bytes" data def_str
+
+    "/tmp/echelon_raw.dat" open_file pop
+    data peek 10 int bytes_to_file      ; writes 'count' bytes, null-term is ignored...
+    close_file
+
+    ; read it back, use hex_mem_n, NOT puts (remember, theres no guarantee of null-term)
+    "/tmp/echelon_raw.dat" read_file
+    10 int hex_mem_n                ; dump 10 hex bytes: "we are goi"
+    pop_free
+    clear
+
+    ;--- WRITE NEWLINES TO A FILE
+    "/tmp/echelon_nl.txt" open_file pop
+    "Line 1" str_to_file pop
+    write_nl
+    "Line 2" str_to_file pop
+    write_nl
+    "Line 3" str_to_file pop
+    write_nl
+    close_file
+
+    "/tmp/echelon_nl.txt" read_file
+    21 int hex_mem_n                ; check: 3 lines * 7 bytes each = 21 bytes
+    pop_free
+    clear
+
+
+    ;--- READ-MODIFY-WRITE FROM/TO A FILE
+    "/tmp/echelon_test.txt" read_file ptr_data def_i  ; stores file contents as ptr
+
+    "/tmp/echelon_uppercase.txt" open_file pop
+    ptr_data peek to_upper dup
+    str_to_file pop
+    close_file
+
+    pop_free                    ; free to_upper result
+    ptr_data peek pop_free      ; free original read_file buffer
+
+    "Uppercase version written!" puts_p
+    clear
+
+
+    ;--- HEX VERIFY ALL THE FILES WE WROTE DATA TO
+    ; these were written to the /tmp/ dir
+
+    "\n--- echelon_binary.dat as HEX ---" puts_p
+    "/tmp/echelon_binary.dat" read_file
+    32 int hex_mem_n
+    pop_free
+
+    "\n--- echelon_nl.txt as HEX ---" puts_p
+    "/tmp/echelon_nl.txt" read_file
+    21 int hex_mem_n
+    pop_free
+
+    "\n--- echelon_raw.dat as HEX ---" puts_p
+    "/tmp/echelon_raw.dat" read_file
+    10 int hex_mem_n
+    pop_free
+
+    "\n--- echelon_test.txt as HEX ---" puts_p
+    "/tmp/echelon_test.txt" read_file
+    dup file_size print_i        ; 60 (byte size)
+    hex_mem_n
+    pop_free
+
+    "\n--- echelon_uppercase.txt as HEX ---" puts_p
+    "/tmp/echelon_uppercase.txt" read_file
+    dup file_size print_i        ; 60 (byte size)
+    hex_mem_n
+    pop_free
+
+    clear

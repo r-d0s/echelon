@@ -1,0 +1,48 @@
+;--------------------------------------------------------
+; tutorial_4a: Control Flow
+;
+;   if, else, loop & true_false (basics)
+;
+; ./echelon -f tutorials/tutorial_4a_control_flow.ech
+;-------------------------------------------------------
+
+_start:
+
+    ;---- Control Flow: If/Else
+    ; structure: { true_block }else{ false_block } condition if
+    ; please remember: tokeniser expects '}else{' without any whitespaces!
+
+    50 int score def_i
+
+    {
+        "Score is above 60!" puts_p
+    }else{
+        "Score is 60 or below!" puts_p      ; print: output
+    } score peek 60 int > if
+
+
+    ;---- Control Flow: Loops
+    ; structure: { true_block } condition loop
+    ; run the true_block while condition != 0
+
+    0 int count def_i
+
+    {
+        count peek print_i pop              ; print: 0 1 2 3 4
+        1 int count +=
+    } count peek 5 int < loop
+
+
+    ;---- Control Flow: Ternary Operator (true_false)
+    ; stack: [ true_val, false_val ] condition --> [ (true_val/false_val) ]
+    ; if condition is true, keep true_value, otherwise keep false_value
+
+    "a Child" "an Adult"
+    14 int 18 int < true_false      ; 14 < 18 is true, pop off false
+    "You're %s!\n" printf pop       ; prints: You're a Child!
+
+    25 int age def_i                ; now test using var
+
+    "a Child" "an Adult"
+    age peek 18 int < true_false    ; 25 < 18 is false, pop off true
+    "You're %s!\n" printf pop       ; prints: You're an Adult!

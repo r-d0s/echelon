@@ -1,0 +1,2 @@
+valgrind running under docker is slow. reduced the test so we allocate
+from 1 byte --> 100,000 bytes (not 1MB). output interval every 10,000 bytes instead

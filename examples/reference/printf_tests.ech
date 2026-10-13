@@ -1,0 +1,144 @@
+;-------------------------------------------------------
+; echelon printf with FLOATING-POINT I/O & MATHS TESTS
+;
+; RUN: ./echelon -f examples/reference/printf_tests.ech
+;------------------------------------------------------
+
+func: test_printf_float
+
+    "\n--== SINGLE FLOAT PRINTING ==--" puts_p
+    3.141592 float "pi is: %f\n" printf_f
+    ;---------------------------
+    "\n--== MAXIMUM FLOATS: 6 FLOATS IN 1 STATEMENT ==--" puts_p
+    ; pushes floats oldest (left) --> newest (right)
+    ; uses xmm0 --> xmm5 regs
+    1.1 float       ; to --> xmm0 (oldest)
+    2.2 float       ; to --> xmm1
+    3.3 float       ; to --> xmm2
+    4.4 float       ; to --> xmm3
+    5.5 float       ; to --> xmm4
+    6.6 float       ; to --> xmm5 (newest)
+    "printf_f six floats in order: [%f] [%f] [%f] [%f] [%f] [%f]\n" printf_f
+    "\n--== CHECK ZERO FLOATS ==--" puts_p
+    ;---------------------------
+     0.0 float "zero float check: %f\n" printf_f
+    -0.0 float "negative zero check: %f\n" printf_f
+    ;---------------------------
+    clear
+    return
+
+func: test_printf_fp    ; printf for floats & pop after
+
+    "\n--== SINGLE FLOAT PRINTING & POP (count = 1) ==--" puts_p
+    ;--------------------------------------------
+    3.141592 float "pi check: %f\n" 1 int printf_fp   ; pop off 1 operand
+                                                      ; stack should be empty now
+    "\n--== MAXIMUM FLOATS & POP (count = 6) ==--" puts_p
+    ;----------------------------------------------
+    1.1 float
+    2.2 float
+    3.3 float
+    4.4 float
+    5.5 float
+    6.6 float
+    "printf_fp six floats: %f - %f - %f - %f - %f - %f\n" 6 int printf_fp     ; pop off 6 operands from the stack
+    "\n--== CHECK POP LIMIT (6 params, but count = 10) ==--" puts_p
+    ;---------------------------
+    4095 int
+
+    10.0 float 20.0 float 30.0 float 40.0 float 50.0 float 60.0 float   ; push 6 floats
+    "check pop doesn't exceed count(6) test: [%f] [%f] [%f]\n"
+    10 int printf_fp                                                    ; invalid pop count of 10
+    ;---------------------------
+    ; now there should ONLY be 4095 int on top of the stack
+    ; this will prove the pop X 10 stopped once the param limit:6 was reached
+    dump_ptr clear
+    return
+
+func: test_float_inc_dec
+
+    "\n--== INC++/DEC-- TESTS ==--" puts_p
+    10.5 float ++f print_fl         ; 11.500000
+    10.5 float --f print_fl         ;  9.500000
+    ;---------------------------
+    "\n--== NEGATIVE TESTS ==--" puts_p
+    -4.25 float ++f print_fl        ; -3.250000
+    -4.25 float --f print_fl        ; -5.250000
+    ;---------------------------
+    "\n--== PASSING ZERO TESTS ==--" puts_p
+    -0.5 float ++f print_fl         ;  0.500000
+    0.5 float --f print_fl          ; -0.500000
+    ;---------------------------
+    clear
+    return
+
+func: test_negative_sqrt
+
+    "\n--== SQUARE ROOT TESTS ==--" puts_p
+
+    64.0 float sqrt print_fl        ; 8.000000
+    -64.0 float sqrt print_fl       ; -nan
+    clear
+
+    return
+
+
+func: test_nan_cmp
+
+    "\n--== NaN CMP CHECKS ==--" puts_p
+
+    -1.0 float sqrt print_fl        ; -nan
+
+    dup dup ==f print_i         ; 0 (nan is never equal to itself!)
+    pop                         ; remove T/F result
+
+    dup 5.0 float !=f print_i  pop      ; 1 (nan is always not equal)
+
+    dup 10.0 float <f print_i  pop      ; 0
+    10.0 float >f print_i               ; 0
+
+    clear
+    return
+
+func: test_input_float
+
+    "\n--== READ POSITIVE FLOAT ==--" puts_p
+    "please enter a float (e.g 123.456):\n" printf
+    read_f
+    "you entered: %f\n" 1 int printf_fp
+
+    "\n--== READ NEGATIVE FLOAT ==--" puts_p
+    "please enter a negative float (e.g -52.17):\n" printf
+    read_f
+    "you entered: %f\n" 1 int printf_fp
+
+    "\n--== READ INVALID FLOAT (STRING) INPUT ==--" puts_p
+    "please enter a string or anything invalid (e.g hello 543 zzz !!):\n" printf
+    read_f                                                          ; strtod should default 0.000000
+    "invalid input read as: %f\n" 1 int printf_fp
+
+    return
+
+func: test_input_float_2
+
+    "\n--== USER PROMPT WITHOUT NEWLINE ==--" puts_p    ; push text --> print --> force fflush --> read input
+    0.0 float "please enter a float (NO NEWLINE): " printf_f pop
+    fflush                                   ; <-- fflush FORCES prompt onto screen immediately
+    read_f
+    "you entered: %f\n" 1 int printf_fp
+
+    return
+
+
+_start:
+
+    test_printf_float  call_func
+    test_printf_fp     call_func
+    test_float_inc_dec call_func
+    ;---------------------------
+    test_negative_sqrt call_func
+    test_nan_cmp       call_func
+    ;---------------------------
+    test_input_float   call_func
+    test_input_float_2 call_func
+

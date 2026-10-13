@@ -1,0 +1,25 @@
+=== Running on: "Kali GNU/Linux Rolling"
+rm -f *.o *.lst echelon
+==20== Memcheck, a memory error detector
+==20== Copyright (C) 2002-2026, and GNU GPL'd, by Julian Seward et al.
+==20== Using Valgrind-3.27.1 and LibVEX; rerun with -h for copyright info
+==20== Command: ./echelon -f memory_allocate_stress_test.ech
+==20== 
+test: [10000]  ----> [119]  mem addr: [0x56d4d80]
+test: [20000]  ----> [119]  mem addr: [0x520c030]
+test: [30000]  ----> [252]  mem addr: [0x5654e10]
+test: [40000]  ----> [225]  mem addr: [0x5aaf840]
+test: [50000]  ----> [80]  mem addr: [0x5b90d90]
+test: [60000]  ----> [230]  mem addr: [0x5574ae0]
+test: [70000]  ----> [166]  mem addr: [0x536a230]
+test: [80000]  ----> [105]  mem addr: [0x61b8900]
+test: [90000]  ----> [64]  mem addr: [0x595b6c0]
+test: [100000]  ----> [46]  mem addr: [0x5ed7ed0]
+==20== 
+==20== HEAP SUMMARY:
+==20==     in use at exit: 0 bytes in 0 blocks
+==20==   total heap usage: 300,366 allocs, 300,366 frees, 5,003,468,556 bytes allocated
+==20== 
+==20== All heap blocks were freed -- no leaks are possible
+==20== 
+==20== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

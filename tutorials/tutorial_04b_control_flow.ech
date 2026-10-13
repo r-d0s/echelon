@@ -1,0 +1,229 @@
+;------------------------------------------------------------------------------------
+; tutorial_4b_control_flow.ech
+;
+; this continues on from tutorial_4a
+;
+;   break         - exit function NOW
+;   break_if      - exit function if condition true
+;   break_cond_if - exit (if/loop) block, continue after it
+;   true_false    - true_val false_val condition true_false (keep one of them)
+;   stack_size    - count elements on the stack (excluding itself)
+;   dup_args      - duplicate top n values
+;
+; IF/LOOP STRUCTURES
+;
+;   { true_block } condition if
+;   { true_block }else{ false_block } condition if   ; no whitespaces '}else{'
+;   { repeat if true } condition loop
+;
+;
+; variable scope rule:
+;   variables have global/function scope, NOT block scope. declaring a variable
+;   inside a loop block can cause the program to re-declare the same variable,
+;   resulting in an error.
+;
+; ./echelon -f tutorials/tutorial_4b_control_flow.ech
+;------------------------------------------------------------------------------------
+
+_start:
+
+
+    {
+        "10 is less than 20!" puts_p
+    } 10 int 20 int < if
+
+                            ; you can test the condition here, if you prefer
+    10 int 20 int >         ; stack: [ 0 ] (false)
+    {
+        "This will NOT print!" puts_p
+    } if
+
+
+    {
+        "10 is less than 20!" puts_p
+    }else{
+        "10 is NOT less than 20!" puts_p
+    } 10 int 20 int < if
+
+    {
+        "10 is greater than 20!" puts_p
+    }else{
+        "10 is NOT greater than 20!" puts_p
+    } 10 int 20 int > if
+
+
+    50 int score def_i
+    {
+        "Score is below 60!" puts_p
+    }else{
+        "Score is 60 or above!" puts_p
+    } score peek 60 int < if        ; use score in the condition
+
+
+    75 int score =                  ; score = 75
+
+    {
+        "Score is above 50!" puts_p
+        {
+            "Score is also above 70!" puts_p
+        }else{
+            "Score is between 50 and 70!" puts_p
+        } score peek 70 int > if
+    }else{
+        "Score is 50 or below!" puts_p
+    } score peek 50 int > if
+
+
+    ;---- NESTED IF with DUP
+    ; use 'dup' to re-use a value without having to peek it
+    {
+        "Score is above 50!" puts_p
+        {
+            "Score is also above 70!" puts_p
+        }else{
+            "Score is between 50 and 70!" puts_p
+        } 70 int > if               ; stack: [ 75 ] --> [ ] after if
+    }else{
+        "Score is 50 or below!" puts_p
+    } score peek dup 50 int > if    ; stack: [ 75, 75 ] --> [ 75 ] after if
+
+
+    ;---- LOGICAL OPERATORS AND/OR
+    10 int a def_i
+    20 int b def_i
+
+    {
+        "a > 5 AND b > 15" puts_p
+    } a peek 5 int > b peek 15 int > && if
+
+    {
+        "a > 15 OR b > 25" puts_p
+    }else{
+        "neither condition is true" puts_p
+    } a peek 15 int > b peek 25 int > || if
+
+
+    ;--- TRUE_FALSE
+    "a < b" "a >= b"  9 int 10 int < true_false puts_p      ; print: a < b
+    "a < b" "a >= b" 10 int 10 int < true_false puts_p      ; print: a >= b
+
+    ;--- LOOP
+    0 int count def_i
+
+    {
+        count peek "Count: %d, " printf     ; print: Count: 0, Count: 1, Count: 2, Count: 3, Count: 4
+        1 int count +=                      ; count++
+    } count peek 5 int < loop               ; while(count < 5)
+                                            ; stack: [ 0, 1, 2, 3, 4 ]
+
+    clear       ; stack: [ ]
+
+    ;---- BREAK_IF
+    0 int count =       ; reset count = 0
+
+    {
+        ; count peek 10 int == break_if     ; un-comment to END the program when count == 10
+        count peek "Count: %d, " printf
+        1 int count +=
+    } count peek 20 int < loop
+    clear
+
+    nl      ; print new line after output
+
+    ;---- LOOP with BREAK_COND_IF
+    ; break_cond_if exits the current block if true
+
+    0 int count =
+    {
+        {
+            count peek "count: %d, " printf pop
+            1 int count +=
+            count peek 5 int == break_cond_if
+        } -1 int loop                       ; while(-1) inf loop
+        "Breaking at count: 5!" puts_p
+    } -1 int if                             ; if(-1) always true
+
+    ; prints: Count: 0, Count: 1, Count: 2, Count: 3, Count: 4, Breaking at count: 5!
+
+    nl          ; print new line after output
+    clear       ; stack: [ ]
+
+    ;----- DUP_ARGS -----
+    10 int 20 int 30 int 40 int 50 int      ; stack: [ 10, 20, 30, 40, 50 ]
+    "Original:" puts_p
+    dump_i
+
+    3 int dup_args              ; stack: [ 10, 20, 30, 40, 50, 30, 40, 50 ]
+    "After dup_args 3:" puts_p
+    dump_i
+
+    clear       ; stack: [ ]
+
+    ;----- STACK_SIZE -----
+
+    { 10 int rand } stack_size 5 int < loop     ; stack: [ rand, rand, rand, rand, rand ]
+
+    stack_size "stack has %d elements\n\n" printf pop   ; 5
+    dump_i
+    clear       ; stack [ ]
+
+    10 int 20 int 30 int 40 int 50 int                  ; stack: [ 10, 20, 30, 40, 50 ]
+    stack_size "Initial stack size: %d\n" printf        ; stack: [ 10, 20, 30, 40, 50, 5 ]
+
+    pop         ; stack: [ 10, 20, 30, 40, 50 ]
+
+    {
+        stack_size "values remaining: %d - %d\n" printf
+        pop pop         ; pop off stack_size and top value
+    } stack_size loop
+
+    ; Initial stack size: 5
+    ; values remaining: 5 - 50
+    ; values remaining: 4 - 40
+    ; values remaining: 3 - 30
+    ; values remaining: 2 - 20
+    ; values remaining: 1 - 10
+
+    clear       ; stack [ ]
+
+    ;--- ADD ALL VALUES ON THE STACK
+    ; 'stack_size --' will only run while n > 1
+
+    100 int 200 int 300 int 400 int 500 int 600 int
+    dump_rts
+
+    { + } stack_size -- loop     ; while (stack depth > 1) add top 2 values
+
+    dump_rts        ; 2100
+    clear           ; stack: [ ]
+
+
+    ;--- FIND SMALLEST OF 3 RAND NUMBERS
+    { 100 int rand } stack_size 3 int < loop
+
+    dump_i              ; assume stack: [ 31, 72, 48 ]
+
+    2 int dup_args      ; stack: [ 31, 72, 48, 72, 48 ]
+    <                   ; stack: [ 31, 72, 48, 0 ]
+    true_false          ; stack: [ 31, 48 ]
+
+    2 int dup_args      ; stack: [ 31, 48, 31, 48 ]
+    < true_false        ; stack: [ 31 ]
+
+    "smallest: %d\n" printf pop
+    clear               ; stack: [ ]
+
+
+    ;---- FIND LARGEST OF 15 RAND NUMBERS
+    { 100 int rand } stack_size 15 int <= loop      ; push rand numbers on the stack
+
+    dump_i
+
+    { 2 int dup_args > true_false } stack_size -- loop
+
+    "largest: %d\n" printf
+    dump_i                      ; largest number remaining
+    clear
+
+    ; break                     ; un-comment to end program now
+    10 int ++ print_i

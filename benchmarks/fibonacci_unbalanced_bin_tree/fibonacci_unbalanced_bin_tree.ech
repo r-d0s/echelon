@@ -1,0 +1,163 @@
+;----------------------------------------------------------------------------------------------------------------------
+; fibonacci_unbalanced_bin_tree.ech ;
+; ----------------------------------;
+;
+; test details:
+;
+;   1) builds a Binary Search Tree (BST) with 100 nodes
+;   2) each node gets rand value (21..35)
+;   3) then scans the whole tree in pre-order (current node, then left, then right).
+;
+; then for each node:
+;
+;   1) it stops & calcs the fibonacci series for that node's value
+;   2) waits for it to finish, stores the result in the node's +8 byte slot
+;   3) only then prints the node data
+;   4) for clean-up, it frees every node using post-order (left, then right, then node itself)
+;
+; Stack Stress Testing (deliberate design):
+; -----------------------------------------
+; the tree is deliberately un-balanced (skewed).. the insertion code NEVER rebalances, so it creates
+; a deep & un-balanced tree.. this forces the prog to nest insertion calls, while building the tree,
+; before any fib calcs happen.
+;
+; fibonacci is heavily recursive so the prog has to handle two levels of deep nesting:
+;
+;   1) the tree traversal depth
+;   2) plus the fibonacci recursion depth
+;
+; i chose this test because of separate levels of nesting and deliberate stress testing:
+;
+;   - the stack-frame
+;   - memory/pointer chasing (less/more ptrs)
+;   - func retrn address tracking
+;
+; run:  ./echelon -f benchmarks/fibonacci_unbalanced_bin_tree/fibonacci_unbalanced_bin_tree.ech
+;
+; check for mem leaks:
+; valgrind --leak-check=full ./echelon -f benchmarks/fibonacci_unbalanced_bin_tree/fibonacci_unbalanced_bin_tree.ech
+;
+; time & check mem usage:
+; /usr/bin/time -v ./echelon -f benchmarks/fibonacci_unbalanced_bin_tree/fibonacci_unbalanced_bin_tree.ech
+;
+;-----------------------------------------------------------------------------------------------------------------------
+
+;---------------------------------------------------
+; node layout (32 bytes total, all 64 bit ints):
+;        +0 : value (random number (21..35))
+;        +8 : fibonacci result (calc from value)
+;       +16 : ptr to left child (LESS, or 0 if none)
+;       +24 : ptr to right child (MORE, or 0 if none)
+;----------------------------------------------------
+
+func: fib
+
+    dup
+
+    2 int < break_if                ; base case, leave number on stack if its < 2
+    dup -- fib call_func
+    swap -- -- fib call_func  +
+    return
+
+
+func: get_new_node
+
+    32 int mem_alloc temp def_i
+    temp peek 15 int rand 21 int +          ; set fib range (21..35)
+    swap
+
+    "## adding node: [%p] --> val: [%d]\n" printf
+    swap
+    [poke_64]    ; val
+
+    temp peek dup 8 int + 0 int [poke_64]   ; calc fib series for the val
+         swap dup 16 int + 0 int [poke_64]  ; *less
+         swap 24 int + 0 int [poke_64]      ; *more
+    temp peek
+    return
+
+;--------------------------------------------------------------------------------------
+; inserting depends on the node's value & compares it to the current node's value:
+;   - it calcs either +16 (go left/LESS) or +24 (go right/MORE) as an offset
+;   - then it adds that offset to the node address to get to the child ptr
+;--------------------------------------------------------------------------------------
+func: insert_node
+
+    head def_i
+    node def_i
+    node peek [peek_64] val def_i
+
+    LESS peek MORE peek
+    val peek head peek [peek_64] < true_false direction def_i
+
+    {
+        head peek direction peek + [peek_64] head =
+        LESS peek MORE peek
+        val peek head peek [peek_64] < true_false direction =
+    } head peek direction peek + [peek_64] 0 int != loop
+
+    head peek direction peek + node peek [poke_64]
+    return
+
+func: disp_tree
+
+    head def_i          ; grab value from top of stack
+
+    head peek ! break_if
+
+    head peek dump_node call_func
+    head peek 16 int + [peek_64] disp_tree call_func
+    head peek 24 int + [peek_64] disp_tree call_func
+    return
+
+func: free_tree
+
+    head def_i          ; grab value from top of stack
+
+    head peek ! break_if
+
+    head peek 16 int + [peek_64] free_tree call_func
+    head peek 24 int + [peek_64] free_tree call_func
+    head peek pop_free
+    return
+
+func: dump_node
+
+    temp def_i          ; grab value from top of stack
+
+    temp peek 8 int +
+    temp peek [peek_64] fib call_func [poke_64] ; **fire off recursive fib & update fib val in +8 bytes**
+
+    temp peek dup 24 int + [peek_64]
+         swap dup 16 int + [peek_64]
+         swap dup 8 int + [peek_64]                  ; this is fib result for value in node
+         swap dup [peek_64]
+         swap
+    "node: [%p]\tfib series: [%d]\tfib total: [%d]\tless: [%p]\tmore: [%p]\n" 5 int printf_p
+    return
+
+func: stress_test
+
+    100 int iterations def_i                ; number of nodes
+
+    get_new_node call_func head_node def_i
+    {
+        get_new_node call_func
+        head_node peek
+        insert_node call_func
+        1 int iterations -=
+    } iterations peek loop
+
+    head_node peek disp_tree call_func      ; display whole tree
+    head_node peek free_tree call_func      ; free every node
+    return
+
+;--------------------------
+; _start: main entry point
+;--------------------------
+_start:
+
+    16 int LESS def_i
+    24 int MORE def_i
+
+    stress_test call_func

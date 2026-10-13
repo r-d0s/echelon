@@ -1,0 +1,115 @@
+;-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+-
+; String Manipulation & Other Ops
+;
+; RUN: ./echelon -f examples/reference/string_and_utility_ops.ech
+;-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+-
+
+_start:
+
+    "---- TRIM_STR ----" puts_p
+
+    "  hello  " trim_str
+    print_str pop_free    ; "hello"
+
+    "A" trim_str
+    print_str pop_free    ; "A"
+
+    "   " trim_str
+    print_ptr pop_free    ; 0x0 (NULL)
+    clear
+
+    "---- REPLACE_STR ----" puts_p
+
+    "banana" "a" "AA" replace_str
+    print_str pop_free    ; "bAAnAAnAA"
+
+    "cat" "a" "ome" replace_str
+    print_str pop_free    ; "comet"
+
+    "dog" "longer_than_dog" "cats" replace_str
+    print_str pop_free    ; "dog"
+    clear
+
+    "---- JOIN_STR ----" puts_p
+
+    "aaa" "bbb" "ccc" ":" 3 int join_str
+    print_str pop_free    ; "aaa:bbb:ccc"
+
+    "A" "A" "A" "A" "#" 4 int join_str
+    print_str pop_free    ; "A#A#A#A"
+
+    "192" "168" "0" "14" "." 4 int join_str
+    print_str pop_free    ; "192.168.0.14"
+    clear
+
+    "---- HEX_TO_IP ----" puts_p
+
+    "0100007f" hex_to_ip
+    print_str pop_free    ; "127.0.0.1"
+
+    "ffffffff" hex_to_ip
+    print_str pop_free    ; "255.255.255.255"
+
+    "0101a8c0" hex_to_ip
+    print_str pop_free    ; "192.168.1.1"
+    clear
+
+    "---- IS_EVEN & IS_ODD ----" puts_p
+
+    20 int is_even print_i      ; 1
+    21 int is_even print_i      ; 0
+    20 int is_odd print_i       ; 0
+    21 int is_odd print_i       ; 1
+    clear
+
+    "---- INDEX_STR ----" puts_p
+
+    "abcdef" "cd" index_str print_i           ; 2
+    "abcdef" "xyz" index_str print_i          ; -1
+    "hello world" "world" index_str print_i   ; 6
+    clear
+
+    "---- TO_UPPER & TO_LOWER ----" puts_p
+
+    "HeLlO_123!" to_upper
+    print_str pop_free    ; "HELLO_123!"
+
+    "HeLlO_123!" to_lower
+    print_str pop_free    ; "hello_123!"
+    clear
+
+    "---- STARTS_WITH & ENDS_WITH ----" puts_p
+
+    "foobar" "foo" starts_with print_i      ; 1
+    "foobar" "baz" starts_with print_i      ; 0
+    "foobar" "bar" ends_with print_i        ; 1
+    "foobar" "foo" ends_with print_i        ; 0
+    clear
+
+    "---- CMP_STR_I ----" puts_p
+
+    "HELLO" "hello" cmp_str_i print_i       ; 0
+    "abc" "DEF" cmp_str_i print_i           ; -1
+    "XYZ" "abc" cmp_str_i print_i           ; 1
+    clear
+
+    "---- HCF & LCM ----" puts_p
+
+    12 int 18 int hcf print_i      ; 6
+    -12 int -18 int hcf print_i    ; 6
+    12 int 18 int lcm print_i      ; 36
+    12 int -18 int lcm print_i     ; 36
+    clear
+
+    "---- COMBINING OPS ----" puts_p
+                                      ; trim then convert to upper
+    "  hello world  " trim_str dup    ; duplicate ptr to keep a copy for later
+    print_str to_upper print_str      ; print trimmed string, convert cpy to upper & print
+    pop_free pop_free                 ; clean-up results from trim_str & to_upper
+
+    "a" "b" "c" "_" 3 int join_str    ; join then replace
+    dup print_str
+    "a" "X" replace_str
+    print_str pop_free pop_free       ; print replaced string & free both allocations
+
+    clear

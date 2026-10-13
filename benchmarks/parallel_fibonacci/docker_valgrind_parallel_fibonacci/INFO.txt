@@ -1,0 +1,2 @@
+reduced forks from 14 to 7 for this test. 
+128 procs, 64 child procs doing fib(1..25) each

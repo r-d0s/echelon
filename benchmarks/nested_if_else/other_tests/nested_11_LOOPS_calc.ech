@@ -1,0 +1,127 @@
+;--------------------------------------------------------------------------;
+; this test uses 11 nested LOOPs & a variable to count ALL the iterations. ;
+; Valgrind takes too long running this test, so reduce some of the outer   ;
+; iteration limits if you're planning on using it.                         ;
+;                                                                          ;
+; run: ./echelon -f benchmarks/nested_if_else/nested_11_LOOPS_calc.ech     ;
+;--------------------------------------------------------------------------;
+
+func: nested_loops
+
+    0 int iteration def_i
+    0 int loop_var_1 def_i
+    0 int loop_var_2 def_i
+    0 int loop_var_3 def_i
+    0 int loop_var_4 def_i
+    0 int loop_var_5 def_i
+    0 int loop_var_6 def_i
+    0 int loop_var_7 def_i
+    0 int loop_var_8 def_i
+    0 int loop_var_9 def_i
+    0 int loop_var_10 def_i
+    0 int loop_var_11 def_i
+
+    {
+        1 int iteration +=
+        {
+            1 int iteration +=
+            {
+                1 int iteration +=
+                {
+                    1 int iteration +=
+                    {
+                        1 int iteration +=
+                        {
+                            1 int iteration +=
+                            {
+                                1 int iteration +=
+                                {
+                                    1 int iteration +=
+                                    {
+                                        1 int iteration +=
+                                        {
+                                            1 int iteration +=
+                                            {
+                                                ;iteration peek "iteration current: %d\n" printf pop
+                                                1 int iteration +=
+                                                1 int loop_var_11 +=
+                                            } loop_var_11 peek 10 int < loop
+                                            0 int loop_var_11 =
+
+                                            1 int loop_var_10 +=
+                                        } loop_var_10 peek 10 int < loop
+                                        0 int loop_var_10 =
+
+                                        1 int loop_var_9 +=
+                                    } loop_var_9 peek 10 int < loop
+                                    0 int loop_var_9 =
+
+                                    1 int loop_var_8 +=
+                                } loop_var_8 peek 5 int < loop
+                                0 int loop_var_8 =
+
+                                1 int loop_var_7 +=
+                            } loop_var_7 peek 5 int < loop
+                            0 int loop_var_7 =
+
+                            1 int loop_var_6 +=
+                        } loop_var_6 peek 5 int < loop
+                        0 int loop_var_6 =
+
+                        1 int loop_var_5 +=
+                    } loop_var_5 peek 5 int < loop
+                    0 int loop_var_5 =
+
+                    1 int loop_var_4 +=
+                } loop_var_4 peek 5 int < loop
+                0 int loop_var_4 =
+
+                1 int loop_var_3 +=
+            } loop_var_3 peek 5 int < loop
+            0 int loop_var_3 =
+
+            1 int loop_var_2 +=
+        } loop_var_2 peek 10 int < loop
+        0 int loop_var_2 =
+
+        1 int loop_var_1 +=
+    } loop_var_1 peek 10 int < loop
+
+    iteration peek "iteration current: %d\n" printf
+    ; 10 + 100 + 500 + 2,500 + 12,500 + 62,500 + 312,500 + 1,562,500
+    ; + 15,625,000 + 156,250,000 + 1,562,500,000 = 1,736,328,110
+
+    return
+
+
+_start:
+    nested_loops    call_func
+
+;------------------------------------------------------------------------------------------------------
+;   on my machine this takes a few mins to complete
+;
+;   Mon Oct 05 [19:32:20]$ /usr/bin/time -v ./echelon -f benchmarks/nested_if_else/nested_11_LOOPS_calc.ech
+;   iteration current: 1736328110
+; 	Command being timed: "./echelon -f benchmarks/nested_if_else/nested_11_LOOPS_calc.ech"
+; 	User time (seconds): 197.99
+; 	System time (seconds): 0.09
+; 	Percent of CPU this job got: 100%
+; 	Elapsed (wall clock) time (h:mm:ss or m:ss): 3:18.09
+; 	Average shared text size (kbytes): 0
+; 	Average unshared data size (kbytes): 0
+; 	Average stack size (kbytes): 0
+; 	Average total size (kbytes): 0
+; 	Maximum resident set size (kbytes): 1920
+; 	Average resident set size (kbytes): 0
+; 	Major (requiring I/O) page faults: 0
+; 	Minor (reclaiming a frame) page faults: 95
+; 	Voluntary context switches: 1
+; 	Involuntary context switches: 880
+; 	Swaps: 0
+; 	File system inputs: 0
+; 	File system outputs: 0
+; 	Socket messages sent: 0
+; 	Socket messages received: 0
+; 	Signals delivered: 0
+; 	Page size (bytes): 4096
+; 	Exit status: 0

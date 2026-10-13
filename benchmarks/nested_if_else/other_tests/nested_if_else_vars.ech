@@ -1,0 +1,85 @@
+;---------------------------------------------------------------------
+; random if/else function calls from nested if
+;
+; run: ./echelon -f benchmarks/nested_if_else/nested_if_else_vars.ech
+;----------------------------------------------------------------------
+
+
+func: check_if_vars
+
+    {
+        1 int level_1 def_i
+        level_1 peek print_i
+
+        check_if_else_vars  call_func
+        {
+            2 int level_2 def_i
+            level_2 peek print_i
+
+            check_if_else_vars  call_func
+            {
+                3 int level_3 def_i
+                level_3 peek print_i
+
+                check_if_else_vars  call_func
+                {
+                    4 int level_4 def_i
+                    level_4 peek print_i
+
+                    check_if_else_vars  call_func
+                    {
+                        5 int level_5 def_i
+                        level_5 peek print_i
+
+                        check_if_else_vars  call_func
+                        {
+                            dump_dict
+                        } 1 int if
+                    } 1 int if
+                } 1 int if
+            } 1 int if
+        } 1 int if
+
+    } 1 int if
+
+    return
+
+func: check_if_else_vars
+
+    {
+        1 true_level_1 def_str
+        true_level_1 peek puts_p
+
+        {
+            2 true_level_2 def_str
+            true_level_2 peek puts_p
+        }else{
+            -2 false_level_2 def_str
+            false_level_2 peek puts_p
+        } 10 int rand is_even if
+
+    }else{
+
+        -1 false_level_1 def_str
+        false_level_1 peek puts_p
+
+        {
+            2 true_level_2 def_str
+            true_level_2 peek puts_p
+        }else{
+            -2 false_level_2 def_str
+            false_level_2 peek puts_p
+        } 10 int rand is_even if
+
+    } 10 int rand is_even if
+
+    dump_dict
+    return
+
+
+_start:
+
+
+    check_if_vars   call_func
+    ------------------ puts_p
+    check_if_else_vars  call_func

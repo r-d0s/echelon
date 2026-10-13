@@ -1,0 +1,22 @@
+=== Running on: "Rocky Linux 9.3 (Blue Onyx)"
+rm -f *.o *.lst echelon
+==19== Memcheck, a memory error detector
+==19== Copyright (C) 2002-2024, and GNU GPL'd, by Julian Seward et al.
+==19== Using Valgrind-3.26.0 and LibVEX; rerun with -h for copyright info
+==19== Command: ./echelon -f hashset_stress_test_fast.ech
+==19== 
+number of nodes adding to hashset: [1000000]
+strings created...
+add hash done...
+get hash done...
+del hash done...
+deleted hashset
+clean up hashset done...
+==19== 
+==19== HEAP SUMMARY:
+==19==     in use at exit: 0 bytes in 0 blocks
+==19==   total heap usage: 2,000,514 allocs, 2,000,514 frees, 107,585,094 bytes allocated
+==19== 
+==19== All heap blocks were freed -- no leaks are possible
+==19== 
+==19== ERROR SUMMARY: 0 errors from 0 contexts (suppressed: 0 from 0)

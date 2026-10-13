@@ -1,0 +1,128 @@
+;------------------------------------------------------------------------------------------------
+; tutorial_9: Hashsets
+;
+; Hashsets store Key-Value pairs for fast look-ups
+;
+; Keys are strings.
+; Values can be anything, ints, floats, strings, structs, *ptrs anything...
+;
+; FLAG values (set once when the node is created):
+;   0 = leave KEY & leave VALUE
+;   1 = FREE KEY & leave VALUE
+;   2 = leave KEY & FREE VALUE
+;   3 = FREE KEY & FREE VALUE
+;
+; in these examples we use FLAG 0 because the strings are program code.
+; if you heap allocated BOTH Keys & Values e.g add_str, cpy_str, rand_str etc, then use FLAG 3.
+; if your Values are: ints or floats, then you can NOT free them! so use FLAG 0/1
+;
+; hashset header (16 bytes):
+;   bytes [0-7]: ptr to node* array (qword)
+;   bytes [8-11]: number of nodes (dword)
+;   bytes [12-15]: capacity (dword)
+;
+; valgrind -s --track-origins=yes --leak-check=full ./echelon -f tutorials/tutorial_9_hashsets.ech
+;--------------------------------------------------------------------------------------------------
+
+_start:
+    ;--- CREATE NEW HASHSET
+    ;
+    ; ask for 27 bucket capacity --> but the program defaults to 64.
+    ; for values greater than 64, it rounds to the next power of 2: (128, 256, 512 etc).
+
+    27 int new_hash ptr def_i
+    ptr peek dump_hashset
+
+    ;--- ADD DATA/NODES TO HASHSET
+    ; FLAG 0 = leave both Key & Value (they're prog code strings & ints)
+
+    ptr peek "Xabi Alonso" "Stamford Bridge, SW6" 0 int add_hash
+    ptr peek "Moises Caicedo" "Chelsea FC" 0 int add_hash
+    ptr peek "Cole Palmer" "London, SW6" 0 int add_hash
+
+    ptr peek dump_hashset
+
+    ptr peek 12 int + [peek_32]
+    "hashset capacity: %d\n" printf pop     ; print capacity from header
+
+
+    ;--- LOOK-UP KEY IN HASHSET
+    ; get_hash: [ptr, key] --> [value, 1] if found, or [0] if not
+
+    {
+        "key found: %s\n" printf pop
+    }else{
+        "key not found!" puts_p
+    } ptr peek "Xabi Alonso" get_hash if
+
+    {
+        "key found: %s\n" printf pop
+    }else{
+        "key not found (expected)" puts_p
+    } ptr peek "Rodri" get_hash if
+
+
+    ;--- DOES KEY EXIST IN THE HASHSET?
+    ; hash_exists: [ptr, key] --> [**ptr] or [0]
+    ; returns a ptr to the value ptr slot. use [peek_64] to dereference.
+    ; why use this approach? well.. a value could be 0, or maybe its: "key not found"?
+    ; even if the value is 0, it will still be in memory address.
+    ; simple rule: NULL = not found, !NULL = ptr (found).
+
+    {
+        [peek_64] "Value: %s\n" printf pop
+    }else{
+        pop "key not found." puts_p
+    } ptr peek "Moises Caicedo" hash_exists dup if
+
+    ;--- FIXED BUCKET HASHSET
+    ; add_hash_fix is like add_hash but does NOT auto-resize when capacity > 75%.
+    ; use when you know your bucket size & need to keep it FIXED.
+
+    ptr peek "Nicolas Jackson" "FC Bayern" 0 int add_hash_fix
+
+    {
+        "key found: %s\n" printf pop
+    }else{
+        "key not found." puts_p
+    } ptr peek "Nicolas Jackson" get_hash if
+
+
+    ;--- DELETE NODE
+    ptr peek "Nicolas Jackson" del_hash
+    "delete status: %d\n" printf pop
+
+    {
+        "Error: key still exists!" puts_p pop
+    }else{
+        "confirmed: key no longer exists..\n" puts_p
+    } ptr peek "Nicolas Jackson" get_hash if
+
+
+    ;--- CLEAR ENTIRE HASHSET
+    ptr peek clear_hashset          ; removes all nodes but keeps the buckets/struct
+    ptr peek dump_hashset           ; bucket capacity resets = 64
+
+    ;--- DELETE ENTIRE HASHSET
+    ptr peek del_hashset            ; entire struct is deleted
+    "hashset deleted & deallocated!" puts_p
+
+
+    ;--- BASIC HASHSET DEMO
+    64 int new_hash test_ptr def_i
+
+    test_ptr peek key_1 value_1 0 int add_hash      ; start adding data
+    test_ptr peek key_2 value_2 0 int add_hash
+    test_ptr peek key_3 value_3 0 int add_hash
+
+    test_ptr peek dump_hashset
+
+    {
+        [peek_64] "key: key_2\tvalue: %s\n" printf pop
+    }else{
+        "Key not found.." puts_p pop
+    } test_ptr peek key_2 hash_exists dup if
+
+    test_ptr peek del_hashset
+
+    dump_rts

@@ -1,0 +1,153 @@
+;-------------------------------------------------------------
+; MATHS & TRIG FUNCTIONS
+;
+; RUN: ./echelon -f examples/reference/maths_and_trig_ops.ech
+;-------------------------------------------------------------
+
+func: math_and_trig_ops
+
+    "----  MODULO TESTS ----" puts_p
+    10 int 3 int % print_i      ; 1
+    -10 int 3 int % print_i     ; -1
+    10 int -3 int % print_i     ; 1
+    -10 int -3 int % print_i    ; -1
+    0 int 7 int % print_i       ; 0
+    45 int 45 int % print_i     ; 0
+
+    clear
+    ; check for zero division, un-comment next line to show error msg
+    ;10 int 0 int %
+
+    "---- TRIG TESTS ----" puts_p
+    0.0 float sin print_fl                  ; 0.000000000000000
+    1.57079632679 float sin print_fl        ; 1.000000000000000
+    -1.57079632679 float sin print_fl       ; -1.000000000000000
+    0.0 float cos print_fl                  ; 1.000000000000000
+    3.14159265359 float cos print_fl        ; -1.000000000000000
+    -0.78539816339 float tan print_fl       ; -0.999999999985103
+
+    "---- CHAINING TEST ----" puts_p
+    45.0 float sin 0.5 float *f ++f
+    11.5 float +f                       ; 12.925451762267059
+
+    print_fl
+
+    clear
+    return
+
+func: bound_and_limits
+
+    "---- POWER OPERATOR ----" puts_p
+    2.0 float 3.0 float pow print_fl        ; 8.000000000000000
+    10.0 float -2.0 float pow print_fl      ; 0.010000000000000
+    4.0 float 0.5 float pow print_fl        ; 2.000000000000000
+    -3.0 float 3.0 float pow print_fl       ; -27.000000000000000
+    99.5 float 0.0 float pow print_fl       ; 1.000000000000000
+
+    "---- ARC SINE (asin) ----" puts_p
+    1.0 float asin print_fl         ; 1.570796326794897
+    -1.0 float asin print_fl        ; -1.570796326794897
+    0.0 float asin print_fl         ; 0.000000000000000
+
+    "---- ARC COSINE (acos) ----" puts_p
+    1.0 float acos print_fl         ; 0.000000000000000
+    -1.0 float acos print_fl        ; 3.141592653589793
+    0.0 float acos print_fl         ; 1.570796326794897
+
+    "---- ARC TANGENT (atan) ----" puts_p
+    0.0 float atan print_fl             ; 0.000000000000000
+    1.0 float atan print_fl             ; 0.785398163397448
+    -1.0 float atan print_fl            ; -0.785398163397448
+    100000.0 float atan print_fl        ; 1.570786326794897
+
+    clear
+    return
+
+func: exp_and_atan2_ops
+
+    "---- EXPONENTIAL (exp) ----" puts_p
+    1.0 float exp print_fl          ; 2.718281828459045
+    3.0 float exp2 print_fl         ; 8.000000000000000
+    0.0 float expm1 print_fl        ; 0.000000000000000
+
+    "---- TWO-ARG ARC TANGENT (atan2) ----" puts_p
+    2.0 float 0.0 float atan2 print_fl          ; 1.570796326794897
+    1.0 float 1.0 float atan2 print_fl          ; 0.785398163397448
+    -1.0 float -1.0 float atan2 print_fl        ; -2.356194490192345
+
+    clear
+    return
+
+func: expon_and_log_ops
+
+    "---- EXPONENTIAL -1 (expm1) ----" puts_p
+    0.0 float expm1 print_fl        ; 0.000000000000000
+    1.0 float expm1 print_fl        ; 1.718281828459045
+
+    "---- LOGARITHM (log) ----" puts_p
+    2.718281828459045 float log print_fl        ; 1.000000000000000
+    1.0 float log print_fl                      ; 0.000000000000000
+
+    "---- BASE-2 LOGARITHM (log2) ----" puts_p
+    8.0 float log2 print_fl         ; 3.000000000000000
+
+    "---- BASE-10 LOGARITHM (log10) ----" puts_p
+    100.0 float log10 print_fl      ; 2.000000000000000
+
+    "---- LOGARITHM 1+X (log1p) ----" puts_p
+    0.0 float log1p print_fl                ; 0.000000000000000
+    0.000000000001 float log1p print_fl     ; 0.000000000001000
+
+    clear
+    return
+
+func: min_max_and_rounding_ops
+
+    "---- ABSOLUTE VALUE (fabs) ----" puts_p
+    -123.45 float fabs print_fl         ; 123.450000000000003
+
+    "---- FLOATING MIN/MAX (fmin/fmax) ----" puts_p
+    1.5 float 4.2 float fmin print_fl           ; 1.500000000000000
+    -10.5 float -5.2 float fmax print_fl        ; -5.200000000000000
+
+    "---- ROUNDING ----" puts_p
+    2.7 float floor print_fl        ; 2.000000000000000
+    -2.7 float floor print_fl       ; -3.000000000000000
+    2.1 float ceil print_fl         ; 3.000000000000000
+    -2.1 float ceil print_fl        ; -2.000000000000000
+    2.5 float round print_fl        ; 3.000000000000000
+    2.4 float round print_fl        ; 2.000000000000000
+    2.7 float trunc print_fl        ; 2.000000000000000
+    -2.7 float trunc print_fl       ; -2.000000000000000
+
+    clear
+    return
+
+func: final_trig_block
+
+    "---- HYPOTENUSE (hypot) ----" puts_p
+    3.0 float 4.0 float hypot print_fl      ; 5.000000000000000
+
+    "---- HYPERBOLIC OPERATORS ----" puts_p
+    0.0 float sinh print_fl         ; 0.000000000000000
+    0.0 float cosh print_fl         ; 1.000000000000000
+    0.0 float tanh print_fl         ; 0.000000000000000
+
+    "---- FUSED MULTIPLY ADD (fma) ----" puts_p
+    2.5 float 4.0 float 3.5 float fma       ; 13.500000000000000
+    print_fl
+
+    clear
+    return
+
+
+_start:
+
+    math_and_trig_ops   call_func
+    bound_and_limits    call_func
+    exp_and_atan2_ops   call_func
+    expon_and_log_ops   call_func
+    min_max_and_rounding_ops call_func
+    final_trig_block    call_func
+
+    dump_ptr    ; is stack clean?

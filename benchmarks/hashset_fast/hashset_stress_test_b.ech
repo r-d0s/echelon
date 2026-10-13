@@ -1,0 +1,142 @@
+;------------------------------------------------------------------------------
+; hashset_stress_test_b.ech
+;
+; stack-based version of the hashset_stress_test.ech
+; ---------------------------------------------------
+;
+; instead of using variables (peek/poke) this version keeps most of the data on
+; the stack, making it faster.
+;
+; test details:
+;   1) generate 50M random strings (40 chars each).
+;   2) inserts them into a hashset (starts at 64 buckets, resizes (*2) if > 75% capacity).
+;   3) sequential look-ups the first 25M keys
+;   4) sequential delete those same 25M keys
+;   5) delete the hashset & free all memory
+;
+; why sequential records & not random?
+;   - random look-ups/deletes can hit the same index twice, which messes up the 50% target.
+;   - sequential access means exactly 50% operations & 100% success. this makes the
+;     test more reliable
+;
+;
+; measure time & mem usage:
+;   /usr/bin/time -v ./echelon -f hashset_stress_test_b.ech
+;------------------------------------------------------------------------------
+
+func: create_strings    ; str_array already on stack
+
+
+    0 int                           ; counter = 0
+    {
+        2 int dup_args +            ; dup top 2 values (base + counter) then add
+        40 int rand_str [poke_64]   ; gen 40 char string & store at that address
+        8 int +                     ; counter+=8 (for next ptr index)
+    } dup num_nodes peek < loop     ; while (counter < num_nodes)
+
+    clear
+    return
+
+
+func: clean_strings     ; str_array already on stack
+
+
+    0 int
+    {
+        2 int dup_args +            ; base + counter
+        [peek_64] pop_free          ; deref ptr & free that string
+        8 int +                     ; counter += 8
+    } dup num_nodes peek < loop
+
+    pop pop_free                    ; pop counter & free str_array
+    clear
+    return
+
+
+func: disp_strings      ; str_array already on stack
+
+
+    0 int
+    {
+        2 int dup_args +            ; base + counter
+        [peek_64] puts_p            ; deref ptr & print
+        8 int +                     ; counter+=8
+    } dup num_nodes peek < loop
+    clear
+    return
+
+
+_start:     ; <-- main entry point
+
+    ;--- allocate str array & gen keys ---
+    50000000 int 3 int << dup    ; multiply by 8 (shl 3) --> size in bytes
+    2 int / half_lim def_i       ; half of num_nodes (50% look-ups/deletes)
+
+    dup num_nodes def_i          ; store num_nodes (global & used in loops)
+    mem_alloc str_array def_i    ; allocate ptr array & store global
+
+    str_array peek
+    create_strings call_func
+    "strings created..." puts_p
+
+    ; un-comment to check str_array
+    ;str_array peek
+    ;disp_strings call_func
+
+    clear
+
+    ;--- create hashset & insert all nodes ---
+    64 int new_hash hash_data def_i    ; hashset with 64 initial buckets
+
+    hash_data peek
+    str_array peek
+    0 int                               ; counter
+    {
+        3 int dup_args                  ; dup top 3 values: hash_data, str_array, counter
+        + [peek_64]                     ; calc base + counter, dereference to get key string
+        256 int rand 0 int add_hash     ; add node with random value & flag = 0
+        8 int +                         ; counter+= 8
+    } dup num_nodes peek < loop
+
+    "add hash done..." puts_p clear
+
+    ; Un-comment to dump entire hashset
+    ;hash_data peek dump_hashset
+
+    ;--- 50% look-ups ---
+    hash_data peek
+    str_array peek
+    0 int                             ; counter
+
+    {
+        3 int dup_args                ; dup top 3 values: hash_data, str_array, counter
+        + [peek_64] hash_exists pop   ; get key from str_array + counter & look-up
+        8 int +                       ; counter+=8
+    } dup half_lim peek < loop
+
+    "get hash done..." puts_p
+    clear
+
+    ;--- 50% deletions ---
+    hash_data peek
+    str_array peek
+    0 int
+
+    {
+        3 int dup_args                ; dup top 3 values: hash_data, str_array, counter
+        + [peek_64] del_hash pop      ; get key from str_array + counter & delete
+        8 int +
+    } dup half_lim peek < loop
+
+    "del hash done..." puts_p
+
+    ; un-comment to dump entire hashset
+    ;hash_data peek dump_hashset
+
+    ;--- clean-up ---
+    hash_data peek del_hashset
+    "hashset deleted..." puts_p
+
+    str_array peek
+    clean_strings call_func
+    "strings deallocated..." puts_p

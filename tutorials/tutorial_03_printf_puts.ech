@@ -1,0 +1,75 @@
+;------------------------------------------------------------------------------------
+; tutorial_3_printf_puts.ech
+;
+; echelon has several ways to print. the main difference is whether the
+; operator pops the value it prints
+;
+;   puts      - print string & newline, DOES NOT pop
+;   puts_p    - print string & newline, DOES pop
+;   printf    - C-style format, pops format string ONLY
+;   printf_p  - C-style format, pops format string AND n params
+;   printf_f  - same as printf but for floats (uses xmm regs)
+;   printf_fp - same as printf_p but for floats
+;
+; printf picks params in REVERSE order, top of stack first e.g:
+;
+;   stack: [30, 20, 10] with "%d %d %d\n"  prints: 10 20 30
+;
+; ./echelon -f tutorials/tutorial_3_printf_puts.ech
+;------------------------------------------------------------------------------------
+
+_start:
+
+    ;---- PUTS (no pop)
+    "Hello, World!" puts        ; stack: [ "Hello, World!" ]
+    dump_rts                    ; debug print full stack: [ "Hello, World!" ]
+    pop                         ; stack: [ ]
+
+    ;---- PUTS_P (pops)
+    "This will be removed!" puts_p  ; stack: [ ]
+    dump_rts
+
+    ;---- PRINTF (pops format only)
+    10 int                      ; stack: [ 10 ]
+    20 int                      ; stack: [ 10, 20 ]
+    30 int                      ; stack: [ 10, 20, 30 ]
+    "values: %d, %d, %d\n"      ; stack: [ 10, 20, 30, frmt_str ]
+    printf                      ; stack: [ 10, 20, 30 ] -> prints top first 30, 20, 10
+    clear                       ; stack: [ ]
+
+    ;---- PRINTF_P (pops everything)
+    100 int 200 int 300 int     ; stack: [ 100, 200, 300 ]
+    "Numbers: %d, %d, %d\n"     ; stack: [ 100, 200, 300, frmt_str ]
+    3 int                       ; stack: [ 100, 200, 300, frmt_str, 3 ] (arg count)
+    printf_p                    ; stack: [ ]
+
+    ;---- PRINTF_P MIXED TYPES
+    90 int 80 int 70 int        ; stack: [ 90, 80, 70 ]
+    Mordecai                    ; stack: [ 90, 80, 70, "Mordecai" ]
+    Rigby                       ; stack: [ 90, 80, 70, "Mordecai", "Rigby" ]
+
+    "\nSurname: %s\tName: %s\n\nMath score:\t[%d/100]\nSci  score:\t[%d/100]\nEng  score:\t[%d/100]\n"
+    ; stack: [ 90, 80, 70, "Mordecai", "Rigby", fmt_string ]
+
+    5 int           ; stack: [ 90, 80, 70, "Mordecai", "Rigby", fmt_string, 5 ]
+    printf_p        ; stack: [ ]
+
+    ;---- FLOATS
+    clear           ; empty the stack
+
+    143 float sqrt      ; stack: [ 11.95826 ]
+    3.142 float         ; stack: [ 11.95826, 3.142 ]
+    "\n\npi: [%f]\nsqrt(143): [%.12f]\n"        ; stack: [ 11.95826, 3.142, fmt_string ]
+    printf_f                                    ; stack: [ 11.95826..., 3.142 ]
+                                                ; prints: pi: [3.142000]
+                                                ; sqrt(143): [11.958260743101]
+
+    ;---- PRINTF_FP (floats & pop)
+    clear       ; stack: [ ]
+
+    1.1 float 2.2 float 3.3 float 4.4 float 5.5 float 6.6 float
+    "six floats: [%f] [%f] [%f] [%f] [%f] [%f]\n"
+    6 int           ; stack: [ 1.1, 2.2, 3.3, 4.4, 5.5, 6.6, fmt_string, 6 ]
+    printf_fp       ; stack: [ ]
+
+    ; prints: six floats: [6.600000] [5.500000] [4.400000] [3.300000] [2.200000] [1.100000]

@@ -1,0 +1,33 @@
+ubuntu_adm@EliteDesk[~/final_tests]
+Wed Aug 12 [08:52:03]$ sudo perf stat -e cycles,instructions,L1-dcache-loads,L1-dcache-load-misses,L2-loads,L2-load-misses,LLC-loads,LLC-load-misses,dTLB-loads,dTLB-load-misses,branches,branch-misses ./echelon -f memory_allocate_stress_test.ech
+test: [100000]  ----> [201]  mem addr: [0x14db68d0]
+test: [200000]  ----> [89]  mem addr: [0x14db68d0]
+test: [300000]  ----> [116]  mem addr: [0x14db68d0]
+test: [400000]  ----> [220]  mem addr: [0x14db68d0]
+test: [500000]  ----> [96]  mem addr: [0x14db68d0]
+test: [600000]  ----> [59]  mem addr: [0x14db68d0]
+test: [700000]  ----> [104]  mem addr: [0x14db68d0]
+test: [800000]  ----> [19]  mem addr: [0x14db68d0]
+test: [900000]  ----> [188]  mem addr: [0x14db68d0]
+test: [1000000]  ----> [27]  mem addr: [0x14db68d0]
+
+ Performance counter stats for './echelon -f memory_allocate_stress_test.ech':
+
+    39,796,292,328      cycles                                                                  (66.65%)
+     3,066,329,474      instructions                     #    0.08  insn per cycle              (74.99%)
+       960,559,327      L1-dcache-loads                                                         (74.99%)
+     7,908,930,177      L1-dcache-load-misses            #  823.37% of all L1-dcache accesses   (74.99%)
+           261,287      L2-loads                                                                (74.99%)
+            41,866      L2-load-misses                   #   16.02% of all LL-cache accesses    (75.00%)
+           253,626      LLC-loads                                                               (75.01%)
+            42,849      LLC-load-misses                  #   16.40% of all LL-cache accesses    (75.02%)
+       964,393,591      dTLB-loads                                                              (75.02%)
+            19,691      dTLB-load-misses                 #    0.00% of all dTLB cache accesses  (75.01%)
+       951,564,175      branches                                                                (66.67%)
+           205,126      branch-misses                    #    0.02% of all branches             (66.66%)
+
+      10.615968475 seconds time elapsed
+
+      10.604377000 seconds user
+       0.010999000 seconds sys
+

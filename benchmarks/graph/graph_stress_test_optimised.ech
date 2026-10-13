@@ -1,0 +1,183 @@
+;------------------------------------------------------------------------------
+; graph_stress_test_optimised.ech
+;
+; optimised version of graph_stress_test.ech using STACK-POINTERS (bp_0->bp_7).
+; instead of using variables, dict look-ups & peek/poke, we store temp values
+; in the stack-pointer registers.
+;
+; test details:
+;   - creates 1M nodes (each with random 10 char key).
+;   - adds 65 random directed edges to EVERY node (dups are ignored)
+;   - shows the total number of edges & nodes.
+;   - deletes every node one by one (back_links updated automatically)
+;   - deletes the whole graph & frees all memory
+;
+;
+; node memory:
+;   - each node's key is a heap-allocated string
+;   - graph_add_node uses free_flag = 2 --> the graph does NOT free the key.
+;     we do that ourselves with clean_strings
+;   - clean_strings frees all keys & the ptr array.
+;
+; run: ./echelon -f graph_stress_test_optimised.ech
+;
+; Valgrind, on this test it can be very slow, so reduce the number of nodes:
+;   valgrind -s --track-origins=yes --leak-check=full ./echelon -f graph_stress_test_optimised.ech
+;------------------------------------------------------------------------------
+
+;------------------------------------------------------------------------------
+; stack-pointers: bp_4 = size, bp_3 = str_array ptr, bp_2 = loop_var,
+;                bp_1 = char count (10), bp_0 = shl (3 for *8)
+;------------------------------------------------------------------------------
+func: create_strings
+
+    10 int              ; chars per string
+    3 int               ; shl 3 = *8
+                        ; bp_4   bp_3       bp_2      bp_1       bp_0
+    push_bp             ; [size, str_array, loop_var, char size, shl]
+
+    {
+        bp_3 bp_2 bp_0 << +       ; address of str_array + loop_var
+        bp_1 rand_str [poke_64]   ; store random string ptr
+        bp_2 ++ [bp_2]            ; inc loop_var
+    } bp_2 bp_4 < loop
+
+    0 int [bp_2]        ; reset loop_var 0
+    pop_bp pop pop      ; pop shl & char count
+    return
+
+;------------------------------------------------------------------------------
+; stack-pointers: bp_5 = size, bp_4 = str_array ptr, bp_3 = loop_var,
+;                bp_2 = graph (unused), bp_1 = 2 (free_flag), bp_0 = shl
+;------------------------------------------------------------------------------
+func: clean_strings
+                    ;  bp_5  bp_4       bp_3      bp_2     bp_1  bp_0
+                    ; [size, str_array, loop_var, graph,   2,    shl]
+
+    {
+        bp_4 bp_3 bp_0 << + [peek_64]   ; get ptr string
+        pop_free                        ; free that string
+        bp_3 ++ [bp_3]                  ; inc loop_var++
+    } bp_3 bp_5 < loop
+
+    bp_4 pop_free   ; free str_array
+    return
+
+;------------------------------------------------------------------------------
+; stack-pointers: bp_3 = size, bp_2 = str_array ptr, bp_1 = loop_var, bp_0 = shl
+;------------------------------------------------------------------------------
+func: disp_strings
+
+    3 int           ; shl
+                    ; bp_3   bp_2       bp_1      bp_0
+    push_bp         ; [size, str_array, loop_var, shl]
+
+    {
+        bp_2 bp_1 bp_0 << + [peek_64] puts_p
+        bp_1 ++ [bp_1]
+    } bp_1 bp_3 < loop
+
+    0 int [bp_1]            ; reset loop_var
+    pop_bp pop
+    return
+
+
+_start:
+
+    1000000 int dup         ; total nodes = 1M
+
+    3 int << mem_alloc      ; allocate str_array (8 bytes per pointer)
+    0 int                   ; push 0 loop_var
+
+    create_strings call_func
+    "strings created..." puts_p
+
+    ;-------------------------------------------------------------
+    ; stack-pointers set up:
+    ; bp_5 = size (num_nodes), bp_4 = str_array, bp_3 = loop_var,
+    ; bp_2 = graph pointer, bp_1 = free_flag (2), bp_0 = shl (3)
+    ;-------------------------------------------------------------
+    64 int  create_graph    ; graph with 64 buckets
+    2 int                   ; free_flag = 2 (key is NOT freed by graph)
+    3 int                   ; shl for *8
+
+    push_bp                 ; stack-pointers set up as:
+                            ;  bp_5  bp_4       bp_3      bp_2     bp_1   bp_0
+                            ; [size, str_array, loop_var, graph,   2,    shl]
+
+    {
+        bp_2 bp_4 bp_3 bp_0 << + [peek_64]   ; get key string ptr
+        bp_1 graph_add_node                  ; add node (free_flag = 2)
+        bp_3 ++ [bp_3]                       ; inc loop_var++
+    } bp_3 bp_5 < loop
+
+    "add hash done..." print_str pop
+
+    ; Un-comment to dump entire graph:
+    ; bp_2 dump_graph
+
+    ;--------------------------------------------------------------------------
+    ; add 65 random edges per node
+    ; we need more registers... so we push again --> bp_0->bp_7
+    ; layout after second push_bp:
+    ; bp_7 = size, bp_6 = str_array, bp_5 = loop_var (outer),
+    ; bp_4 = graph, bp_3 = free_flag, bp_2 = shl,
+    ; bp_1 = inner_count, bp_0 = num_edges (65)
+    ;--------------------------------------------------------------------------
+    0 int [bp_3]            ; reset loop_var (outer) 0
+    0 int                   ; inner_count 0
+    65 int                  ; num of edges per node
+
+    push_bp                 ; now layout:
+                            ; bp_7    bp_6       bp_5      bp_4    bp_3  bp_2     bp_1         bp_0
+                            ; [size,  str_array, loop_var, graph,  2,    shl(3),  inner_count, num_edges]
+
+    {
+        {
+           bp_4
+           bp_6 bp_7 rand bp_2 << + [peek_64]   ; random dest key
+           bp_6 bp_5 bp_2 << + [peek_64]        ; source key (fixed in outer iteration)
+           graph_add_edge
+           bp_1 ++ [bp_1]                       ; inner_count++
+        } bp_1 bp_0 < loop
+
+        0 int [bp_1]            ; reset inner_count to 0
+        bp_5 ++ [bp_5]          ; inc outer loop_var
+    } bp_5 bp_7 < loop
+
+    pop_bp_clear                ; clear All registers & switch to prev layout:
+                                ; bp_5   bp_4       bp_3      bp_2     bp_1   bp_0
+                                ; [size, str_array, loop_var, graph,   2,     shl]
+
+    ; un-comment to dump entire graph:
+    ; bp_2 dump_graph
+    "add edges done..." print_str pop
+
+    ;--- display stats ---
+    bp_2 graph_edge_count print_i pop   ; print total edges
+
+    bp_2 graph_get_nodes                ; returns a struct --> [count, pointer_to_node_array]
+    dup 8 int + [peek_64] print_i pop   ; display node count
+    dup [peek_64] pop_free              ; free the node array
+    pop_free                            ; free the 16 byte block
+
+    ;--- delete every node one by one ---
+    0 int [bp_3]                            ; reset loop_var
+    {
+        bp_2 bp_4 bp_3 bp_0 << + [peek_64]  ; get key
+        graph_del_node pop                  ; delete node (updates back-links)
+        bp_3 ++ [bp_3]                      ; inc loop_var
+    } bp_3 bp_5 < loop
+
+    "del hash done..." puts_p
+
+    ; un-comment to dump entire graph:
+    ; bp_2 dump_graph
+
+    ;--- clean-up entire graph & strings ---
+    bp_2 delete_graph                       ; free graph struct & all its data
+    "deleted hashset" puts_p
+
+    0 int [bp_3]                            ; reset loop_var
+    clean_strings call_func                 ; frees all keys & str_array
+    "clean up hashset done..." puts_p

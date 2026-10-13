@@ -1,0 +1,60 @@
+;-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--
+; Network & File Ops
+;
+; RUN: ./echelon -f examples/reference/network_and_file_operators.ech
+;-+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--+--
+
+_start:
+
+    "-+- hex_to_ip_port -+-" puts_p
+
+    0100007f5313 hex_to_ip_port     ; 127.0.0.1:21267  --> hex: 0x01,00,00,7f. 53 13
+    puts pop_free                   ; "127.0.0.1:21267"
+
+    0101010104d2 hex_to_ip_port     ; 1.1.1.1:1234  --> hex: 0x01,01,01,01. 04 d2
+    puts pop_free                   ; "1.1.1.1:1234"
+
+
+    c0a8000e1353 hex_to_ip_port     ; 192.168.0.14:4947
+    puts pop_free                   ; "14.0.168.192:4947" reversed, as expected
+    clear
+
+    "-+- ip_port_to_int -+-" puts_p
+
+    192.168.0.14:4947 ip_port_to_int
+    sock_block def_i
+    sock_block peek print_ptr   ; ptr to sockaddr_in block
+    pop_free
+    clear
+
+    "-+- open_file_app -+-" puts_p
+
+    /tmp/echelon_beta_log.txt open_file_app
+    print_i                           ; fd > 0
+
+    "here is a msg to YOU!!! :)\n" str_to_file
+    close_file
+    clear
+
+    "-+- write_64b_num -+-" puts_p
+
+    /tmp/echelon_binary_out.dat open_file_app
+    print_i                           ; fd > 0
+
+    1234605616436508552 int
+    write_64b_num           ; write 64 bit number
+
+    close_file
+
+                                            ; read back to check
+    /tmp/echelon_binary_out.dat read_file   ; <-- xxd file to check
+    8 int hex_mem_n                         ; 0x1122334455667788 --> little endian
+
+    pop_free
+    clear
+
+    "-+- combined Ops -+-" puts_p
+
+    0100007f5313 hex_to_ip_port
+    puts pop_free               ; "127.0.0.1:21267"
+
