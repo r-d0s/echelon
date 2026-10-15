@@ -1188,8 +1188,6 @@ dump_user_graph:            ; expcts 16 byte hashset datatype on top of stack
     test    r8, r8
     jz      .empty_hash_error
     ;----------------------------
-    sub     qword [rts_tos], 0x08
-    ;----------------------------
     mov     r9d, [r8 + 0x08]
     mov     [rsp], r9                   ; 2nd 8 bytes = size of hashset
     ;----------------------------
@@ -10629,8 +10627,6 @@ dump_user_hashset:          ; expects 16 byte hashset datatype on top of stack
     mov     r8, [r15]
     test    r8, r8
     jz      .empty_hash_error
-    ;----------------------------
-    sub     qword [rts_tos], 0x08
     ;----------------------------
     mov     r9d, [r8 + 0x08]
     mov     [rsp], r9                   ; 2nd 8 bytes = size of hashset
