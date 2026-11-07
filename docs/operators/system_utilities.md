@@ -124,42 +124,6 @@ Important: Each string entry inside the block allocation is null-terminated. To 
 
 - base_address + (index * (length + 1))
 
----
-
-### create_struct
-`[val1, val2, ..., val_n, count] -> [count, address]`
-
-Pops 'count' values from the stack & packs them into an 8 byte aligned, heap-allocated struct.
-
-```
-Playstation 200 int -123 int Hello! 4 int create_struct
-```
-
-Important: the result of `create_struct` is used by `def_struct` to create the structure.
-
----
-
-### def_struct
-`[address, count, "name"] -> []`
-
-Links a variable 'name' to an allocated memory struct.
-
-```
-Playstation 200 int -123 int Hello! 4 int create_struct
-my_info def_struct          ; use create_struct first to make the struct then call def_struct
-```
-
----
-
-### struct_size
-`["struct_name"] -> [size]`
-
-Returns the size of 8 byte (64 bit) field elements within the 'struct_name' structure variable.
-
-```
-"my_info" struct_size print_i   ; shows 4
-```
-
 
 ## SOME EXAMPLES
 
@@ -205,15 +169,3 @@ block peek puts                     ; first string
 block peek 4 int 9 int * + puts     ; 5th string
 block peek pop_free                 ; free all
 
-; ----- create_struct & def_struct -----
-"Playstation" 200 int -123 int "Hello!" 4 int create_struct
-my_struct def_struct
-
-my_struct peek [peek_64] print_str          ; "Hello!"
-my_struct peek 8 int + [peek_64] print_i    ; 200
-my_struct peek 16 int + [peek_64] print_i   ; -123
-my_struct peek 24 int + [peek_64] print_str ; "Playstation"
-
-; ----- struct_size -----
-my_struct struct_size print_i pop   ; 4
-```

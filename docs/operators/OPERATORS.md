@@ -77,7 +77,7 @@ Click a category below to jump to that section:
 `len_str`, `add_str`, `cpy_str`, `upd_str`, `sub_str`, `cmp_str`, `cmp_str_u`, `cmp_str_i`, `index_str`, `starts_with`, `ends_with`, `to_upper`, `to_lower`, `trim_str`, `replace_str`, `join_str`, `split_str`, `split_str_delim`, `get_lines`, `smash_str`, `smash_str_ascii`, `sprintf`, `sprintf_p`
 
 ## System/Misc
-`sys_call`, `sleep`, `epoch`, `exit`, `rand`, `rand_str`, `rand_str_batch`, `create_struct`, `def_struct`, `struct_size`
+`sys_call`, `sleep`, `epoch`, `exit`, `rand`, `rand_str`, `rand_str_batch`
 
 ## Trig/Advanced Math
 `sin`, `cos`, `tan`, `pow`, `acos`, `asin`, `atan`, `atan2`, `exp`, `exp2`, `expm1`, `log`, `log2`, `log10`, `log1p`, `fabs`, `fmin`, `fmax`, `floor`, `ceil`, `round`, `trunc`, `sinh`, `cosh`, `tanh`, `hypot`, `fma`
