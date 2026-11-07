@@ -115,7 +115,7 @@
 <details>
 <summary><b>17. System/Misc</b></summary>
 
-* `sys_call`, `sleep`, `epoch`, `exit`, `rand`, `rand_str`, `rand_str_batch`, `create_struct`, `def_struct`, `struct_size`
+* `sys_call`, `sleep`, `epoch`, `exit`, `rand`, `rand_str`, `rand_str_batch`
 
 </details>
 

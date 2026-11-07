@@ -113,7 +113,6 @@ section .rodata             ; the r/o strings below aren't in order, sorry!
     ovectorDebug:       db "** DEBUG ovector pair total match#[%d] match#[%d] index#[%d]: %d <-- start/end --> %d **", 0x0a, 0x00
 
     commentsRemoved:    db "comment bytes being removed are:", 0x0a, 0x00
-    notAStruct:         db "ERROR! Variable is not a struct: [%s]", 0x0a, 0x00
     fileOpenErr:        db "ERROR! can't open the file: [%s], does it exist?", 0x0a, 0x00
 
     argvSize:           db "tokens in argv is: [%d]", 0x0a, 0x00
@@ -179,7 +178,6 @@ section .rodata             ; the r/o strings below aren't in order, sorry!
     dictFMTs:               db "[%02d] ---> name : [%s] | value : [%s] | type : [str]", 0x0a, 0x00
     dictFMTi:               db "[%02d] ---> name : [%s] | value : [%d] | type : [int]", 0x0a, 0x00
     dictFMTf:               db "[%02d] ---> name : [%s] | value : [%.15f] | type : [float]", 0x0a, 0x00
-    dictFMTstrct:           db "[%02d] ---> name : [%s] | &address : [%p] | # of elements : [%d] | type : [struct *ptr]", 0x0a, 0x00
     dict_ended:             db "^------------ [END] of dictionary dump ------------", 0x0a, 0x0a, 0x00
 
     ptrOut:                 db "ptr ---> [%p]", 0x0a, 0x00
@@ -195,7 +193,6 @@ section .rodata             ; the r/o strings below aren't in order, sorry!
     fileCreateError:        db "ERROR : file desc open/already used, close it before creating a file!", 0x0a, 0x00
 
     dump_rts_string:        db " rts index [%02d] is a string ----> [%s]", 0x0a, 0x00
-    dump_rts_struct:        db " rts index [%02d] is a struct ----> [%p]", 0x0a, 0x00
     dump_rts_float:         db " rts index [%02d] is a float  ----> [%.15f]", 0x0a, 0x00
     dump_rts_int:           db " rts index [%02d] is an int   ----> [%lld]", 0x0a, 0x00
 
@@ -266,257 +263,257 @@ section .rodata             ; the r/o strings below aren't in order, sorry!
     operator_48:    db "add_str", 0x00
     operator_49:    db "cpy_str", 0x00
     operator_50:    db "upd_str", 0x00
-    operator_51:    db "create_struct", 0x00
-    operator_52:    db "def_struct", 0x00
-    operator_53:    db "add_hash", 0x00
-    operator_54:    db "dump_hashset", 0x00
-    operator_55:    db "get_hash", 0x00
-    operator_56:    db "del_hash", 0x00
-    operator_57:    db "read_file", 0x00
-    operator_58:    db "nl", 0x00
-    operator_59:    db "split_str", 0x00        ; works with input file and string on rts
-    operator_60:    db "rand", 0x00
-    operator_61:    db "str", 0x00
-    operator_62:    db "open_file", 0x00
-    operator_63:    db "str_to_file", 0x00
-    operator_64:    db "close_file", 0x00
-    operator_65:    db "write_nl", 0x00
-    operator_66:    db "write_bin", 0x00
-    operator_67:    db "pop_free", 0x00
-    operator_68:    db "print_ptr", 0x00
-    operator_69:    db "struct_size", 0x00
-    operator_70:    db "hex_str", 0x00
-    operator_71:    db "swap_pos", 0x00
-    operator_72:    db "value_at", 0x00
-    operator_73:    db "sub_str", 0x00
-    operator_74:    db "smash_str", 0x00
-    operator_75:    db "[peek_8]", 0x00     ; char_at/byte_at
-    operator_76:    db "[poke_8]", 0x00     ; upd_byte
-    operator_77:    db "~", 0x00            ; bitwise NOT
-    operator_78:    db "|", 0x00            ; bitwise OR
-    operator_79:    db "&", 0x00            ; bitwise AND
-    operator_80:    db "^", 0x00            ; bitwise XOR
-    operator_81:    db "<<", 0x00           ; bitwise SHL
-    operator_82:    db ">>", 0x00           ; bitwise SHR
-    operator_83:    db "write_bin_ptr", 0x00
-    operator_84:    db "mem_alloc", 0x00
-    operator_85:    db "copy_bytes", 0x00
-    operator_86:    db "stack_to_mem", 0x00
-    operator_87:    db "hex_mem_n", 0x00
-    operator_88:    db "get_stack_addr", 0x00
-    operator_89:    db "[peek_16]", 0x00    ; word_at
-    operator_90:    db "[peek_32]", 0x00    ; dword_at
-    operator_91:    db "[peek_64]", 0x00    ; qword_at
-    operator_92:    db "[poke_16]", 0x00    ; upd_word
-    operator_93:    db "[poke_32]", 0x00    ; upd_dword
-    operator_94:    db "[poke_64]", 0x00    ; upd_qword
-    operator_95:    db "rand_str", 0x00
-    operator_96:    db "file_size", 0x00
-    operator_97:    db "bytes_to_file", 0x00
-    operator_98:    db "sleep", 0x00
-    operator_99:    db "epoch", 0x00
-    operator_100:   db "sys_call", 0x00
-    operator_101:   db "printf_p", 0x00
-    operator_102:   db "printf", 0x00
-    operator_103:   db "sprintf_p", 0x00
-    operator_104:   db "sprintf", 0x00
-    operator_105:   db "puts_p", 0x00
-    operator_106:   db "puts", 0x00
-    operator_107:   db "&[var_addr]", 0x00
-    operator_108:   db "dump_ptr", 0x00
-    operator_109:   db "smash_str_ascii", 0x00
-    operator_110:   db "fflush", 0x00
-    operator_111:   db "push_bp", 0x00
-    operator_112:   db "get_bp", 0x00
-    operator_113:   db "pop_bp", 0x00
-    operator_114:   db "dump_bp", 0x00
-    operator_115:   db "[value_at]", 0x00
-    operator_116:   db "float", 0x00
-    operator_117:   db "printf_f", 0x00
-    operator_118:   db "i_float", 0x00
-    operator_119:   db "+f", 0x00
-    operator_120:   db "-f", 0x00
-    operator_121:   db "*f", 0x00
-    operator_122:   db "/f", 0x00
-    operator_123:   db "sqrt", 0x00
-    operator_124:   db "def_f", 0x00
-    operator_125:   db "==f", 0x00
-    operator_126:   db "!=f", 0x00
-    operator_127:   db "<f", 0x00
-    operator_128:   db ">f", 0x00
-    operator_129:   db "<=f", 0x00
-    operator_130:   db ">=f", 0x00
-    operator_131:   db "++f", 0x00
-    operator_132:   db "--f", 0x00
-    operator_133:   db "read_f", 0x00
-    operator_134:   db "printf_fp", 0x00
-    operator_135:   db "qsort", 0x00
-    operator_136:   db "min", 0x00
-    operator_137:   db "max", 0x00
-    operator_138:   db "abs", 0x00
-    operator_139:   db "%", 0x00
-    operator_140:   db "sin", 0x00
-    operator_141:   db "cos", 0x00
-    operator_142:   db "tan", 0x00
-    operator_143:   db "pow", 0x00  ; 143 = 8f
+    operator_51:    db "add_hash", 0x00
+    operator_52:    db "dump_hashset", 0x00
+    operator_53:    db "get_hash", 0x00
+    operator_54:    db "del_hash", 0x00
+    operator_55:    db "read_file", 0x00
+    operator_56:    db "nl", 0x00
+    operator_57:    db "split_str", 0x00        ; works with input file and string on rts
+    operator_58:    db "rand", 0x00
+    operator_59:    db "str", 0x00
+    operator_60:    db "open_file", 0x00
+    operator_61:    db "str_to_file", 0x00
+    operator_62:    db "close_file", 0x00
+    operator_63:    db "write_nl", 0x00
+    operator_64:    db "write_bin", 0x00
+    operator_65:    db "pop_free", 0x00
+    operator_66:    db "print_ptr", 0x00
+    operator_67:    db "hex_str", 0x00
+    operator_68:    db "swap_pos", 0x00
+    operator_69:    db "value_at", 0x00
+    operator_70:    db "sub_str", 0x00
+    operator_71:    db "smash_str", 0x00
+    operator_72:    db "[peek_8]", 0x00     ; char_at/byte_at
+    operator_73:    db "[poke_8]", 0x00     ; upd_byte
+    operator_74:    db "~", 0x00            ; bitwise NOT
+    operator_75:    db "|", 0x00            ; bitwise OR
+    operator_76:    db "&", 0x00            ; bitwise AND
+    operator_77:    db "^", 0x00            ; bitwise XOR
+    operator_78:    db "<<", 0x00           ; bitwise SHL
+    operator_79:    db ">>", 0x00           ; bitwise SHR
+    operator_80:    db "write_bin_ptr", 0x00
+    operator_81:    db "mem_alloc", 0x00
+    operator_82:    db "copy_bytes", 0x00
+    operator_83:    db "stack_to_mem", 0x00
+    operator_84:    db "hex_mem_n", 0x00
+    operator_85:    db "get_stack_addr", 0x00
+    operator_86:    db "[peek_16]", 0x00    ; word_at
+    operator_87:    db "[peek_32]", 0x00    ; dword_at
+    operator_88:    db "[peek_64]", 0x00    ; qword_at
+    operator_89:    db "[poke_16]", 0x00    ; upd_word
+    operator_90:    db "[poke_32]", 0x00    ; upd_dword
+    operator_91:    db "[poke_64]", 0x00    ; upd_qword
+    operator_92:    db "rand_str", 0x00
+    operator_93:    db "file_size", 0x00
+    operator_94:    db "bytes_to_file", 0x00
+    operator_95:    db "sleep", 0x00
+    operator_96:    db "epoch", 0x00
+    operator_97:    db "sys_call", 0x00
+    operator_98:    db "printf_p", 0x00
+    operator_99:    db "printf", 0x00
+    operator_100:   db "sprintf_p", 0x00
+    operator_101:   db "sprintf", 0x00
+    operator_102:   db "puts_p", 0x00
+    operator_103:   db "puts", 0x00
+    operator_104:   db "&[var_addr]", 0x00
+    operator_105:   db "dump_ptr", 0x00
+    operator_106:   db "smash_str_ascii", 0x00
+    operator_107:   db "fflush", 0x00
+    operator_108:   db "push_bp", 0x00
+    operator_109:   db "get_bp", 0x00
+    operator_110:   db "pop_bp", 0x00
+    operator_111:   db "dump_bp", 0x00
+    operator_112:   db "[value_at]", 0x00
+    operator_113:   db "float", 0x00
+    operator_114:   db "printf_f", 0x00
+    operator_115:   db "i_float", 0x00
+    operator_116:   db "+f", 0x00
+    operator_117:   db "-f", 0x00
+    operator_118:   db "*f", 0x00
+    operator_119:   db "/f", 0x00
+    operator_120:   db "sqrt", 0x00
+    operator_121:   db "def_f", 0x00
+    operator_122:   db "==f", 0x00
+    operator_123:   db "!=f", 0x00
+    operator_124:   db "<f", 0x00
+    operator_125:   db ">f", 0x00
+    operator_126:   db "<=f", 0x00
+    operator_127:   db ">=f", 0x00
+    operator_128:   db "++f", 0x00
+    operator_129:   db "--f", 0x00
+    operator_130:   db "read_f", 0x00
+    operator_131:   db "printf_fp", 0x00
+    operator_132:   db "qsort", 0x00
+    operator_133:   db "min", 0x00
+    operator_134:   db "max", 0x00
+    operator_135:   db "abs", 0x00
+    operator_136:   db "%", 0x00
+    operator_137:   db "sin", 0x00
+    operator_138:   db "cos", 0x00
+    operator_139:   db "tan", 0x00
+    operator_140:   db "pow", 0x00  ; 140 = 8c
     ;----------------------------------
     ;acos, asin, atan, atan2, exp, exp2, expm1, log, log2, log10, log1p, fabs,
     ;fmin, fmax, floor, ceil, round, trunc, sinh, cosh, tanh, hypot, fma
     ;----------------------------------
-    operator_144:   db "acos", 0x00
-    operator_145:   db "asin", 0x00
-    operator_146:   db "atan", 0x00
-    operator_147:   db "atan2", 0x00
-    operator_148:   db "exp", 0x00
-    operator_149:   db "exp2", 0x00
-    operator_150:   db "expm1", 0x00
-    operator_151:   db "log", 0x00
-    operator_152:   db "log2", 0x00
-    operator_153:   db "log10", 0x00
-    operator_154:   db "log1p", 0x00
-    operator_155:   db "fabs", 0x00
-    operator_156:   db "fmin", 0x00
-    operator_157:   db "fmax", 0x00
-    operator_158:   db "floor", 0x00
-    operator_159:   db "ceil", 0x00
-    operator_160:   db "round", 0x00
-    operator_161:   db "trunc", 0x00
-    operator_162:   db "sinh", 0x00
-    operator_163:   db "cosh", 0x00
-    operator_164:   db "tanh", 0x00
-    operator_165:   db "hypot", 0x00
-    operator_166:   db "fma", 0x00
-    operator_167:   db "print_fl", 0x00
-    operator_168:   db "fill_mem", 0x00
-    operator_169:   db "regex", 0x00
-    operator_170:   db "regex_mult", 0x00
-    operator_171:   db "regex_sub", 0x00
-    operator_172:   db "get_env_ptr", 0x00
-    operator_173:   db "get_env", 0x00
-    operator_174:   db "set_env", 0x00
-    operator_175:   db "exit", 0x00
-    operator_176:   db "=", 0x00
-    operator_177:   db "+=", 0x00
-    operator_178:   db "-=", 0x00
-    operator_179:   db "*=", 0x00
-    operator_180:   db "/=", 0x00
-    operator_181:   db "+=f", 0x00
-    operator_182:   db "-=f", 0x00
-    operator_183:   db "*=f", 0x00
-    operator_184:   db "/=f", 0x00
-    operator_185:   db "dup_args", 0x00
-    operator_186:   db "new_hash", 0x00
-    operator_187:   db "del_hashset", 0x00
-    operator_188:   db "clear_hashset", 0x00
-    operator_189:   db "hex_int", 0x00
-    operator_190:   db "split_str_delim", 0x00
-    operator_191:   db "get_lines", 0x00
-    operator_192:   db "bp_0", 0x00
-    operator_193:   db "[bp_0]", 0x00
-    operator_194:   db "bp_1", 0x00
-    operator_195:   db "[bp_1]", 0x00
-    operator_196:   db "bp_2", 0x00
-    operator_197:   db "[bp_2]", 0x00
-    operator_198:   db "bp_3", 0x00
-    operator_199:   db "[bp_3]", 0x00
-    operator_200:   db "bp_4", 0x00
-    operator_201:   db "[bp_4]", 0x00
-    operator_202:   db "bp_5", 0x00
-    operator_203:   db "[bp_5]", 0x00
-    operator_204:   db "trim_str", 0x00
-    operator_205:   db "replace_str", 0x00
-    operator_206:   db "join_str", 0x00
-    operator_207:   db "hex_to_ip", 0x00
-    operator_208:   db "is_even", 0x00
-    operator_209:   db "is_odd", 0x00
-    operator_210:   db "index_str", 0x00
-    operator_211:   db "to_upper", 0x00
-    operator_212:   db "to_lower", 0x00
-    operator_213:   db "starts_with", 0x00
-    operator_214:   db "ends_with", 0x00
-    operator_215:   db "cmp_str_i", 0x00
-    operator_216:   db "hcf", 0x00
-    operator_217:   db "lcm", 0x00
-    operator_218:   db "hex_to_ip_port", 0x00
-    operator_219:   db "is_prime", 0x00
-    operator_220:   db "ip_port_to_int", 0x00
-    operator_221:   db "open_file_app", 0x00
-    operator_222:   db "write_64b_num", 0x00
-    operator_223:   db "del_regex", 0x00
-    operator_224:   db "del_str_set", 0x00
-    operator_225:   db "fl_int", 0x00
-    operator_226:   db "xor", 0x00
-    operator_227:   db "pop_n", 0x00
-    operator_228:   db "pop_free_n", 0x00
-    operator_229:   db "str_int", 0x00
-    operator_230:   db "add_hash_fix", 0x00
-    operator_231:   db "hash_exists", 0x00
-    operator_232:   db "cmp_str_u", 0x00
-    operator_233:   db "<i>", 0x00
-    operator_234:   db "<f>", 0x00
-    operator_235:   db "create_graph", 0x00
-    operator_236:   db "graph_add_node", 0x00
-    operator_237:   db "delete_graph", 0x00
-    operator_238:   db "dump_graph", 0x00
-    operator_239:   db "graph_add_edge", 0x00
-    operator_240:   db "graph_del_edge", 0x00
-    operator_241:   db "graph_del_node", 0x00
-    operator_242:   db "graph_get_back_links", 0x00
-    operator_243:   db "graph_get_fwd_links", 0x00
-    operator_244:   db "graph_get_fwd_weight_links", 0x00
-    operator_245:   db "graph_node_exists", 0x00
-    operator_246:   db "graph_edge_exists", 0x00
-    operator_247:   db "graph_get_weight", 0x00
-    operator_248:   db "graph_set_weight", 0x00
-    operator_249:   db "graph_get_weight_ptr", 0x00
-    operator_250:   db "graph_add_edge_weight", 0x00
-    operator_251:   db "graph_get_fwd_count", 0x00
-    operator_252:   db "graph_get_back_count", 0x00
-    operator_253:   db "graph_node_count", 0x00
-    operator_254:   db "graph_edge_count", 0x00
-    operator_255:   db "graph_get_nodes", 0x00
-    operator_256:   db "bp_6", 0x00
-    operator_257:   db "bp_7", 0x00
-    operator_258:   db "[bp_6]", 0x00
-    operator_259:   db "[bp_7]", 0x00
-    operator_260:   db "->>", 0x00          ; SAR signed
-    operator_261:   db "[peek_8s]", 0x00    ; signed byte
-    operator_262:   db "[peek_16s]", 0x00   ; signed word
-    operator_263:   db "[peek_32s]", 0x00   ; signed dword
-    operator_264:   db "pop_bp_clear", 0x00
-    operator_265:   db "rand_str_batch", 0x00
-    operator_266:   db "func_name", 0x00
+    operator_141:   db "acos", 0x00
+    operator_142:   db "asin", 0x00
+    operator_143:   db "atan", 0x00
+    operator_144:   db "atan2", 0x00
+    operator_145:   db "exp", 0x00
+    operator_146:   db "exp2", 0x00
+    operator_147:   db "expm1", 0x00
+    operator_148:   db "log", 0x00
+    operator_149:   db "log2", 0x00
+    operator_150:   db "log10", 0x00
+    operator_151:   db "log1p", 0x00
+    operator_152:   db "fabs", 0x00
+    operator_153:   db "fmin", 0x00
+    operator_154:   db "fmax", 0x00
+    operator_155:   db "floor", 0x00
+    operator_156:   db "ceil", 0x00
+    operator_157:   db "round", 0x00
+    operator_158:   db "trunc", 0x00
+    operator_159:   db "sinh", 0x00
+    operator_160:   db "cosh", 0x00
+    operator_161:   db "tanh", 0x00
+    operator_162:   db "hypot", 0x00
+    operator_163:   db "fma", 0x00
+    operator_164:   db "print_fl", 0x00
+    operator_165:   db "fill_mem", 0x00
+    operator_166:   db "regex", 0x00
+    operator_167:   db "regex_mult", 0x00
+    operator_168:   db "regex_sub", 0x00
+    operator_169:   db "get_env_ptr", 0x00
+    operator_170:   db "get_env", 0x00
+    operator_171:   db "set_env", 0x00
+    operator_172:   db "exit", 0x00
+    operator_173:   db "=", 0x00
+    operator_174:   db "+=", 0x00
+    operator_175:   db "-=", 0x00
+    operator_176:   db "*=", 0x00
+    operator_177:   db "/=", 0x00
+    operator_178:   db "+=f", 0x00
+    operator_179:   db "-=f", 0x00
+    operator_180:   db "*=f", 0x00
+    operator_181:   db "/=f", 0x00
+    operator_182:   db "dup_args", 0x00
+    operator_183:   db "new_hash", 0x00
+    operator_184:   db "del_hashset", 0x00
+    operator_185:   db "clear_hashset", 0x00
+    operator_186:   db "hex_int", 0x00
+    operator_187:   db "split_str_delim", 0x00
+    operator_188:   db "get_lines", 0x00
+    operator_189:   db "bp_0", 0x00
+    operator_190:   db "[bp_0]", 0x00
+    operator_191:   db "bp_1", 0x00
+    operator_192:   db "[bp_1]", 0x00
+    operator_193:   db "bp_2", 0x00
+    operator_194:   db "[bp_2]", 0x00
+    operator_195:   db "bp_3", 0x00
+    operator_196:   db "[bp_3]", 0x00
+    operator_197:   db "bp_4", 0x00
+    operator_198:   db "[bp_4]", 0x00
+    operator_199:   db "bp_5", 0x00
+    operator_200:   db "[bp_5]", 0x00
+    operator_201:   db "trim_str", 0x00
+    operator_202:   db "replace_str", 0x00
+    operator_203:   db "join_str", 0x00
+    operator_204:   db "hex_to_ip", 0x00
+    operator_205:   db "is_even", 0x00
+    operator_206:   db "is_odd", 0x00
+    operator_207:   db "index_str", 0x00
+    operator_208:   db "to_upper", 0x00
+    operator_209:   db "to_lower", 0x00
+    operator_210:   db "starts_with", 0x00
+    operator_211:   db "ends_with", 0x00
+    operator_212:   db "cmp_str_i", 0x00
+    operator_213:   db "hcf", 0x00
+    operator_214:   db "lcm", 0x00
+    operator_215:   db "hex_to_ip_port", 0x00
+    operator_216:   db "is_prime", 0x00
+    operator_217:   db "ip_port_to_int", 0x00
+    operator_218:   db "open_file_app", 0x00
+    operator_219:   db "write_64b_num", 0x00
+    operator_220:   db "del_regex", 0x00
+    operator_221:   db "del_str_set", 0x00
+    operator_222:   db "fl_int", 0x00
+    operator_223:   db "xor", 0x00
+    operator_224:   db "pop_n", 0x00
+    operator_225:   db "pop_free_n", 0x00
+    operator_226:   db "str_int", 0x00
+    operator_227:   db "add_hash_fix", 0x00
+    operator_228:   db "hash_exists", 0x00
+    operator_229:   db "cmp_str_u", 0x00
+    operator_230:   db "<i>", 0x00
+    operator_231:   db "<f>", 0x00
+    operator_232:   db "create_graph", 0x00
+    operator_233:   db "graph_add_node", 0x00
+    operator_234:   db "delete_graph", 0x00
+    operator_235:   db "dump_graph", 0x00
+    operator_236:   db "graph_add_edge", 0x00
+    operator_237:   db "graph_del_edge", 0x00
+    operator_238:   db "graph_del_node", 0x00
+    operator_239:   db "graph_get_back_links", 0x00
+    operator_240:   db "graph_get_fwd_links", 0x00
+    operator_241:   db "graph_get_fwd_weight_links", 0x00
+    operator_242:   db "graph_node_exists", 0x00
+    operator_243:   db "graph_edge_exists", 0x00
+    operator_244:   db "graph_get_weight", 0x00
+    operator_245:   db "graph_set_weight", 0x00
+    operator_246:   db "graph_get_weight_ptr", 0x00
+    operator_247:   db "graph_add_edge_weight", 0x00
+    operator_248:   db "graph_get_fwd_count", 0x00
+    operator_249:   db "graph_get_back_count", 0x00
+    operator_250:   db "graph_node_count", 0x00
+    operator_251:   db "graph_edge_count", 0x00
+    operator_252:   db "graph_get_nodes", 0x00
+    operator_253:   db "bp_6", 0x00
+    operator_254:   db "bp_7", 0x00
+    operator_255:   db "[bp_6]", 0x00
+    operator_256:   db "[bp_7]", 0x00
+    operator_257:   db "->>", 0x00          ; SAR signed
+    operator_258:   db "[peek_8s]", 0x00    ; signed byte
+    operator_259:   db "[peek_16s]", 0x00   ; signed word
+    operator_260:   db "[peek_32s]", 0x00   ; signed dword
+    operator_261:   db "pop_bp_clear", 0x00
+    operator_262:   db "rand_str_batch", 0x00
+    operator_263:   db "func_name", 0x00
     ;----------------------------------         ; IGNORE THESE DUMMY OPERATORS FROM HERE
-    operator_267:   db "_start:", 0x00
-    operator_268:   db "func:", 0x00
-    operator_269:   db "break", 0x00
-    operator_270:   db "return", 0x00
-    operator_271:   db "}", 0x00
-    operator_272:   db "if", 0x00
-    operator_273:   db "loop", 0x00
-    operator_274:   db "break_cond_if", 0x00
-    operator_275:   db "break_if", 0x00
-    operator_276:   db "}else{", 0x00
+    operator_264:   db "_start:", 0x00
+    operator_265:   db "func:", 0x00
+    operator_266:   db "break", 0x00
+    operator_267:   db "return", 0x00
+    operator_268:   db "}", 0x00
+    operator_269:   db "if", 0x00
+    operator_270:   db "loop", 0x00
+    operator_271:   db "break_cond_if", 0x00
+    operator_272:   db "break_if", 0x00
+    operator_273:   db "}else{", 0x00
 
-    all_ops: dq  operator_00, operator_01, operator_02, operator_03, operator_04, operator_05, operator_06, operator_07, operator_08, operator_09, operator_10, operator_11, operator_12, operator_13, operator_14, operator_15, operator_16, operator_17, operator_18, operator_19, operator_20, operator_21, operator_22, operator_23, operator_24, operator_25, operator_26, operator_27, operator_28, operator_29, operator_30, operator_31, operator_32, operator_33, operator_34, operator_35, operator_36, operator_37, operator_38, operator_39, operator_40, operator_41, operator_42, operator_43, operator_44, operator_45, operator_46, operator_47, operator_48, operator_49, operator_50, operator_51, operator_52, operator_53, operator_54, operator_55, operator_56, operator_57, operator_58, operator_59, operator_60, operator_61, operator_62, operator_63, operator_64, operator_65, operator_66, operator_67, operator_68, operator_69, operator_70, operator_71, operator_72, operator_73, operator_74, operator_75, operator_76, operator_77, operator_78, operator_79, operator_80, operator_81, operator_82, operator_83, operator_84, operator_85, operator_86, operator_87, operator_88, operator_89, operator_90, operator_91, operator_92, operator_93, operator_94, operator_95, operator_96, operator_97, operator_98, operator_99, operator_100, operator_101, operator_102, operator_103, operator_104, operator_105, operator_106, operator_107, operator_108, operator_109, operator_110, operator_111, operator_112, operator_113, operator_114, operator_115, operator_116, operator_117, operator_118, operator_119, operator_120, operator_121, operator_122, operator_123, operator_124, operator_125, operator_126, operator_127, operator_128, operator_129, operator_130, operator_131, operator_132, operator_133, operator_134, operator_135, operator_136, operator_137, operator_138, operator_139, operator_140, operator_141, operator_142, operator_143, operator_144, operator_145, operator_146, operator_147, operator_148, operator_149, operator_150, operator_151, operator_152, operator_153, operator_154, operator_155, operator_156, operator_157, operator_158, operator_159, operator_160, operator_161, operator_162, operator_163, operator_164, operator_165, operator_166, operator_167, operator_168, operator_169, operator_170, operator_171, operator_172, operator_173, operator_174, operator_175, operator_176, operator_177, operator_178, operator_179, operator_180, operator_181, operator_182, operator_183, operator_184, operator_185, operator_186, operator_187, operator_188, operator_189, operator_190, operator_191, operator_192, operator_193, operator_194, operator_195, operator_196, operator_197, operator_198, operator_199, operator_200, operator_201, operator_202, operator_203, operator_204, operator_205, operator_206, operator_207, operator_208, operator_209, operator_210, operator_211, operator_212, operator_213, operator_214, operator_215, operator_216, operator_217, operator_218, operator_219, operator_220, operator_221, operator_222, operator_223, operator_224, operator_225, operator_226, operator_227, operator_228, operator_229, operator_230, operator_231, operator_232, operator_233, operator_234, operator_235, operator_236, operator_237, operator_238, operator_239, operator_240, operator_241, operator_242, operator_243, operator_244, operator_245, operator_246, operator_247, operator_248, operator_249, operator_250, operator_251, operator_252, operator_253, operator_254, operator_255, operator_256, operator_257, operator_258, operator_259, operator_260, operator_261, operator_262, operator_263, operator_264, operator_265, operator_266, operator_267, operator_268, operator_269, operator_270, operator_271, operator_272, operator_273, operator_274, operator_275, operator_276, NULL
+    all_ops: dq  operator_00, operator_01, operator_02, operator_03, operator_04, operator_05, operator_06, operator_07, operator_08, operator_09, operator_10, operator_11, operator_12, operator_13, operator_14, operator_15, operator_16, operator_17, operator_18, operator_19, operator_20, operator_21, operator_22, operator_23, operator_24, operator_25, operator_26, operator_27, operator_28, operator_29, operator_30, operator_31, operator_32, operator_33, operator_34, operator_35, operator_36, operator_37, operator_38, operator_39, operator_40, operator_41, operator_42, operator_43, operator_44, operator_45, operator_46, operator_47, operator_48, operator_49, operator_50, operator_51, operator_52, operator_53, operator_54, operator_55, operator_56, operator_57, operator_58, operator_59, operator_60, operator_61, operator_62, operator_63, operator_64, operator_65, operator_66, operator_67, operator_68, operator_69, operator_70, operator_71, operator_72, operator_73, operator_74, operator_75, operator_76, operator_77, operator_78, operator_79, operator_80, operator_81, operator_82, operator_83, operator_84, operator_85, operator_86, operator_87, operator_88, operator_89, operator_90, operator_91, operator_92, operator_93, operator_94, operator_95, operator_96, operator_97, operator_98, operator_99, operator_100, operator_101, operator_102, operator_103, operator_104, operator_105, operator_106, operator_107, operator_108, operator_109, operator_110, operator_111, operator_112, operator_113, operator_114, operator_115, operator_116, operator_117, operator_118, operator_119, operator_120, operator_121, operator_122, operator_123, operator_124, operator_125, operator_126, operator_127, operator_128, operator_129, operator_130, operator_131, operator_132, operator_133, operator_134, operator_135, operator_136, operator_137, operator_138, operator_139, operator_140, operator_141, operator_142, operator_143, operator_144, operator_145, operator_146, operator_147, operator_148, operator_149, operator_150, operator_151, operator_152, operator_153, operator_154, operator_155, operator_156, operator_157, operator_158, operator_159, operator_160, operator_161, operator_162, operator_163, operator_164, operator_165, operator_166, operator_167, operator_168, operator_169, operator_170, operator_171, operator_172, operator_173, operator_174, operator_175, operator_176, operator_177, operator_178, operator_179, operator_180, operator_181, operator_182, operator_183, operator_184, operator_185, operator_186, operator_187, operator_188, operator_189, operator_190, operator_191, operator_192, operator_193, operator_194, operator_195, operator_196, operator_197, operator_198, operator_199, operator_200, operator_201, operator_202, operator_203, operator_204, operator_205, operator_206, operator_207, operator_208, operator_209, operator_210, operator_211, operator_212, operator_213, operator_214, operator_215, operator_216, operator_217, operator_218, operator_219, operator_220, operator_221, operator_222, operator_223, operator_224, operator_225, operator_226, operator_227, operator_228, operator_229, operator_230, operator_231, operator_232, operator_233, operator_234, operator_235, operator_236, operator_237, operator_238, operator_239, operator_240, operator_241, operator_242, operator_243, operator_244, operator_245, operator_246, operator_247, operator_248, operator_249, operator_250, operator_251, operator_252, operator_253, operator_254, operator_255, operator_256, operator_257, operator_258, operator_259, operator_260, operator_261, operator_262, operator_263, operator_264, operator_265, operator_266, operator_267, operator_268, operator_269, operator_270, operator_271, operator_272, operator_273, NULL
 
-    map_funcs:  dq pop_off, dump_i, dump_str, deref_str_to_int, clear_stack, print_top_i, print_top_str, add_int, sub_int, mult_int, div_int, swap_top, dup_top, dup_top_n, inc_int, dec_int, rev_stack, clr_above, clr_below, shift_forward, shift_backwards, define_i, define_str, dump_dictionary, peek_var, poke_var, if_loop_func, less_than, more_than, equal_to, not_equal_to, less_than_or_equal_to, more_than_or_equal_to, reading_i, reading_str, call_function, and_operator, or_operator, not_operator, dump_rts_all, shift_forward_top_N, shift_backwards_top_N, the_stack_size, swap_the_top_n, swap_the_bottom_n, tern_func, str_compare, my_str_len, append_str, copy_str, update_str, packed_data, define_struct, add_node_hashset, dump_user_hashset, get_node_hashset, delete_node_hashset, open_user_file, print_nl, split_string, rand_int, cast_int_to_str, open_file_trunc, write_to_file, close_file_write, write_NL_file, write_bin_num, pop_off_free, print_top_ptr, get_struct_sz, hex_string, swap_positions, value_at_index, sub_string, smash_str_up, get_char_from_ptr, update_byte, bitwise_not, bitwise_or, bitwise_and, bitwise_xor, bitwise_shl, bitwise_shr, write_bin_num_ptr, malloc_bytes, copy_these_bytes, heap_update, hex_string_n, get_stack_address, get_word_from_ptr, get_dword_from_ptr, get_qword_from_ptr, update_word, update_dword, update_qword, random_string, get_file_byte_size, write_bytes_file, sleeping, get_epoch, syscall_handler, my_printf_pop, my_printf, my_sprintf_pop, my_sprintf, my_puts_pop, my_puts, address_var, dump_rts_ptr, smash_str_to_ascii, fflush_op, set_base_ptr, get_base_ptr, del_base_ptr, dump_base_pointer_tab, value_at_index_upd, deref_str_to_float, printf_float, int_to_float, add_float, sub_float, mult_float, div_float, square_root, define_f, float_equal, float_not_equal, float_less_than, float_more_than, float_less_than_eq, float_more_than_eq, inc_float, dec_float, reading_f, printf_float_pop, q_sort_op, min_op, max_op, abs_op, mod_op, sinf_op, cosf_op, tanf_op, powf_op, acos_op, asin_op, atan_op, atan2_op, exp_op, exp2_op, expm1_op, log_op, log2_op, log10_op, log1p_op, fabs_op, fmin_op, fmax_op, floor_op, ceil_op, round_op, trunc_op, sinh_op, cosh_op, tanh_op, hypot_op, fma_op, print_single_float, fill_memory, regex_match, regex_multiple, regex_substitute, get_the_envptr, get_env_var, set_env_var, exit_func, poke_var, poke_var_add, poke_var_sub, poke_var_mul, poke_var_div, poke_var_add_float, poke_var_sub_float, poke_var_mul_float, poke_var_div_float, duplicate_args, create_user_hashset, delete_user_hashset, clear_user_hashset, string_hex_to_int, split_string_delims, get_all_lines, get_bp_0, set_bp_0, get_bp_1, set_bp_1, get_bp_2, set_bp_2, get_bp_3, set_bp_3, get_bp_4, set_bp_4, get_bp_5, set_bp_5, trim_string, replace_subst_str, join_string, conv_hex_to_ip, is_even_tos, is_odd_tos, find_str_index, str_to_upper, str_to_lower, starts_with_str, ends_with_str, str_compare_i, the_high_common_factor, lowest_comm_mult, conv_hex_to_ip_port, check_is_prime, string_to_sockaddr, open_file_append, write_8_bytes, delete_regex_multi, delete_string_set, float_to_int, xor_int, pop_off_n, pop_off_free_n, string_to_int, add_node_hashset_fixed, hashset_node_exists, str_compare_u, three_way_op_int, three_way_op_float, create_user_hashset, add_graph_node, delete_user_graph, dump_user_graph, add_graph_edge, delete_graph_edge, delete_graph_node, get_graph_back_links, get_graph_fwd_links, get_graph_fwd_links_weights, does_graph_node_exist, does_graph_edge_exist, get_graph_weight, set_graph_weight, get_graph_weight_ptr, add_graph_edge_weight, count_fwd_links, count_back_links, total_node_count, total_edge_fwd_graph_count, grab_all_graph_nodes, get_bp_6, get_bp_7, set_bp_6, set_bp_7, bitwise_sar, get_char_from_ptr_signed, get_word_from_ptr_signed, get_dword_from_ptr_signed, del_base_ptr_clear, rand_string_batch, ret_func_name, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, NULL
+    map_funcs:  dq pop_off, dump_i, dump_str, deref_str_to_int, clear_stack, print_top_i, print_top_str, add_int, sub_int, mult_int, div_int, swap_top, dup_top, dup_top_n, inc_int, dec_int, rev_stack, clr_above, clr_below, shift_forward, shift_backwards, define_i, define_str, dump_dictionary, peek_var, poke_var, if_loop_func, less_than, more_than, equal_to, not_equal_to, less_than_or_equal_to, more_than_or_equal_to, reading_i, reading_str, call_function, and_operator, or_operator, not_operator, dump_rts_all, shift_forward_top_N, shift_backwards_top_N, the_stack_size, swap_the_top_n, swap_the_bottom_n, tern_func, str_compare, my_str_len, append_str, copy_str, update_str, add_node_hashset, dump_user_hashset, get_node_hashset, delete_node_hashset, open_user_file, print_nl, split_string, rand_int, cast_int_to_str, open_file_trunc, write_to_file, close_file_write, write_NL_file, write_bin_num, pop_off_free, print_top_ptr, hex_string, swap_positions, value_at_index, sub_string, smash_str_up, get_char_from_ptr, update_byte, bitwise_not, bitwise_or, bitwise_and, bitwise_xor, bitwise_shl, bitwise_shr, write_bin_num_ptr, malloc_bytes, copy_these_bytes, heap_update, hex_string_n, get_stack_address, get_word_from_ptr, get_dword_from_ptr, get_qword_from_ptr, update_word, update_dword, update_qword, random_string, get_file_byte_size, write_bytes_file, sleeping, get_epoch, syscall_handler, my_printf_pop, my_printf, my_sprintf_pop, my_sprintf, my_puts_pop, my_puts, address_var, dump_rts_ptr, smash_str_to_ascii, fflush_op, set_base_ptr, get_base_ptr, del_base_ptr, dump_base_pointer_tab, value_at_index_upd, deref_str_to_float, printf_float, int_to_float, add_float, sub_float, mult_float, div_float, square_root, define_f, float_equal, float_not_equal, float_less_than, float_more_than, float_less_than_eq, float_more_than_eq, inc_float, dec_float, reading_f, printf_float_pop, q_sort_op, min_op, max_op, abs_op, mod_op, sinf_op, cosf_op, tanf_op, powf_op, acos_op, asin_op, atan_op, atan2_op, exp_op, exp2_op, expm1_op, log_op, log2_op, log10_op, log1p_op, fabs_op, fmin_op, fmax_op, floor_op, ceil_op, round_op, trunc_op, sinh_op, cosh_op, tanh_op, hypot_op, fma_op, print_single_float, fill_memory, regex_match, regex_multiple, regex_substitute, get_the_envptr, get_env_var, set_env_var, exit_func, poke_var, poke_var_add, poke_var_sub, poke_var_mul, poke_var_div, poke_var_add_float, poke_var_sub_float, poke_var_mul_float, poke_var_div_float, duplicate_args, create_user_hashset, delete_user_hashset, clear_user_hashset, string_hex_to_int, split_string_delims, get_all_lines, get_bp_0, set_bp_0, get_bp_1, set_bp_1, get_bp_2, set_bp_2, get_bp_3, set_bp_3, get_bp_4, set_bp_4, get_bp_5, set_bp_5, trim_string, replace_subst_str, join_string, conv_hex_to_ip, is_even_tos, is_odd_tos, find_str_index, str_to_upper, str_to_lower, starts_with_str, ends_with_str, str_compare_i, the_high_common_factor, lowest_comm_mult, conv_hex_to_ip_port, check_is_prime, string_to_sockaddr, open_file_append, write_8_bytes, delete_regex_multi, delete_string_set, float_to_int, xor_int, pop_off_n, pop_off_free_n, string_to_int, add_node_hashset_fixed, hashset_node_exists, str_compare_u, three_way_op_int, three_way_op_float, create_user_hashset, add_graph_node, delete_user_graph, dump_user_graph, add_graph_edge, delete_graph_edge, delete_graph_node, get_graph_back_links, get_graph_fwd_links, get_graph_fwd_links_weights, does_graph_node_exist, does_graph_edge_exist, get_graph_weight, set_graph_weight, get_graph_weight_ptr, add_graph_edge_weight, count_fwd_links, count_back_links, total_node_count, total_edge_fwd_graph_count, grab_all_graph_nodes, get_bp_6, get_bp_7, set_bp_6, set_bp_7, bitwise_sar, get_char_from_ptr_signed, get_word_from_ptr_signed, get_dword_from_ptr_signed, del_base_ptr_clear, rand_string_batch, ret_func_name, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, dummy_func, NULL
 
     FLOAT_0NE:              dq  1.0
 
-    OP_SIZE:                equ 0x115   ; total # of operators inc dummy ones
-    operator_KEYWORD:       equ 0x10b   ; all operators are < this number
+    OP_SIZE:                equ 0x112   ; total # of operators inc dummy ones
+    operator_KEYWORD:       equ 0x108   ; all operators are < this number
 
-    start_KEYWORD:          equ 0x10b   ; "_start:",0x00
-    func_KEYWORD:           equ 0x10c   ; "func:",0x00
-    break_KEYWORD:          equ 0x10d   ; "break",0x00
-    return_KEYWORD:         equ 0x10e   ; "return",0x00
-    close_brace_KEYWORD:    equ 0x10f   ; "}",0x00
-    if_KEYWORD:             equ 0x110   ; "if",0x00
-    loop_KEYWORD:           equ 0x111   ; "loop",0x00
-    break_cond_if_KEYWORD:  equ 0x112   ; "break_cond",0x00
-    break_if_KEYWORD:       equ 0x113   ; "break_if",0x00
-    if_else_brace_KEYWORD:  equ 0x114   ; "}else{",0x00
+    start_KEYWORD:          equ 0x108   ; "_start:"
+    func_KEYWORD:           equ 0x109   ; "func:"
+    break_KEYWORD:          equ 0x10a   ; "break"
+    return_KEYWORD:         equ 0x10b   ; "return"
+    close_brace_KEYWORD:    equ 0x10c   ; "}"
+    if_KEYWORD:             equ 0x10d   ; "if"
+    loop_KEYWORD:           equ 0x10e   ; "loop"
+    break_cond_if_KEYWORD:  equ 0x10f   ; "break_cond_if"
+    break_if_KEYWORD:       equ 0x110   ; "break_if"
+    if_else_brace_KEYWORD:  equ 0x111   ; "}else{"
+
+    float_KEYWORD:          equ 0x71    ; 113  important, ALWAYS check float/int if we delete operators. they must match their index values
+    int_KEYWORD:            equ 0x03    ; 3
 
     operand_KEYWORD:        equ 0xff00  ; ALL operands are marked as this value
     open_brace_KEYWORD:     equ 0x1a    ; "{", 0x00
@@ -1046,7 +1043,7 @@ add_graph_node:         ; [graph_struct, id (alphaNum), FLAG
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_236
+    mov     rsi, operator_233
     jmp     error_need_mult_operands
 
 
@@ -1109,11 +1106,11 @@ grab_all_graph_nodes:           ; expects a 16 byte hashset datatype on top of s
     ret
     ;----------------------------
     .prepare_for_error:
-    mov     rsi, operator_255
+    mov     rsi, operator_252
     jmp     error_need_1_operand
     ;----------------------------
     .empty_hash_error:
-    mov     rsi, operator_255
+    mov     rsi, operator_252
     jmp     error_need_valid_ptr
 
 total_edge_fwd_graph_count:         ; expects 16 byte hashset datatype on top of stack
@@ -1166,11 +1163,11 @@ total_edge_fwd_graph_count:         ; expects 16 byte hashset datatype on top of
     ret
     ;----------------------------
     .prepare_for_error:
-    mov     rsi, operator_254
+    mov     rsi, operator_251
     jmp     error_need_1_operand
     ;----------------------------
     .empty_hash_error:
-    mov     rsi, operator_254
+    mov     rsi, operator_251
     jmp     error_need_valid_ptr
 
 
@@ -1272,10 +1269,10 @@ dump_user_graph:            ; expcts 16 byte hashset datatype on top of stack
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_238
+    mov     rsi, operator_235
     jmp     error_need_1_operand
     .empty_hash_error:
-    mov     rsi, operator_238
+    mov     rsi, operator_235
     jmp     error_need_valid_ptr
 
 
@@ -1309,7 +1306,7 @@ add_graph_edge_weight:
     ;----------------------------
     .prepare_for_error:             ; stack frame??
     mov     rdx, 0x04
-    mov     rsi, operator_250
+    mov     rsi, operator_247
     jmp     error_need_mult_operands
 
 
@@ -1441,7 +1438,7 @@ add_graph_edge:
     ;----------------------------
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_239
+    mov     rsi, operator_236
     jmp     error_need_mult_operands
 
 
@@ -1505,7 +1502,7 @@ get_graph_weight:
     ;----------------------------
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_247
+    mov     rsi, operator_244
     jmp     error_need_mult_operands
     ret
 
@@ -1569,7 +1566,7 @@ get_graph_weight_ptr:
     ;----------------------------
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_249
+    mov     rsi, operator_246
     jmp     error_need_mult_operands
     ret
 
@@ -1635,7 +1632,7 @@ set_graph_weight:                   ; [graph, to_node, from_node, weight]
     ;----------------------------
     .prepare_for_error:
     mov     rdx, 0x04
-    mov     rsi, operator_248
+    mov     rsi, operator_245
     jmp     error_need_mult_operands
 
 does_graph_edge_exist:          ; top of stack = ptr to node or NULL if not found
@@ -1693,7 +1690,7 @@ does_graph_edge_exist:          ; top of stack = ptr to node or NULL if not foun
     ;----------------------------
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_246
+    mov     rsi, operator_243
     jmp     error_need_mult_operands
 
 does_graph_node_exist:          ; [graph, search node_key] result = *ptr to node or NULL if not found
@@ -1715,7 +1712,7 @@ does_graph_node_exist:          ; [graph, search node_key] result = *ptr to node
     ;----------------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_245
+    mov     rsi, operator_242
     jmp     error_need_mult_operands
 
 find_node_graph:        ; rdi = KEY (string) & rsi = graph
@@ -1917,7 +1914,7 @@ get_graph_fwd_links_weights:                ; return count value = each edge & p
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_244
+    mov     rsi, operator_241
     jmp     error_need_mult_operands
 
 
@@ -1968,7 +1965,7 @@ get_graph_fwd_links:
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_243
+    mov     rsi, operator_240
     jmp     error_need_mult_operands
 
 
@@ -2019,7 +2016,7 @@ get_graph_back_links:
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_242
+    mov     rsi, operator_239
     jmp     error_need_mult_operands
 
 
@@ -2138,7 +2135,7 @@ delete_graph_node:
     ret
     ;-----------------------
     .prepare_for_error:
-    mov     rsi, operator_241
+    mov     rsi, operator_238
     jmp     error_need_1_operand
 
 delete_graph_edge:      ;[ptr_graph, to_node, from_node]
@@ -2219,7 +2216,7 @@ delete_graph_edge:      ;[ptr_graph, to_node, from_node]
     ;----------------------------
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_240
+    mov     rsi, operator_237
     jmp     error_need_mult_operands
 
 scan_graph_array_for_node:  ; rsi = array, rdi = search node, rcx = size (qwords). rdx = inc size (8/16)
@@ -2258,7 +2255,7 @@ total_node_count:
     ret
     ;-----------------------
     .prepare_for_error:
-    mov     rsi, operator_253
+    mov     rsi, operator_250
     jmp     error_need_1_operand
 
 
@@ -2293,7 +2290,7 @@ count_fwd_links:
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_251
+    mov     rsi, operator_248
     jmp     error_need_mult_operands
 
 count_back_links:
@@ -2327,7 +2324,7 @@ count_back_links:
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_252
+    mov     rsi, operator_249
     jmp     error_need_mult_operands
 
 
@@ -2356,7 +2353,7 @@ three_way_op_int:           ; cmp top 2 items, check if [<, ==, >] -->  [-1, 0, 
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_233
+    mov     rsi, operator_230
     jmp     error_need_mult_operands
 
 
@@ -2386,7 +2383,7 @@ three_way_op_float:         ; cmp top 2 items, check if [<, ==, >] -->  [-1, 0, 
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_234
+    mov     rsi, operator_231
     jmp     error_need_mult_operands
 
 
@@ -2451,7 +2448,7 @@ check_is_prime:             ; r14 = T/F result
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_219
+    mov     rsi, operator_216
     jmp     error_need_1_operand
 
 lowest_comm_mult:
@@ -2487,7 +2484,7 @@ lowest_comm_mult:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_217
+    mov     rsi, operator_214
     jmp     error_need_mult_operands
 
 the_high_common_factor:
@@ -2514,7 +2511,7 @@ the_high_common_factor:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_216
+    mov     rsi, operator_213
     jmp     error_need_mult_operands
 
 
@@ -2595,7 +2592,7 @@ string_hex_to_int:
     ;-----------------------
     ret
     .prepare_for_error:
-    mov     rsi, operator_189
+    mov     rsi, operator_186
     jmp     error_need_1_operand
 
 hex_to_int:         ; pass on rsi the hex string, rax = hex converted to int
@@ -3338,7 +3335,7 @@ duplicate_args:     ; on top of stack = # of args we want to preserve, so we dup
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_185
+    mov     rsi, operator_182
     jmp     error_need_mult_operands
 
 
@@ -3367,7 +3364,7 @@ fill_memory:        ; (addr value size) -- fills size bytes at addr with value (
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_168
+    mov     rsi, operator_165
     jmp     error_need_mult_operands
 
 
@@ -3412,7 +3409,7 @@ powf_op:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_143
+    mov     rsi, operator_140
     jmp     error_need_mult_operands
 
 asin_op:
@@ -3428,7 +3425,7 @@ asin_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_145
+    mov     rsi, operator_142
     jmp     error_need_1_operand
 
 
@@ -3445,7 +3442,7 @@ acos_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_144
+    mov     rsi, operator_141
     jmp     error_need_1_operand
 
 atan_op:
@@ -3462,7 +3459,7 @@ atan_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_146
+    mov     rsi, operator_143
     jmp     error_need_1_operand
 
 atan2_op:
@@ -3483,7 +3480,7 @@ atan2_op:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_147
+    mov     rsi, operator_144
     jmp     error_need_mult_operands
 
 fmin_op:
@@ -3504,7 +3501,7 @@ fmin_op:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_156
+    mov     rsi, operator_153
     jmp     error_need_mult_operands
 
 fmax_op:
@@ -3525,7 +3522,7 @@ fmax_op:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_157
+    mov     rsi, operator_154
     jmp     error_need_mult_operands
 
 hypot_op:
@@ -3545,7 +3542,7 @@ hypot_op:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_165
+    mov     rsi, operator_162
     jmp     error_need_mult_operands
 
 exp_op:
@@ -3561,7 +3558,7 @@ exp_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_148
+    mov     rsi, operator_145
     jmp     error_need_1_operand
 
 exp2_op:
@@ -3577,7 +3574,7 @@ exp2_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_149
+    mov     rsi, operator_146
     jmp     error_need_1_operand
 
 expm1_op:
@@ -3592,7 +3589,7 @@ expm1_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_150
+    mov     rsi, operator_147
     jmp     error_need_1_operand
 
 sinf_op:
@@ -3608,7 +3605,7 @@ sinf_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_140
+    mov     rsi, operator_137
     jmp     error_need_1_operand
 
 cosf_op:
@@ -3624,7 +3621,7 @@ cosf_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_141
+    mov     rsi, operator_138
     jmp     error_need_1_operand
 
 
@@ -3641,7 +3638,7 @@ tanf_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_142
+    mov     rsi, operator_139
     jmp     error_need_1_operand
 
 log_op:
@@ -3657,7 +3654,7 @@ log_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_151
+    mov     rsi, operator_148
     jmp     error_need_1_operand
 
 log2_op:
@@ -3673,7 +3670,7 @@ log2_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_152
+    mov     rsi, operator_149
     jmp     error_need_1_operand
 
 log10_op:
@@ -3689,7 +3686,7 @@ log10_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_153
+    mov     rsi, operator_150
     jmp     error_need_1_operand
 
 
@@ -3706,7 +3703,7 @@ log1p_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_154
+    mov     rsi, operator_151
     jmp     error_need_1_operand
 
 fabs_op:
@@ -3721,7 +3718,7 @@ fabs_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_155
+    mov     rsi, operator_152
     jmp     error_need_1_operand
 
 floor_op:
@@ -3736,7 +3733,7 @@ floor_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_158
+    mov     rsi, operator_155
     jmp     error_need_1_operand
 
 
@@ -3752,7 +3749,7 @@ ceil_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_159
+    mov     rsi, operator_156
     jmp     error_need_1_operand
 
 
@@ -3768,7 +3765,7 @@ round_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_160
+    mov     rsi, operator_157
     jmp     error_need_1_operand
 
 trunc_op:
@@ -3783,7 +3780,7 @@ trunc_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_161
+    mov     rsi, operator_158
     jmp     error_need_1_operand
 
 sinh_op:
@@ -3798,7 +3795,7 @@ sinh_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_162
+    mov     rsi, operator_159
     jmp     error_need_1_operand
 
 cosh_op:
@@ -3813,7 +3810,7 @@ cosh_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_163
+    mov     rsi, operator_160
     jmp     error_need_1_operand
 
 tanh_op:
@@ -3828,7 +3825,7 @@ tanh_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_164
+    mov     rsi, operator_161
     jmp     error_need_1_operand
 
 mod_op:
@@ -3853,11 +3850,11 @@ mod_op:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_139
+    mov     rsi, operator_136
     jmp     error_need_mult_operands
 
     .div_by_zero:
-    mov     rsi, operator_139
+    mov     rsi, operator_136
     jmp     division_by_0
 
 
@@ -3881,7 +3878,7 @@ min_op:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_136
+    mov     rsi, operator_133
     jmp     error_need_mult_operands
 
 max_op:
@@ -3904,7 +3901,7 @@ max_op:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_137
+    mov     rsi, operator_134
     jmp     error_need_mult_operands
 
 abs_op:
@@ -3925,7 +3922,7 @@ abs_op:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_138
+    mov     rsi, operator_135
     jmp     error_need_1_operand
 
 
@@ -3949,7 +3946,7 @@ fma_op:
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_166
+    mov     rsi, operator_163
     jmp     error_need_mult_operands
 
 q_sort_op:
@@ -3989,7 +3986,7 @@ q_sort_op:
     ret
     .prepare_for_error:
     mov     rdx, 0x06
-    mov     rsi, operator_135
+    mov     rsi, operator_132
     jmp     error_need_mult_operands
 
 compare_func_fast:
@@ -4172,7 +4169,7 @@ syscall_handler:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_100
+    mov     rsi, operator_97
     jmp     error_need_mult_operands
 
 
@@ -4293,7 +4290,7 @@ inc_float:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_131
+    mov     rsi, operator_128
     jmp     error_need_1_operand
 
 
@@ -4310,7 +4307,7 @@ dec_float:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_132
+    mov     rsi, operator_129
     jmp     error_need_1_operand
 
 int_to_float:
@@ -4329,7 +4326,7 @@ int_to_float:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_118
+    mov     rsi, operator_115
     jmp     error_need_1_operand
 
 float_to_int:
@@ -4347,7 +4344,7 @@ float_to_int:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_225
+    mov     rsi, operator_222
     jmp     error_need_1_operand
 
 add_float:
@@ -4369,7 +4366,7 @@ add_float:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_119
+    mov     rsi, operator_116
     jmp     error_need_mult_operands
 
 sub_float:
@@ -4391,7 +4388,7 @@ sub_float:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_120
+    mov     rsi, operator_117
     jmp     error_need_mult_operands
 
 mult_float:
@@ -4413,7 +4410,7 @@ mult_float:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_121
+    mov     rsi, operator_118
     jmp     error_need_mult_operands
 
 div_float:
@@ -4437,7 +4434,7 @@ div_float:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_122
+    mov     rsi, operator_119
     jmp     error_need_mult_operands
 
 square_root:
@@ -4452,7 +4449,7 @@ square_root:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_123
+    mov     rsi, operator_120
     jmp     error_need_1_operand
 
 float_equal:
@@ -4478,7 +4475,7 @@ float_equal:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_125
+    mov     rsi, operator_122
     jmp     error_need_mult_operands
 
 
@@ -4504,7 +4501,7 @@ float_not_equal:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_126
+    mov     rsi, operator_123
     jmp     error_need_mult_operands
 
 
@@ -4538,7 +4535,7 @@ float_less_than:
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_127
+    mov     rsi, operator_124
     jmp     error_need_mult_operands
 
 
@@ -4572,7 +4569,7 @@ float_less_than_eq:
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_129
+    mov     rsi, operator_126
     jmp     error_need_mult_operands
 
 
@@ -4606,7 +4603,7 @@ float_more_than:
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_128
+    mov     rsi, operator_125
     jmp     error_need_mult_operands
 
 
@@ -4640,7 +4637,7 @@ float_more_than_eq:
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_130
+    mov     rsi, operator_127
     jmp     error_need_mult_operands
 
 
@@ -4669,7 +4666,7 @@ printf_float:
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_117
+    mov     rsi, operator_114
     jmp     error_need_1_operand
 
 printf_float_pop:
@@ -4715,7 +4712,7 @@ printf_float_pop:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_134
+    mov     rsi, operator_131
     jmp     error_need_mult_operands
 
 string_to_int:
@@ -4730,7 +4727,7 @@ string_to_int:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_229
+    mov     rsi, operator_226
     jmp     error_need_1_operand
 
 cast_str_to_int:                        ; pass on rdi the string to cast
@@ -4816,10 +4813,10 @@ remove_casts_and_init_token_type:
         ;-----------------------------
         .castingCheck:
         mov     rdx, [token_type]
-        cmp     word [rdx + r14 * 0x02], 0x03       ; operator_03 = "int\0"
+        cmp     word [rdx + r14 * 0x02], int_KEYWORD       ; hardcoded value.. taught me a lesson!! operator_03 = "int\0"
         je      .castInt
         ;-----------------------------
-        cmp     word [rdx + r14 * 0x02], 0x74       ; operator_116 = "float\0"
+        cmp     word [rdx + r14 * 0x02], float_KEYWORD     ; operator_113 = "float\0"
         jne     .nextToken
         ;-----------------------------
         .castFloat:
@@ -5091,39 +5088,22 @@ init_debug_and_input_file:
 
 init_argc_and_argv:
     ;------------------------------------------------------------
-    ; init argc & argv. argv is char ** so create a struct for this to use later
+    ; init argc & argv. argv is char ** so treat this as pointer
     ;------------------------------------------------------------
-    push    rbp
-    mov     rbp, rsp
-    ;-------------------------
     mov     rdi, [argc_passed]
     call    push_on
     ;-------------------------
     mov     rdi, argcStr
     call    push_on
-    ;-------------------------
     call    define_i
-    mov     r15, [argv_passed]
     ;-------------------------
-    .looping:       ; similar to: while(*argv) printf("%s\n", *argv++); but push *argv instead!
-        cmp     qword [r15], NULL
-        je      .ended
-        ;-------------------------
-        mov     rdi, [r15]
-        call    push_on
-        add     r15, 0x08
-        jmp     .looping
-
-    .ended:
-    mov     rdi, [argc_passed]
+    mov     rdi, [argv_passed]
     call    push_on
-    call    packed_data
     ;-------------------------
     mov     rdi, argvStr
     call    push_on
-    call    define_struct
+    call    define_i
     ;-------------------------
-    leave
     ret
 
 set_env_var:
@@ -5145,7 +5125,7 @@ set_env_var:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_174
+    mov     rsi, operator_171
     jmp     error_need_mult_operands
 
 
@@ -5161,7 +5141,7 @@ get_env_var:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_173
+    mov     rsi, operator_170
     jmp     error_need_1_operand
 
 get_the_envptr:     ; push **envp onto stack let user check the env vars
@@ -5200,7 +5180,7 @@ heap_update:                ; the dest is heap alloc. on top is # of bytes to co
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_86
+    mov     rsi, operator_83
     jmp     error_need_mult_operands
 
 sleeping:
@@ -5233,7 +5213,7 @@ sleeping:
     ret                             ; xor rbx, rbx already done
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_98
+    mov     rsi, operator_95
     jmp     error_need_mult_operands
 
 
@@ -5260,7 +5240,7 @@ get_epoch:              ; top of stack <= 0 returns epoch, >0 = time in 16 bytes
     ;----------------------------
     ret
     .prepare_for_error:
-    mov     rdi, operator_99
+    mov     rdi, operator_96
     jmp     error_need_1_operand
 
 malloc_bytes:
@@ -5275,7 +5255,7 @@ malloc_bytes:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_84
+    mov     rsi, operator_81
     jmp     error_need_1_operand
 
 
@@ -5321,7 +5301,7 @@ bitwise_shr:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_82
+    mov     rsi, operator_79
     jmp     error_need_1_operand
 
 bitwise_shl:
@@ -5347,7 +5327,7 @@ bitwise_shl:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_81
+    mov     rsi, operator_78
     jmp     error_need_1_operand
 
 bitwise_sar:
@@ -5373,7 +5353,7 @@ bitwise_sar:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_82
+    mov     rsi, operator_257
     jmp     error_need_1_operand
 
 generate_mask:                   ; bitwise mask for --> not, and, or & xor
@@ -5426,7 +5406,7 @@ bitwise_xor:            ; top of stack as number of bytes to XOR, below are 2 va
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_80
+    mov     rsi, operator_77
     jmp     error_need_1_operand
 
 bitwise_and:            ; top of stack as number of bytes to AND, below are 2 values to AND
@@ -5450,7 +5430,7 @@ bitwise_and:            ; top of stack as number of bytes to AND, below are 2 va
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_79
+    mov     rsi, operator_76
     jmp     error_need_1_operand
 
 bitwise_or:         ; top of stack as number of bytes to OR, below are 2 values to OR
@@ -5474,7 +5454,7 @@ bitwise_or:         ; top of stack as number of bytes to OR, below are 2 values 
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_78
+    mov     rsi, operator_75
     jmp     error_need_1_operand
 
 bitwise_not:        ; top of stack as number of bytes negate/NOT, below is value to negate/NOT
@@ -5497,7 +5477,7 @@ bitwise_not:        ; top of stack as number of bytes negate/NOT, below is value
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_77
+    mov     rsi, operator_74
     jmp     error_need_1_operand
 
 
@@ -5587,7 +5567,7 @@ smash_str_to_ascii:             ; just put ascii chars on the RTS, no mem alloca
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_109
+    mov     rsi, operator_106
     jmp     error_need_1_operand
 
 
@@ -5633,7 +5613,7 @@ smash_str_up:               ; put the ascii chars form the string as heap alloca
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_74
+    mov     rsi, operator_71
     jmp     error_need_1_operand
 
 sub_string:                                 ; safety checks??
@@ -5698,7 +5678,7 @@ sub_string:                                 ; safety checks??
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_73
+    mov     rsi, operator_70
     jmp     error_need_mult_operands
 
 
@@ -5773,7 +5753,7 @@ value_at_index:         ; looking at the RTS, use the top index to make a copy o
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_72
+    mov     rsi, operator_69
     jmp     error_need_mult_operands
 
 value_at_index_upd:                     ; looking at the RTS, top = index, val below is what we update to
@@ -5804,7 +5784,7 @@ value_at_index_upd:                     ; looking at the RTS, top = index, val b
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_115
+    mov     rsi, operator_112
     jmp     error_need_mult_operands
 
 swap_positions:
@@ -5846,7 +5826,7 @@ swap_positions:
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_71
+    mov     rsi, operator_68
     jmp     error_need_mult_operands
 
 hex_string_n:                       ; displays TOS as hex
@@ -5918,7 +5898,7 @@ hex_string_n:                       ; displays TOS as hex
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_87
+    mov     rsi, operator_84
     jmp     error_need_1_operand
 
 
@@ -5937,7 +5917,7 @@ hex_string:                     ; displays TOS as hex
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_70
+    mov     rsi, operator_67
     jmp     error_need_1_operand
 
 hex_dump_str:                       ; rdi expects the '\0' term string
@@ -6026,7 +6006,7 @@ pop_off_free:                   ; free the heap allocation at [rts_tos], dangero
     ;-----------------------
     ret
     .prepare_for_error:
-    mov     rsi, operator_67
+    mov     rsi, operator_65
     jmp     error_need_1_operand
 
 write_bin_num:                  ; writes 8 bytes whatever is on [rts_tos]
@@ -6047,7 +6027,7 @@ write_bin_num:                  ; writes 8 bytes whatever is on [rts_tos]
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_66
+    mov     rsi, operator_64
     jmp     error_need_1_operand
 
 
@@ -6078,7 +6058,7 @@ write_bin_num_ptr:              ; writes 8 bytes whatever is on [rts_tos]
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_83
+    mov     rsi, operator_80
     jmp     error_need_mult_operands
 
 
@@ -6099,7 +6079,7 @@ open_file_trunc:              ; expects name on top of stack, replaces this with
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_62
+    mov     rsi, operator_60
     jmp     error_need_1_operand
 
 open_file_append:           ; expects name on top of stack, replaces this with syscall rax
@@ -6120,7 +6100,7 @@ open_file_append:           ; expects name on top of stack, replaces this with s
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_221
+    mov     rsi, operator_218
     jmp     error_need_1_operand
 
 open_file_write:                ; filename on rdi, rsi has params to trunc or append
@@ -6179,7 +6159,7 @@ write_to_file:                      ; ptr top of stack, write it (uses length)
     ;-----------------------
     ret
     .prepare_for_error:
-    mov     rsi, operator_63
+    mov     rsi, operator_61
     jmp     error_need_1_operand
 
 write_bytes_file:                   ; n bytes & ptr, write it
@@ -6204,7 +6184,7 @@ write_bytes_file:                   ; n bytes & ptr, write it
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_97
+    mov     rsi, operator_94
     jmp     error_need_mult_operands
 
 write_NL_file:
@@ -6242,7 +6222,7 @@ write_8_bytes:
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_222
+    mov     rsi, operator_219
     jmp     error_need_1_operand
 
 
@@ -6408,7 +6388,7 @@ cast_int_to_str:
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_61
+    mov     rsi, operator_59
     jmp     error_need_1_operand
 
 print_nl:
@@ -6448,7 +6428,7 @@ rand_int:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_60
+    mov     rsi, operator_58
     jmp     error_need_1_operand
 
 random_string:
@@ -6503,7 +6483,7 @@ random_string:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_95
+    mov     rsi, operator_92
     jmp     error_need_1_operand
 
 null_out_heap:                      ; rdi = ptr to heap, rdx = # of qwords to null out
@@ -6627,7 +6607,7 @@ open_user_file:             ; rdi has filename on
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_57
+    mov     rsi, operator_55
     jmp     error_need_1_operand
 
 
@@ -6751,137 +6731,6 @@ strip_out_comments:
     ret
 
 
-define_struct:
-    push    rbp
-    mov     rbp, rsp
-    ;-------------------------
-    mov     r12, [rts_tos]
-    cmp     r12, rts
-    jle     .prepare_for_error
-    ;------------------------------
-    mov     r14, [r12]                      ; get the string address
-    call    does_var_already_exist
-    ;-------------------------
-    test    rax, rax
-    jnz     .alreadyDef
-    ;-------------------------
-    add     qword [dict_tos], 0x08
-    mov     rdi, 0x12                       ; 18 because we need 1 more byte for # of qword in struct
-    call_libc malloc
-    ;-------------------------
-    mov     rbx, rax                        ; copy of heap
-    mov     rsi, [dict_tos]
-    mov     [rsi], rax                      ; insert malloc into dict
-    ;-------------------------              ; are we in main or a function?
-    cmp     qword [func_name_tos], func_name
-    jge     .build_var
-    ;-------------------------              ; definitely in main _start, is this first global we added?
-    mov     qword [last_glob_var], rsi
-    ;-------------------------
-    .build_var:                             ; add id/name/type for var
-    ; ------------------------
-    lea     rdi, [r12 - 0x08]               ; move down to # of items in struct
-    mov     r8, [rdi]                       ; grab the value
-    ;-------------------------
-    lea     rdi, [r12 - 0x10]               ; get the heap alloc containing all items
-    mov     r9, [rdi]
-    ;-------------------------
-    mov     [rbx], r14                      ; id
-    mov     [rbx + 0x08], r9                ; heap alloc with all data
-    mov     byte [rbx + 0x10], 0x02         ; specify struct = 2
-    mov     byte [rbx + 0x11], r8b          ; # of qwords in struct
-    ;-------------------------
-    lea     rdi, [r12 - 0x18]
-    mov     [rts_tos], rdi                  ; adjust top of stack -16 bytes
-    ;-------------------------
-    .completed:
-    xor     ebx, ebx
-    leave
-    ret
-    .prepare_for_error:
-    mov     rdx, 0x02
-    mov     rsi, operator_52
-    jmp     error_need_mult_operands
-
-    .alreadyDef:
-    printLine varExistsError, r14
-    call    deallocate_mem_tidy_up
-    leave
-    jmp     exit
-
-
-packed_data:
-    push    rbp
-    mov     rbp, rsp
-    ;-----------------------
-    mov     rdi, [rts_tos]
-    cmp     rdi, rts
-    jle     .prepare_for_error
-    mov     r12, [rdi]          ; # of qword we need to pack
-    call    pop_off
-    ;-----------------------
-    mov     rdi, r12
-    shl     rdi, 0x03
-    call_libc malloc
-    ;-----------------------
-    mov     r14, rax
-    xor     r13, r13
-    ;-----------------------
-    .copyValues:
-        cmp     r13, r12
-        jge     .ended
-        ;-----------------------
-        mov     rsi, [rts_tos]
-        mov     r15, [rsi]
-        ;-----------------------
-        mov     [r14 + r13 * 0x08], r15
-        sub     qword [rts_tos], 0x08
-        ;-----------------------
-        inc     r13
-        jmp     .copyValues
-    .ended:
-    ;-----------------------
-    mov     rdi, r14
-    call    push_on
-    ;-----------------------
-    mov     rdi, r12        ; added this part, push onto rts_tos # of qword's we have in struct
-    call    push_on
-    ;-----------------------
-    xor     ebx, ebx
-    leave
-    ret
-    .prepare_for_error:
-    mov     rdx, 0x02
-    mov     rsi, operator_51
-    jmp     error_need_mult_operands
-
-get_struct_sz:
-    ;------------------------------
-    cmp     qword [rts_tos], rts
-    jl      .prepare_for_error
-    ;------------------------------
-    mov     r12, [rts_tos]
-    mov     r14, [r12]
-    call    does_var_already_exist      ; expects r14 with string to cmp
-    ;------------------------------
-    test    rax, rax
-    jz      .notStructErr
-    ;------------------------------
-    movzx   rdi, byte [r11 + 0x11]      ; does_var_already_exist gave us r11 (ptr to var), +17 = struct sz
-    mov     [r12], rdi                  ; replace var name with struct sz
-    ;------------------------------
-    xor     ebx, ebx
-    ret
-    ;------------------------------
-    .notStructErr:
-    printLine   notAStruct, r14
-    jmp     exit_error_cleanly
-    ;------------------------------
-    .prepare_for_error:
-    mov     rsi, operator_69
-    jmp     error_need_1_operand
-
-
 clean_up_heap:
     push    rbp
     mov     rbp, rsp
@@ -6925,57 +6774,6 @@ clean_up_heap:
         jl      .prepCleanARGV
         ;-------------------------------
         mov     rbx, [dict_tos]
-        mov     r8, [rbx]
-        ;-------------------------------    ; FAR TOO RISKY, DON'T BOTHER!!!
-        ; mov   rdi, [rbx]
-        ; test  rdi, rdi
-        ; jz        .nextVar
-        ; ;----------------------
-        ; ; for global vars, check if the string points to somewhere in ARGV?
-        ; ; if it does, then fine, otherwise it's been created in this function with read_str probably.
-        ; ; so it needs to be deleted from heap
-        ; ;----------------------
-        ; mov   r8, [rbx]
-        ; add   r8, 0x10
-        ; cmp   byte [r8], 0x01             ; r8 has variable type. int = 0, str = 1, struct = 2
-        ; jne       .nextVar                    ; will need to think about structs too?
-        ; ;------------------------------       ; we could handle struct here??!? or let user deal with it?
-        ; ;cmp  byte [r8], 0x02
-        ; ;jne      .handleStrings
-        ; ;------------------------------        ** wrong/bad/dangerous way to handle this!! **
-        ; .handleStrings:                       ; will fix and change this totally. can't assume strings
-        ; mov   rdi, [rbx]                  ; can be removed here, let user do that!!
-        ; add   rdi, 0x08
-        ; mov   rdi, [rdi]
-        ; call  scanARGVstrings
-        ; ;-------------------------------
-        ; test  rax, rax
-        ; jnz       .freeBlock
-        ; ;-------------------------------
-        ; mov   r8, [rbx]
-        ; add   r8, 0x08
-        ; cmp   qword [debug_mode], NULL
-        ; je        .skipNotInARGV
-        ; ;-------------------------------
-        ; printLine notInARGV, [r8], [r8]
-        ; .skipNotInARGV:
-        ; mov   rdi, [rbx]
-        ; add   rdi, 0x08
-        ; push  rdi
-        ; mov   rdi, [rdi]
-        ; call_libc free        ; this is the string that doesnt exist anywhere else!!
-        ; ;-------------------------------
-        ; pop   r8
-        ; mov   qword [r8], NULL
-        ; ;----------------------------------
-        cmp     byte [r8 + 0x10], 0x02  ; r8 has variable type. int = 0, str = 1, struct = 2, float = 3
-        jne     .freeBlock
-        ;----------------------------------
-        .cleanStruct:
-        mov     rdi, [r8 + 0x08]        ; + 8 bytes is where the heap block for all the data is kept
-        call_libc free
-        ;----------------------------------
-        .freeBlock:
         cmp     qword [debug_mode], NULL
         je      .freeBlockGLOB
         ;-------------------------------
@@ -7052,7 +6850,7 @@ copy_these_bytes:
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_85
+    mov     rsi, operator_82
     call    error_need_mult_operands
 
 copy_bytes:
@@ -7238,7 +7036,7 @@ str_compare_u:                      ; operator name --> cmp_str_u
     ;-----------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_232
+    mov     rsi, operator_229
     jmp     error_need_mult_operands
 
 
@@ -7345,7 +7143,7 @@ str_compare_i:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_215
+    mov     rsi, operator_212
     jmp     error_need_mult_operands
 
 
@@ -7516,7 +7314,7 @@ dump_rts_all:
         ;--------------------------------
         cmp     rdx, 0x01
         jl      .printInteger
-        jg      .floatOrStruct
+        jg      .printFloat
         jmp     .printString
         ;--------------------------------
         ; final chech here. is it in the argv list?
@@ -7530,14 +7328,6 @@ dump_rts_all:
         ;--------------------------------
         .printString:
         printLine   dump_rts_string, qword r14, qword [r13] ; has to be string
-        jmp     .nextIteration
-        ;--------------------------------
-        .floatOrStruct:
-        cmp     rdx, 0x02
-        jg      .printFloat
-        ;--------------------------------
-        .printStruct:
-        printLine   dump_rts_struct, qword r14, qword [r13] ; has to be struct
         jmp     .nextIteration
         ;--------------------------------
         .printFloat:
@@ -7865,15 +7655,6 @@ call_function:
         cmp     rbx, [r13]
         jle     .cleanedUpVars
         ;------------------------------
-        mov     r8, [rbx]
-        cmp     byte [r8 + 0x10], 0x02  ; r8 has variable type. int = 0, str = 1, struct = 2, float = 3
-        jne     .freeBlockDebug         ; if != 2 then skip, if == 2 then clean the +8 bytes heap with data held there
-        ;----------------------------------
-        .cleanStruct:
-        mov     rdi, [r8 + 0x08]
-        call_libc free
-        ;------------------------------ ; in this section we check if heap alloc is referenced elsewhere?
-        .freeBlockDebug:
         cmp     qword [debug_mode], NULL
         je      .freeBlock
         ;-------------------------------
@@ -8434,7 +8215,7 @@ poke_var_div:
     ;------------------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_180
+    mov     rsi, operator_177
     jmp     error_need_mult_operands
     ;------------------------------
     .noDefine:
@@ -8442,7 +8223,7 @@ poke_var_div:
     printLine varExistsError2, [r14]
     jmp     exit_error_cleanly
     .handle_div_by_zero:
-    mov     rsi, operator_180
+    mov     rsi, operator_177
     jmp     division_by_0
 
 
@@ -8472,7 +8253,7 @@ poke_var_mul:
     ;------------------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_179
+    mov     rsi, operator_176
     jmp     error_need_mult_operands
     ;------------------------------
     .noDefine:
@@ -8504,7 +8285,7 @@ poke_var_sub:
     ;------------------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_178
+    mov     rsi, operator_175
     jmp     error_need_mult_operands
     ;------------------------------
     .noDefine:
@@ -8539,7 +8320,7 @@ poke_var_add_float:
     ;------------------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_181
+    mov     rsi, operator_178
     jmp     error_need_mult_operands
     ;------------------------------
     .noDefine:
@@ -8574,7 +8355,7 @@ poke_var_sub_float:
     ;------------------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_182
+    mov     rsi, operator_179
     jmp     error_need_mult_operands
     ;------------------------------
     .noDefine:
@@ -8609,7 +8390,7 @@ poke_var_mul_float:
     ;------------------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_183
+    mov     rsi, operator_180
     jmp     error_need_mult_operands
     ;------------------------------
     .noDefine:
@@ -8645,7 +8426,7 @@ poke_var_div_float:
     ;------------------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_184
+    mov     rsi, operator_181
     jmp     error_need_mult_operands
     ;------------------------------
     .noDefine:
@@ -8677,7 +8458,7 @@ poke_var_add:
     ;------------------------------
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_177
+    mov     rsi, operator_174
     jmp     error_need_mult_operands
     ;------------------------------
     .noDefine:
@@ -8765,7 +8546,7 @@ address_var:
     jmp     exit_error_cleanly
     ;------------------------------
     .prepare_for_error:
-    mov     rsi, operator_107
+    mov     rsi, operator_104
     jmp     error_need_1_operand
 
 dump_dictionary:
@@ -8786,21 +8567,12 @@ dump_dictionary:
         mov     r14, [r12]
         add     r14, 0x10
         ;-----------------------
-        cmp     byte [r14], NULL
-        je      .printInt
-        ;-----------------------
-        cmp     byte [r14], 0x02
-        je      .printStruct
+        cmp     byte [r14], 0x01
+        jb      .printInt
         ja      .printFloat
-        ;-----------------------
+        ;----------------------- otherwise it's a string
         mov     r15, [r12]
         printLine dictFMTs, rbx, [r15], [r13]
-        jmp     .carryOn
-
-        .printStruct:
-        mov     r15, [r12]
-        movzx   r9, byte [r14 + 0x01]
-        printLine dictFMTstrct, rbx, [r15], [r13], r9
         jmp     .carryOn
         ;-----------------------
         .printInt:
@@ -8832,7 +8604,6 @@ dump_dictionary:
     xor     ebx, ebx
     leave
     ret
-
 
 is_address_in_dict:
     ;-----------------------------------------;
@@ -9035,7 +8806,7 @@ define_f:
     ;-------------------------              ; insert into heap values
     mov     [rbx], r14                      ; id
     movsd   [rbx + 0x08], xmm0              ; value
-    mov     byte [rbx + 0x10], 0x03         ; specify float = 3
+    mov     byte [rbx + 0x10], 0x02         ; specify float = 2
     ;-------------------------
     lea     rdi, [r12 - 0x10]
     mov     [rts_tos], rdi                  ; adjust top of stack -16 bytes
@@ -9046,7 +8817,7 @@ define_f:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_124
+    mov     rsi, operator_121
     jmp     error_need_mult_operands
 
     .alreadyDef:
@@ -9585,7 +9356,7 @@ xor_int:                        ; xor top 2 on the stack
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_226
+    mov     rsi, operator_223
     jmp     error_need_mult_operands
 
 
@@ -9604,7 +9375,7 @@ my_puts_pop:
     ret
 
     .prepare_for_error:
-    mov     rsi, operator_105
+    mov     rsi, operator_102
     jmp     error_need_1_operand
 
 my_puts:
@@ -9621,7 +9392,7 @@ my_puts:
     ret
 
     .prepare_for_error:
-    mov     rsi, operator_106
+    mov     rsi, operator_103
     jmp     error_need_1_operand
 
 
@@ -9655,7 +9426,7 @@ my_printf_pop:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_101
+    mov     rsi, operator_98
     jmp     error_need_mult_operands
 
 my_printf:                          ; made bit quicker
@@ -9680,7 +9451,7 @@ my_printf:                          ; made bit quicker
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_102
+    mov     rsi, operator_99
     jmp     error_need_1_operand
 
 
@@ -9707,7 +9478,7 @@ my_sprintf:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_104
+    mov     rsi, operator_101
     jmp     error_need_mult_operands
 
 my_sprintf_pop:
@@ -9751,7 +9522,7 @@ my_sprintf_pop:
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_103
+    mov     rsi, operator_100
     jmp     error_need_mult_operands
 
 
@@ -9925,7 +9696,7 @@ pop_off_free_n:             ; added check for popping off empty stack
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_228
+    mov     rsi, operator_225
     jmp     error_need_mult_operands
 
 
@@ -9956,7 +9727,7 @@ pop_off_n:          ; added check for popping off empty stack
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_227
+    mov     rsi, operator_224
     jmp     error_need_mult_operands
 
 pop_off:            ; added check for popping off empty stack
@@ -10360,7 +10131,7 @@ create_user_hashset:
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_186       ; need to modify this error to mention hashset/graph
+    mov     rsi, operator_183       ; need to modify this error to mention hashset/graph
     jmp     error_need_1_operand
 
 delete_user_graph:                  ; expets 16 byte hashset datatype on top of stack
@@ -10391,7 +10162,7 @@ delete_user_hashset:                    ; expects 16 byte hashset datatype on to
     ;----------------------------
     ret
     .prepare_for_error:
-    mov     rsi, operator_187
+    mov     rsi, operator_184
     jmp     error_need_1_operand
 
 clear_user_hashset:                     ; expects 16 byte hashset datatype on top of stack
@@ -10406,7 +10177,7 @@ clear_user_hashset:                     ; expects 16 byte hashset datatype on to
     ;----------------------------
     ret
     .prepare_for_error:
-    mov     rsi, operator_188
+    mov     rsi, operator_185
     jmp     error_need_1_operand
 
 delete_or_clear_user_hashset:
@@ -10543,7 +10314,7 @@ delete_regex_multi:
     ;----------------------------
     ret
     .prepare_for_error:
-    mov     rsi, operator_223
+    mov     rsi, operator_220
     jmp     error_need_1_operand
 
 delete_string_set:
@@ -10558,7 +10329,7 @@ delete_string_set:
     ;----------------------------
     ret
     .prepare_for_error:
-    mov     rsi, operator_224
+    mov     rsi, operator_221
     jmp     error_need_1_operand
 
 delete_regex_or_str_set:
@@ -10678,10 +10449,10 @@ dump_user_hashset:          ; expects 16 byte hashset datatype on top of stack
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_54
+    mov     rsi, operator_52
     jmp     error_need_1_operand
     .empty_hash_error:
-    mov     rsi, operator_54
+    mov     rsi, operator_52
     jmp     error_need_valid_ptr
 
 expand_hashset:
@@ -10888,7 +10659,7 @@ delete_node_hashset:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_56
+    mov     rsi, operator_54
     jmp     error_need_mult_operands
 
 
@@ -10970,7 +10741,7 @@ add_node_hashset:
     ret
     .prepare_for_error:
     mov     rdx, 0x04
-    mov     rsi, operator_53
+    mov     rsi, operator_51
     jmp     error_need_mult_operands
 
 
@@ -11029,7 +10800,7 @@ add_node_hashset_fixed:
     ret
     .prepare_for_error:
     mov     rdx, 0x04
-    mov     rsi, operator_53
+    mov     rsi, operator_227
     jmp     error_need_mult_operands
 
 
@@ -11184,7 +10955,7 @@ hashset_node_exists:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_231
+    mov     rsi, operator_228
     jmp     error_need_mult_operands
 
 
@@ -11247,7 +11018,7 @@ get_node_hashset:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_55
+    mov     rsi, operator_53
     jmp     error_need_mult_operands
 
 
@@ -11775,7 +11546,7 @@ trim_string:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_204
+    mov     rsi, operator_201
     jmp     error_need_1_operand
 
 
@@ -11821,7 +11592,7 @@ string_to_sockaddr:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_220
+    mov     rsi, operator_217
     jmp     error_need_1_operand
 
 parse_ascii_to_num:
@@ -11863,7 +11634,7 @@ conv_hex_to_ip_port:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_218
+    mov     rsi, operator_215
     jmp     error_need_1_operand
 
 conv_hex_to_ip:
@@ -11887,7 +11658,7 @@ conv_hex_to_ip:
     ;-----------------------------
     ret
     .prepare_for_error:
-    mov     rsi, operator_207
+    mov     rsi, operator_204
     jmp     error_need_1_operand
 
 hex_to_ip_port:
@@ -11995,7 +11766,7 @@ is_even_tos:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_208
+    mov     rsi, operator_205
     jmp     error_need_1_operand
 
 is_odd_tos:
@@ -12011,7 +11782,7 @@ is_odd_tos:
     xor     ebx, ebx
     ret
     .prepare_for_error:
-    mov     rsi, operator_209
+    mov     rsi, operator_206
     jmp     error_need_1_operand
 
 str_to_lower:
@@ -12031,7 +11802,7 @@ str_to_lower:
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_212
+    mov     rsi, operator_209
     jmp     error_need_1_operand
 
 str_to_upper:
@@ -12052,7 +11823,7 @@ str_to_upper:
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_211
+    mov     rsi, operator_208
     jmp     error_need_1_operand
 
 
@@ -12087,7 +11858,7 @@ starts_with_str:                ; [string, search]
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_213
+    mov     rsi, operator_210
     jmp     error_need_mult_operands
 
 ends_with_str:
@@ -12149,7 +11920,7 @@ ends_with_str:
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_214
+    mov     rsi, operator_211
     jmp     error_need_mult_operands
 
 
@@ -12336,7 +12107,7 @@ join_string:
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_206
+    mov     rsi, operator_203
     jmp     error_need_mult_operands
 
 replace_subst_str:
@@ -12442,7 +12213,7 @@ replace_subst_str:
     ret
     .prepare_for_error:
     mov     rdx, 0x03
-    mov     rsi, operator_205
+    mov     rsi, operator_202
     jmp     error_need_mult_operands
 
 build_replace_string:   ; rdi = orig str, rsi = search, rdx = replace, rbx = final str
@@ -12518,7 +12289,7 @@ find_str_index:                     ; rbx = index of first match, or -1 for no m
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_210
+    mov     rsi, operator_207
     jmp     error_need_mult_operands
 
 
@@ -12591,7 +12362,7 @@ get_all_lines:
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_191
+    mov     rsi, operator_188
     jmp     error_need_1_operand
 
 split_string_delims:                ; this version uses 1) the user str 2) the user delim str
@@ -12610,7 +12381,7 @@ split_string_delims:                ; this version uses 1) the user str 2) the u
     ret
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_190
+    mov     rsi, operator_187
     jmp     error_need_mult_operands
 
 
@@ -12881,7 +12652,7 @@ split_string:
     leave
     ret
     .prepare_for_error:
-    mov     rsi, operator_59
+    mov     rsi, operator_57
     jmp     error_need_1_operand
 
 get_bp_0:
@@ -13198,7 +12969,7 @@ rand_string_batch:
 
     .prepare_for_error:
     mov     rdx, 0x02
-    mov     rsi, operator_265
+    mov     rsi, operator_262
     jmp     error_need_mult_operands
 
 regex_error_handler:
@@ -13380,7 +13151,7 @@ exit_func:
     call    deallocate_mem_tidy_up  ; now go to exit: func below
     jmp     exit
     .prepare_for_error:
-    mov     rsi, operator_175
+    mov     rsi, operator_172
     jmp     error_need_1_operand
 
 exit:
